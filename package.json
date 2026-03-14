@@ -4,25 +4,23 @@
   "private": true,
   "description": "AI Chat Application with Gemini Streaming",
   "scripts": {
-    "dev:be": "pnpm --filter backend dev",
-    "dev:fe": "pnpm --filter frontend dev",
-    "dev": "concurrently \"pnpm dev:be\" \"pnpm dev:fe\"",
-    "build": "pnpm --filter backend build && pnpm --filter frontend build",
-    "build:be": "pnpm --filter backend build",
-    "build:fe": "pnpm --filter frontend build",
-    "test:be": "pnpm --filter backend test",
-    "test:fe": "pnpm --filter frontend test",
-    "test": "pnpm test:be && pnpm test:fe",
-    "lint": "pnpm --filter backend lint && pnpm --filter frontend lint",
+    "dev:be": "npm run dev --prefix apps/backend",
+    "dev:fe": "npm run dev --prefix apps/frontend",
+    "dev": "concurrently \"npm run dev:be\" \"npm run dev:fe\"",
+    "build": "npm run build --prefix apps/backend && npm run build --prefix apps/frontend",
+    "build:be": "npm run build --prefix apps/backend",
+    "build:fe": "npm run build --prefix apps/frontend",
+    "test:be": "npm run test --prefix apps/backend",
+    "test:fe": "npm run test --prefix apps/frontend",
+    "test": "npm run test:be && npm run test:fe",
+    "lint": "npm run lint --prefix apps/backend && npm run lint --prefix apps/frontend",
     "docker:up": "docker-compose up --build",
-    "docker:down": "docker-compose down",
-    "app": "concurrently \"npm run dev --prefix apps/backend\" \"npm run dev --prefix apps/frontend\""
+    "docker:down": "docker-compose down"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "pnpm": ">=8.0.0"
+    "node": ">=22.0.0"
   }
 }

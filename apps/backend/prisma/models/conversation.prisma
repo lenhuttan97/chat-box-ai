@@ -1,0 +1,18 @@
+// Conversation model
+model Conversation {
+  id            String    @id @default(uuid())
+  name          String
+  userId        String?
+  systemPrompt  String?
+  autoPrompt    String?
+  contextToken  Int       @default(4096)
+  temperature   Float     @default(0.7)
+  maxTokens     Int       @default(2048)
+  messageCount  Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  user          User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages      Message[]
+
+  @@map("conversations")
+}

@@ -107,12 +107,40 @@ docker-compose up --build
 ```
 chat-box-ai/
 ├── apps/
-│   ├── backend/          # NestJS API
-│   └── frontend/          # React + Vite
-├── docs/                  # Tài liệu features
-├── docker-compose.yml
-└── package.json
+│   ├── backend/
+│   │   ├── database/           # SQLite (dev)
+│   │   └── prisma/
+│   │       ├── models/        # Model definitions
+│   │       ├── schema.prisma  # Merged schema
+│   │       └── migrations/
+│   └── frontend/
+├── docs/
+└── docker-compose.yml
 ```
+
+---
+
+## Database
+
+### Development (SQLite)
+```env
+DATABASE_URL=file:./database/dev.db
+```
+
+### Production (PostgreSQL)
+```env
+DATABASE_URL=postgresql://user:password@host:5432/chatbox
+```
+
+**Đổi provider trong `prisma/schema.prisma`:**
+```prisma
+datasource db {
+  provider = "postgresql"  // hoặc "sqlite"
+  url      = env("DATABASE_URL")
+}
+```
+
+---
 
 ---
 
