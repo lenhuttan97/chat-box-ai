@@ -41,6 +41,7 @@ coverage/
 *.db-journal
 prisma/dev.db
 prisma/dev.db-journal
+database
 
 # Docker
 .docker/

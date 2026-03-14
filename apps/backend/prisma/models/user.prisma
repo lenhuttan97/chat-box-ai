@@ -1,0 +1,15 @@
+// User model
+model User {
+  id           String        @id @default(uuid())
+  email        String?       @unique
+  password     String?
+  displayName  String?
+  firebaseUid  String?       @unique
+  photoUrl     String?
+  provider     String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  conversations Conversation[]
+
+  @@map("users")
+}

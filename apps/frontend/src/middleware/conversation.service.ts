@@ -1,0 +1,59 @@
+import axios from 'axios'
+
+const API_URL = import.meta.env.VITE_API_URL || '/api'
+
+export interface Message {
+  id: string
+  conversationId?: string
+  role: 'user' | 'assistant'
+  content: string
+  createdAt: string
+}
+
+export interface Conversation {
+  id: string
+  name: string
+  userId?: string
+  systemPrompt?: string
+  autoPrompt?: string
+  contextToken: number
+  temperature: number
+  maxTokens: number
+  messageCount: number
+  createdAt: string
+  updatedAt: string
+}
+
+export const conversationService = {
+  async getConversations(): Promise<Conversation[]> {
+    const response = await axios.get(`${API_URL}/v1/conversations`)
+    return response.data.data
+  },
+
+  async getConversation(id: string): Promise<Conversation> {
+    const response = await axios.get(`${API_URL}/v1/conversations/${id}`)
+    return response.data.data
+  },
+
+  async getMessages(conversationId: string): Promise<Message[]> {
+    const response = await axios.get(`${API_URL}/v1/conversations/${conversationId}/messages`)
+    return response.data.data
+  },
+
+  async createConversation(data: { name: string }): Promise<Conversation> {
+    const response = await axios.post(`${API_URL}/v1/conversations`, data)
+    return response.data.data
+  },
+
+  async updateConversation(
+    id: string,
+    data: { name?: string; systemPrompt?: string; autoPrompt?: string; temperature?: number; maxTokens?: number; contextToken?: number },
+  ): Promise<Conversation> {
+    const response = await axios.patch(`${API_URL}/v1/conversations/${id}`, data)
+    return response.data.data
+  },
+
+  async deleteConversation(id: string): Promise<void> {
+    await axios.delete(`${API_URL}/v1/conversations/${id}`)
+  },
+}
