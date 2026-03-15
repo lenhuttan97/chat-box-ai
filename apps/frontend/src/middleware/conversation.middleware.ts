@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api'
 
@@ -26,34 +27,52 @@ export interface Conversation {
 
 export const conversationService = {
   async getConversations(): Promise<Conversation[]> {
-    const response = await axios.get(`${API_URL}/v1/conversations`)
+    const token = Cookies.get('token')
+    const response = await axios.get(`${API_URL}/v1/conversations`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
     return response.data.data
   },
 
   async getConversation(id: string): Promise<Conversation> {
-    const response = await axios.get(`${API_URL}/v1/conversations/${id}`)
+    const token = Cookies.get('token')
+    const response = await axios.get(`${API_URL}/v1/conversations/${id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
     return response.data.data
   },
 
   async getMessages(conversationId: string): Promise<Message[]> {
-    const response = await axios.get(`${API_URL}/v1/conversations/${conversationId}/messages`)
+    const token = Cookies.get('token')
+    const response = await axios.get(`${API_URL}/v1/conversations/${conversationId}/messages`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
     return response.data.data
   },
 
   async createConversation(data: { name: string }): Promise<Conversation> {
-    const response = await axios.post(`${API_URL}/v1/conversations`, data)
+    const token = Cookies.get('token')
+    const response = await axios.post(`${API_URL}/v1/conversations`, data, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
     return response.data.data
   },
 
   async updateConversation(
     id: string,
-    data: { name?: string; systemPrompt?: string; autoPrompt?: string; temperature?: number; maxTokens?: number; contextToken?: number },
+    data: { name?: string; systemPrompt?: string; autoPrompt?: string; temperature?: number; maxTokens?: number; contextToken?: number }
   ): Promise<Conversation> {
-    const response = await axios.patch(`${API_URL}/v1/conversations/${id}`, data)
+    const token = Cookies.get('token')
+    const response = await axios.patch(`${API_URL}/v1/conversations/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
     return response.data.data
   },
 
   async deleteConversation(id: string): Promise<void> {
-    await axios.delete(`${API_URL}/v1/conversations/${id}`)
+    const token = Cookies.get('token')
+    await axios.delete(`${API_URL}/v1/conversations/${id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
   },
 }

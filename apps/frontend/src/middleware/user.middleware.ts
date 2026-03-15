@@ -1,0 +1,55 @@
+const API_URL = import.meta.env.VITE_API_URL || '/api'
+
+export interface User {
+  id: string
+  email: string | null
+  displayName: string | null
+  photoUrl: string | null
+  provider: string | null
+}
+
+export const userMiddleware = {
+  async getCurrentUser(token: string): Promise<User> {
+    const response = await fetch(`${API_URL}/users/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    
+    if (!response.ok) {
+      throw new Error('Failed to get user')
+    }
+    
+    const data = await response.json()
+    return data.data
+  },
+
+  async getUserProfile(userId: string, token: string): Promise<User> {
+    const response = await fetch(`${API_URL}/users/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    
+    if (!response.ok) {
+      throw new Error('Failed to get profile')
+    }
+    
+    const data = await response.json()
+    return data.data
+  },
+
+  async updateUser(userId: string, data: Partial<User>, token: string): Promise<User> {
+    const response = await fetch(`${API_URL}/users/${userId}`, {
+      method: 'PUT',
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    })
+    
+    if (!response.ok) {
+      throw new Error('Failed to update user')
+    }
+    
+    const result = await response.json()
+    return result.data
+  },
+}

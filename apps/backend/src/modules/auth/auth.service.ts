@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
@@ -8,23 +8,42 @@ import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
-  private firebaseAuth: admin.auth.Auth;
+  private firebaseAuth: admin.auth.Auth | null = null;
+  private readonly logger = new Logger(AuthService.name);
 
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {
-    // Initialize Firebase Admin SDK
-    const firebaseConfig = {
-      credential: admin.credential.cert({
-        projectId: this.configService.get<string>('FIREBASE_PROJECT_ID'),
-        clientEmail: this.configService.get<string>('FIREBASE_CLIENT_EMAIL'),
-        privateKey: this.configService.get<string>('FIREBASE_PRIVATE_KEY').replace(/\\n/g, '\n'),
-      }),
-    };
-    admin.initializeApp(firebaseConfig);
-    this.firebaseAuth = admin.auth();
+    // Initialize Firebase Admin SDK if credentials are provided
+    try {
+      const projectId = this.configService.get<string>('FIREBASE_PROJECT_ID');
+      const clientEmail = this.configService.get<string>('FIREBASE_CLIENT_EMAIL');
+      const privateKey = this.configService.get<string>('FIREBASE_PRIVATE_KEY');
+
+      // Check if Firebase configuration is present and valid
+      if (projectId && clientEmail && privateKey && 
+          privateKey !== 'YOUR_PRIVATE_KEY' && 
+          privateKey.includes('-----BEGIN PRIVATE KEY-----')) {
+        const firebaseConfig = {
+          credential: admin.credential.cert({
+            projectId,
+            clientEmail,
+            privateKey: privateKey.replace(/\\n/g, '\n'),
+          }),
+        };
+        admin.initializeApp(firebaseConfig);
+        this.firebaseAuth = admin.auth();
+        this.logger.log('Firebase Admin SDK initialized successfully');
+      } else {
+        this.logger.warn('Firebase configuration not found or incomplete. Google login will be disabled.');
+        this.firebaseAuth = null;
+      }
+    } catch (error) {
+      this.logger.error('Failed to initialize Firebase Admin SDK', error.stack);
+      this.firebaseAuth = null;
+    }
   }
 
   async validateUser(email: string, password: string): Promise<User | null> {
@@ -42,6 +61,11 @@ export class AuthService {
   }
 
   async firebaseLogin(idToken: string): Promise<User> {
+    // Check if Firebase is configured
+    if (!this.firebaseAuth) {
+      throw new UnauthorizedException('Firebase authentication is not configured on the server');
+    }
+
     try {
       const decodedToken = await this.firebaseAuth.verifyIdToken(idToken);
       const firebaseUid = decodedToken.uid;
@@ -64,6 +88,7 @@ export class AuthService {
       
       return user;
     } catch (error) {
+      this.logger.error('Firebase token verification failed', error.stack);
       throw new UnauthorizedException('Invalid Firebase token');
     }
   }
