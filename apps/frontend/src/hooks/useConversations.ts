@@ -9,7 +9,7 @@ import {
   setCurrentConversation,
 } from '../store/slices/conversation.slice'
 import { clearMessages } from '../store/slices/message.slice'
-import { Conversation } from '../middleware/conversation.service'
+import { Conversation } from '../middleware/conversation.middleware'
 
 export const useConversations = () => {
   const dispatch = useDispatch<AppDispatch>()

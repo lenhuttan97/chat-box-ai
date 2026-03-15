@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { conversationService, Conversation } from '../../middleware/conversation.service'
+import { conversationService, Conversation } from '../../middleware/conversation.middleware'
 import { setMessages } from './message.slice'
 
 interface ConversationState {
