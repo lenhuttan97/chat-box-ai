@@ -3,6 +3,7 @@ import conversationReducer from './slices/conversation.slice'
 import messageReducer from './slices/message.slice'
 import authReducer from './slices/auth.slice'
 import userReducer from './slices/user.slice'
+import themeReducer from './slices/theme.slice'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     messages: messageReducer,
     auth: authReducer,
     user: userReducer,
+    theme: themeReducer,
   },
 })
 
@@ -51,3 +53,8 @@ export {
 export {
   useAuthSelector
 } from './slices/auth.slice'
+
+export {
+  toggleDarkMode,
+  setDarkMode,
+} from './slices/theme.slice'

@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import { Chat as ChatIcon, SmartToy as BotIcon } from '@mui/icons-material'
+import { useTheme } from '../hooks/useTheme'
 
 interface MessageItemProps {
   role: 'user' | 'assistant'
@@ -8,6 +9,7 @@ interface MessageItemProps {
 }
 
 export const MessageItem = ({ role, content }: MessageItemProps) => {
+  const { darkMode } = useTheme()
   const isUser = role === 'user'
 
   return (
@@ -16,8 +18,8 @@ export const MessageItem = ({ role, content }: MessageItemProps) => {
         display: 'flex',
         gap: 2,
         p: 2,
-        bgcolor: isUser ? 'transparent' : 'background.paper',
-        '&:hover': { bgcolor: 'action.hover' },
+        bgcolor: isUser ? 'transparent' : darkMode ? 'rgba(0,0,0,0.2)' : '#f8fafc',
+        '&:hover': { bgcolor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' },
       }}
     >
       <Box
@@ -25,7 +27,7 @@ export const MessageItem = ({ role, content }: MessageItemProps) => {
           width: 32,
           height: 32,
           borderRadius: '50%',
-          bgcolor: isUser ? 'primary.main' : 'secondary.main',
+          bgcolor: isUser ? '#10a27e' : '#6366f1',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -39,10 +41,19 @@ export const MessageItem = ({ role, content }: MessageItemProps) => {
         )}
       </Box>
       <Box sx={{ flex: 1, overflow: 'hidden' }}>
-        <Typography variant="caption" color="text.secondary" sx={{ mb: 0.5, display: 'block' }}>
+        <Typography 
+          variant="caption" 
+          sx={{ mb: 0.5, display: 'block', color: darkMode ? '#94a3b8' : '#64748b' }}
+        >
           {isUser ? 'You' : 'AI'}
         </Typography>
-        <Box sx={{ '& p': { m: 0, mb: 1 } }}>
+        <Box 
+          sx={{ 
+            '& p': { m: 0, mb: 1, color: darkMode ? 'white' : '#0f172a' },
+            '& code': { bgcolor: darkMode ? 'rgba(255,255,255,0.1)' : '#f1f5f9', px: 0.5, borderRadius: 0.5 },
+            '& pre': { bgcolor: darkMode ? 'rgba(0,0,0,0.3)' : '#f1f5f9', p: 1, borderRadius: 1, overflow: 'auto' },
+          }}
+        >
           <ReactMarkdown>{content}</ReactMarkdown>
         </Box>
       </Box>

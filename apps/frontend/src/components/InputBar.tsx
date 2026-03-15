@@ -1,6 +1,7 @@
 import { useState, KeyboardEvent } from 'react'
 import { Box, TextField, IconButton, CircularProgress } from '@mui/material'
 import { Send as SendIcon } from '@mui/icons-material'
+import { useTheme } from '../hooks/useTheme'
 
 interface InputBarProps {
   onSend: (message: string) => void
@@ -9,6 +10,7 @@ interface InputBarProps {
 
 export const InputBar = ({ onSend, loading }: InputBarProps) => {
   const [message, setMessage] = useState('')
+  const { darkMode } = useTheme()
 
   const handleSend = () => {
     if (message.trim() && !loading) {
@@ -29,8 +31,8 @@ export const InputBar = ({ onSend, loading }: InputBarProps) => {
       sx={{
         p: 2,
         borderTop: '1px solid',
-        borderColor: 'divider',
-        bgcolor: 'background.paper',
+        borderColor: darkMode ? '#3D3D3D' : '#e2e8f0',
+        bgcolor: darkMode ? 'rgba(0,0,0,0.2)' : '#f8fafc',
       }}
     >
       <Box sx={{ display: 'flex', gap: 1, maxWidth: 800, mx: 'auto' }}>
@@ -46,6 +48,12 @@ export const InputBar = ({ onSend, loading }: InputBarProps) => {
           sx={{
             '& .MuiOutlinedInput-root': {
               borderRadius: 2,
+              bgcolor: darkMode ? 'rgba(255,255,255,0.05)' : '#ffffff',
+              color: darkMode ? 'white' : '#0f172a',
+              '& fieldset': { borderColor: darkMode ? '#3D3D3D' : '#e2e8f0' },
+              '&:hover fieldset': { borderColor: darkMode ? '#10a27e' : '#cbd5e1' },
+              '&.Mui-focused fieldset': { borderColor: '#10a27e' },
+              '& input::placeholder': { color: '#64748b', opacity: 1 },
             },
           }}
         />
