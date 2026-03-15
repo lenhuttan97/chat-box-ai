@@ -57,20 +57,20 @@ export class UsersService {
   private toResponse(user: {
     id: string
     email: string | null
-    displayName: string | null
-    photoUrl: string | null
+    display_name: string | null
+    photo_url: string | null
     provider: string | null
-    createdAt: Date
-    updatedAt: Date
+    created_at: Date
+    updated_at: Date
   }): UserResponseDto {
     return {
       id: user.id,
       email: user.email,
-      displayName: user.displayName,
-      photoUrl: user.photoUrl,
+      displayName: user.display_name,
+      photoUrl: user.photo_url,
       provider: user.provider,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      createdAt: user.created_at,
+      updatedAt: user.updated_at,
     }
   }
 }

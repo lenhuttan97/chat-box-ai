@@ -22,8 +22,8 @@ export class UsersRepository {
     return this.prisma.user.findUnique({ where: { email } })
   }
 
-  async findByFirebaseUid(firebaseUid: string): Promise<User | null> {
-    return this.prisma.user.findUnique({ where: { firebaseUid } })
+async findByFirebaseUid(firebaseUid: string): Promise<User | null> {
+    return this.prisma.user.findUnique({ where: { firebase_uid: firebaseUid } });
   }
 
   async update(id: string, data: Prisma.UserUpdateInput): Promise<User> {

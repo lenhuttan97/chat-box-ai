@@ -8,10 +8,14 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  UseGuards,
+  Req,
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/request/create-user.dto'
 import { UpdateUserDto } from './dto/request/update-user.dto'
+import { AuthGuard } from '@nestjs/passport'
+import { Request } from 'express'
 
 @Controller('users')
 export class UsersController {
@@ -46,5 +50,16 @@ export class UsersController {
   async remove(@Param('id') id: string) {
     await this.usersService.remove(id)
     return { data: null, message: 'User deleted', statusCode: HttpStatus.NO_CONTENT }
+  }
+
+  @Get('me/profile')
+  @UseGuards(AuthGuard('jwt'))
+  async getMe(@Req() req: Request) {
+    const userId = req.user['sub']
+    const user = await this.usersService.findById(userId)
+    if (!user) {
+      throw new Error('User not found')
+    }
+    return { data: user, message: 'User profile retrieved', statusCode: HttpStatus.OK }
   }
 }
