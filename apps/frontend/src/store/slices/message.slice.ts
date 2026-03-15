@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Message } from '../../middleware/conversation.service'
+import { Message } from '../../middleware/conversation.middleware'
 
 interface MessageState {
   items: Message[]

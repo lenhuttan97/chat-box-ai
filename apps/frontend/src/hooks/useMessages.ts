@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState, AppDispatch } from '../store'
 import { addMessage, appendToLastMessage, setMessages, clearMessages, setStreaming } from '../store/slices/message.slice'
 import { fetchConversations, setCurrentConversation } from '../store/slices/conversation.slice'
-import { messageService } from '../middleware/message.service'
+import { messageService } from '../middleware/message.middleware'
 import { v4 as uuidv4 } from 'uuid'
 
 export const useMessages = () => {
@@ -26,7 +26,7 @@ export const useMessages = () => {
             dispatch(appendToLastMessage(chunk))
           },
           async (conversationId) => {
-            const { conversationService } = await import('../middleware/conversation.service')
+            const { conversationService } = await import('../middleware/conversation.middleware')
             const [conversation, messages] = await Promise.all([
               conversationService.getConversation(conversationId),
               conversationService.getMessages(conversationId),
