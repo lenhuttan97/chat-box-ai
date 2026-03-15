@@ -52,7 +52,7 @@ export class UsersController {
     return { data: null, message: 'User deleted', statusCode: HttpStatus.NO_CONTENT }
   }
 
-  @Get('me/profile')
+  @Get('/profile')
   @UseGuards(AuthGuard('jwt'))
   async getMe(@Req() req: Request) {
     const userId = req.user['sub']
