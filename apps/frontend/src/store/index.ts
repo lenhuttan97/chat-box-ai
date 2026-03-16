@@ -1,11 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit'
 import conversationReducer from './slices/conversation.slice'
 import messageReducer from './slices/message.slice'
+import authReducer from './slices/auth.slice'
+import userReducer from './slices/user.slice'
+import themeReducer from './slices/theme.slice'
 
 export const store = configureStore({
   reducer: {
     conversations: conversationReducer,
     messages: messageReducer,
+    auth: authReducer,
+    user: userReducer,
+    theme: themeReducer,
   },
 })
 
@@ -31,3 +37,24 @@ export {
   setLoading,
   setStreaming,
 } from './slices/message.slice'
+
+export {
+  loginWithEmail,
+  registerWithEmail,
+  loginWithGoogle,
+  logoutUser,
+  updateUserProfile,
+  updateUserPassword,
+  sendPasswordReset,
+  initializeAuth,
+  clearError,
+} from './slices/auth.slice'
+
+export {
+  useAuthSelector
+} from './slices/auth.slice'
+
+export {
+  toggleDarkMode,
+  setDarkMode,
+} from './slices/theme.slice'

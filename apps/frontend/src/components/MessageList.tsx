@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { RootState } from '../store'
 import { MessageItem } from './MessageItem'
+import { useTheme } from '../hooks/useTheme'
 
 export const MessageList = () => {
   const { items: messages } = useSelector((state: RootState) => state.messages)
+  const { darkMode } = useTheme()
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -13,7 +15,7 @@ export const MessageList = () => {
   }, [messages])
 
   return (
-    <Box sx={{ flex: 1, overflow: 'auto' }}>
+    <Box sx={{ flex: 1, overflow: 'auto', bgcolor: darkMode ? '#11221d' : '#f6f8f7' }}>
       {messages.length === 0 ? (
         <Box
           sx={{
@@ -23,7 +25,7 @@ export const MessageList = () => {
             justifyContent: 'center',
             flexDirection: 'column',
             gap: 2,
-            color: 'text.secondary',
+            color: darkMode ? '#94a3b8' : '#64748b',
           }}
         >
           <Box
@@ -34,7 +36,7 @@ export const MessageList = () => {
               e.currentTarget.style.display = 'none'
             }}
           />
-          <Box component="span">Start a conversation</Box>
+          <Typography sx={{ color: darkMode ? '#94a3b8' : '#64748b' }}>Start a conversation</Typography>
         </Box>
       ) : (
         messages.map((msg) => <MessageItem key={msg.id} role={msg.role as 'user' | 'assistant'} content={msg.content} />)

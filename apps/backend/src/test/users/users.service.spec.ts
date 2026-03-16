@@ -10,11 +10,11 @@ describe('UsersService', () => {
   const mockUser = {
     id: 'user-1',
     email: 'test@example.com',
-    displayName: 'Test User',
-    photoUrl: null,
+    display_name: 'Test User',
+    photo_url: null,
     provider: 'firebase',
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    created_at: new Date(),
+    updated_at: new Date(),
   }
 
   beforeEach(async () => {
@@ -95,15 +95,15 @@ describe('UsersService', () => {
   })
 
   describe('update', () => {
-    it('should update user', async () => {
-      const updatedUser = { ...mockUser, displayName: 'Updated Name' }
-      repository.update.mockResolvedValue(updatedUser as any)
+it('should update user', async () => {
+       const updatedUser = { ...mockUser, display_name: 'Updated Name' }
+       repository.update.mockResolvedValue(updatedUser as any)
 
-      const result = await service.update('user-1', { displayName: 'Updated Name' })
+       const result = await service.update('user-1', { display_name: 'Updated Name' })
 
-      expect(repository.update).toHaveBeenCalledWith('user-1', { displayName: 'Updated Name' })
-      expect(result.displayName).toBe('Updated Name')
-    })
+       expect(repository.update).toHaveBeenCalledWith('user-1', { display_name: 'Updated Name' })
+       expect(result.displayName).toBe('Updated Name')
+     })
   })
 
   describe('remove', () => {

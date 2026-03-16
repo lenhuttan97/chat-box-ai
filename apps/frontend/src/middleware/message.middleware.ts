@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie'
+
 const API_URL = import.meta.env.VITE_API_URL || '/api'
 
 export interface Message {
@@ -15,9 +17,15 @@ export const messageService = {
     onChunk: (chunk: string, conversationId: string) => void,
     onDone: (conversationId: string) => void,
   ): Promise<string> {
+    // Get token from cookie (set by Firebase auth service)
+    const token = Cookies.get('token')
+    
     const response = await fetch(`${API_URL}/v1/conversation/messages`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
       body: JSON.stringify({ message, conversation_id: conversationId }),
     })
 
@@ -70,7 +78,10 @@ export const messageService = {
 
   async getMessages(conversationId: string): Promise<Message[]> {
     const { default: axios } = await import('axios')
-    const response = await axios.get(`${API_URL}/v1/conversations/${conversationId}/messages`)
+    const token = Cookies.get('token')
+    const response = await axios.get(`${API_URL}/v1/conversations/${conversationId}/messages`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
     return response.data.data
   },
 }
