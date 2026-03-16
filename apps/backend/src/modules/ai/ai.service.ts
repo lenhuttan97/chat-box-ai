@@ -12,6 +12,9 @@ export interface SendMessageOptions {
   message: string
   conversationId?: string
   history?: Array<{ role: string; content: string }>
+  systemPrompt?: string
+  temperature?: number
+  maxTokens?: number
 }
 
 @Injectable()
@@ -32,6 +35,9 @@ export class AiService {
       const stream = await this.geminiProvider.generateStream({
         message: options.message,
         history: fullHistory,
+        systemPrompt: options.systemPrompt,
+        temperature: options.temperature,
+        maxTokens: options.maxTokens,
       })
 
       for await (const chunk of stream) {

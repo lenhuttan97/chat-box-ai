@@ -8,6 +8,7 @@ import SmartToyIcon from '@mui/icons-material/SmartToy'
 import ContrastIcon from '@mui/icons-material/Contrast'
 import SettingsIcon from '@mui/icons-material/Settings'
 import SearchIcon from '@mui/icons-material/Search'
+import LoginIcon from '@mui/icons-material/Login'
 
 interface ChatLayoutProps {
   sidebar: ReactNode
@@ -240,14 +241,14 @@ export const ChatLayout = ({ sidebar, children }: ChatLayoutProps) => {
                 py: 0.5,
               }}
             >
-              <SearchIcon sx={{ color: '#94a3b8', fontSize: 20 }} />
+              <SearchIcon sx={{ color: darkMode ? '#94a3b8' : '#64748b', fontSize: 20 }} />
               <InputBase
                 placeholder="Search messages..."
                 sx={{
                   fontSize: '0.875rem',
                   width: 160,
                   color: darkMode ? 'white' : '#0f172a',
-                  '& input::placeholder': { color: '#64748b', opacity: 1 },
+                  '& input::placeholder': { color: darkMode ? '#94a3b8' : '#64748b', opacity: 1 },
                 }}
               />
             </Box>
@@ -256,14 +257,15 @@ export const ChatLayout = ({ sidebar, children }: ChatLayoutProps) => {
             <Box sx={{ width: 1, height: 24, bgcolor: darkMode ? '#3D3D3D' : '#e2e8f0' }} />
 
             {/* User Avatar */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, cursor: 'pointer' }} onClick={() => isAuthenticated ? navigate('/profile') : navigate('/login')}>
               <Box
                 sx={{
                   width: 32,
                   height: 32,
                   borderRadius: '50%',
                   overflow: 'hidden',
-                  border: '2px solid transparent',
+                  border: '2px solid',
+                  borderColor: darkMode ? '#3D3D3D' : '#e2e8f0',
                   '&:hover': { borderColor: '#10a27e' },
                 }}
               >
@@ -274,8 +276,8 @@ export const ChatLayout = ({ sidebar, children }: ChatLayoutProps) => {
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                 ) : (
-                  <Avatar sx={{ width: 32, height: 32, bgcolor: '#10a27e' }}>
-                    {user?.displayName?.[0] || 'U'}
+                  <Avatar sx={{ width: 32, height: 32, bgcolor: '#10a27e', color: 'white' }}>
+                    <LoginIcon sx={{ fontSize: 20 }} />
                   </Avatar>
                 )}
               </Box>

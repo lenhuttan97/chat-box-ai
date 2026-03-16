@@ -5,7 +5,7 @@ import {
   fetchConversations,
   fetchConversation,
   deleteConversation,
-  updateConversation,
+  updateConversation as updateConversationAction,
   setCurrentConversation,
 } from '../store/slices/conversation.slice'
 import { clearMessages } from '../store/slices/message.slice'
@@ -35,7 +35,14 @@ export const useConversations = () => {
 
   const editConversation = useCallback(
     (id: string, data: Partial<Conversation>) => {
-      dispatch(updateConversation({ id, data }))
+      dispatch(updateConversationAction({ id, data }))
+    },
+    [dispatch],
+  )
+
+  const updateConversation = useCallback(
+    async (id: string, data: { name?: string; systemPrompt?: string; temperature?: number; maxTokens?: number }) => {
+      return await dispatch(updateConversationAction({ id, data })).unwrap()
     },
     [dispatch],
   )
@@ -59,6 +66,7 @@ export const useConversations = () => {
     loadConversation,
     removeConversation,
     editConversation,
+    updateConversation,
     selectConversation,
   }
 }

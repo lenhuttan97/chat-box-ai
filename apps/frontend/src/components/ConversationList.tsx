@@ -1,12 +1,15 @@
+import { useState } from 'react'
 import { Box, List, ListItemButton, ListItemText, Typography, IconButton, CircularProgress } from '@mui/material'
-import { Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material'
+import { Delete as DeleteIcon, Add as AddIcon, Settings as SettingsIcon } from '@mui/icons-material'
 import { useConversations } from '../hooks/useConversations'
 import { useTheme } from '../hooks/useTheme'
+import { ChatSettingsModal } from './ChatSettingsModal'
 import { format } from 'date-fns'
 
 export const ConversationList = () => {
   const { conversations, currentConversation, loading, loadConversation, removeConversation, selectConversation } = useConversations()
   const { darkMode } = useTheme()
+  const [settingsOpen, setSettingsOpen] = useState(false)
 
   const handleNewChat = () => {
     selectConversation(null)
@@ -15,7 +18,7 @@ export const ConversationList = () => {
   if (loading) {
     return (
       <Box sx={{ p: 2, display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress size={24} />
+        <CircularProgress size={24} sx={{ color: '#10a27e' }} />
       </Box>
     )
   }
@@ -72,6 +75,17 @@ export const ConversationList = () => {
             />
             <IconButton 
               size="small" 
+              onClick={(e) => { 
+                e.stopPropagation()
+                loadConversation(conv.id)
+                setSettingsOpen(true) 
+              }}
+              sx={{ color: darkMode ? '#94a3b8' : '#64748b' }}
+            >
+              <SettingsIcon fontSize="small" />
+            </IconButton>
+            <IconButton 
+              size="small" 
               onClick={(e) => { e.stopPropagation(); removeConversation(conv.id) }}
               sx={{ color: darkMode ? '#94a3b8' : '#64748b' }}
             >
@@ -90,6 +104,7 @@ export const ConversationList = () => {
           </Box>
         )}
       </List>
+      <ChatSettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </Box>
   )
 }

@@ -5,6 +5,9 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 export interface GenerateStreamOptions {
   message: string
   history?: Array<{ role: string; parts: Array<{ text: string }> }>
+  systemPrompt?: string
+  temperature?: number
+  maxTokens?: number
 }
 
 @Injectable()
@@ -22,13 +25,28 @@ export class GeminiProvider {
   }
 
   async *generateStream(options: GenerateStreamOptions): AsyncGenerator<string> {
-    const model = this.genAI.getGenerativeModel({
+    const generationConfig = {
+      temperature: options.temperature ?? 0.7,
+      maxOutputTokens: options.maxTokens ?? 2048,
+    }
+
+    const modelConfig: {
+      model: string
+      generationConfig: typeof generationConfig
+      systemInstruction?: { role: string; parts: Array<{ text: string }> }
+    } = {
       model: this.modelName,
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 2048,
-      },
-    })
+      generationConfig,
+    }
+
+    if (options.systemPrompt) {
+      modelConfig.systemInstruction = {
+        role: 'system',
+        parts: [{ text: options.systemPrompt }],
+      }
+    }
+
+    const model = this.genAI.getGenerativeModel(modelConfig)
 
     const contents = this.buildContents(options.history || [], options.message)
 
