@@ -10,6 +10,7 @@ import {
   Res,
   HttpCode,
   HttpStatus,
+  Logger,
 } from '@nestjs/common'
 import { Response } from 'express'
 import { ConversationsService } from './conversations.service'
@@ -20,6 +21,8 @@ import { CreateMessageDto } from './dto/request/create-message.dto'
 
 @Controller()
 export class ConversationsController {
+  private readonly logger = new Logger(ConversationsController.name)
+
   constructor(
     private readonly conversationsService: ConversationsService,
     private readonly aiService: AiService,
@@ -136,6 +139,65 @@ export class ConversationsController {
       role: 'user',
       content: message,
     })
+
+    const userMessageCount = existingMessages.filter(m => m.role === 'user').length + 1
+    const shouldAutoAnalyze = userMessageCount === 1 || userMessageCount % 10 === 0
+    
+    this.logger.log(`User message count: ${userMessageCount}, shouldAutoAnalyze: ${shouldAutoAnalyze}`)
+
+    if (shouldAutoAnalyze) {
+      this.logger.log('Starting auto-analyze...')
+      try {
+        const allMessagesForAnalysis = [...history, { role: 'user', content: message }]
+        const analysis = await this.aiService.analyzeContext(allMessagesForAnalysis)
+        
+        const conversation = await this.conversationsService.findConversationById(conversationId)
+        const userHasSetSystemPrompt = conversation?.systemPrompt && conversation.systemPrompt.trim() !== ''
+        const userHasSetContextToken = conversation?.contextToken && conversation.contextToken !== 4096
+        const userHasSetTemperature = conversation?.temperature && conversation.temperature !== 0.7
+        const userHasSetMaxTokens = conversation?.maxTokens && conversation.maxTokens !== 2048
+
+        const updateData: Record<string, unknown> = {}
+
+        if (analysis.context) {
+          updateData['autoPrompt'] = analysis.context
+        }
+
+        if (!userHasSetContextToken) {
+          updateData['contextToken'] = analysis.contextToken
+        }
+
+        if (!userHasSetTemperature) {
+          updateData['temperature'] = analysis.temperature
+        }
+
+        if (!userHasSetMaxTokens) {
+          updateData['maxTokens'] = analysis.maxTokens
+        }
+
+        if (Object.keys(updateData).length > 0) {
+          await this.conversationsService.updateConversation(conversationId, updateData as any)
+          this.logger.log('Auto-prompt updated:', updateData)
+          
+          const updatedConversation = await this.conversationsService.findConversationById(conversationId)
+          if (updatedConversation) {
+            const mergedSystemPrompt = userHasSetSystemPrompt 
+              ? `${updatedConversation.systemPrompt}\n\n${analysis.context}`
+              : analysis.context
+            
+            conversationSettings = {
+              systemPrompt: mergedSystemPrompt || undefined,
+              temperature: updatedConversation.temperature ?? undefined,
+              maxTokens: updatedConversation.maxTokens ?? undefined,
+            }
+          }
+        }
+      } catch (error) {
+        this.logger.error('Auto-analyze failed', error)
+      }
+    } else {
+      this.logger.log('Skipping auto-analyze')
+    }
 
     let fullResponse = ''
 
