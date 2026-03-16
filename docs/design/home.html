@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Chat - Modern Workspace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#10a27e",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#11211d",
+                        "border-muted": "#3D3D3D"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(16, 162, 126, 0.2);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display selection:bg-primary/30">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-[260px] flex-shrink-0 bg-slate-50 dark:bg-black/20 border-r border-slate-200 dark:border-border-muted flex flex-col">
+<!-- Sidebar Header -->
+<div class="p-4 flex flex-col gap-4">
+<div class="flex items-center gap-3 px-2">
+<div class="flex items-center justify-center size-8 rounded bg-primary text-white">
+<span class="material-symbols-outlined text-xl">smart_toy</span>
+</div>
+<div>
+<h1 class="text-slate-900 dark:text-white text-base font-bold leading-none">AI Chat</h1>
+<p class="text-slate-500 dark:text-primary/70 text-xs font-medium">v2.0 Pro</p>
+</div>
+</div>
+<button class="flex w-full items-center justify-center gap-2 rounded-lg h-11 bg-primary hover:bg-primary/90 text-white text-sm font-semibold transition-colors shadow-sm">
+<span class="material-symbols-outlined text-lg">add</span>
+<span>New Chat</span>
+</button>
+</div>
+<!-- Recent Chats List -->
+<div class="flex-1 overflow-y-auto custom-scrollbar px-2 space-y-1">
+<div class="px-3 py-2">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Recent Chats</span>
+</div>
+<div class="group flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 border border-primary/20 cursor-pointer">
+<span class="material-symbols-outlined text-primary text-lg">chat_bubble</span>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">Project Alpha Strategy</p>
+<p class="text-[10px] text-slate-400 dark:text-slate-500">2 mins ago</p>
+</div>
+</div>
+<div class="group flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-200/50 dark:hover:bg-white/5 cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-lg">description</span>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-slate-600 dark:text-slate-300 truncate">Market Research Q3</p>
+<p class="text-[10px] text-slate-400 dark:text-slate-500">1 hour ago</p>
+</div>
+</div>
+<div class="group flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-200/50 dark:hover:bg-white/5 cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-lg">terminal</span>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-slate-600 dark:text-slate-300 truncate">Python Data Cleaner</p>
+<p class="text-[10px] text-slate-400 dark:text-slate-500">Yesterday</p>
+</div>
+</div>
+<div class="group flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-200/50 dark:hover:bg-white/5 cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-slate-400 dark:text-slate-500 text-lg">lightbulb</span>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-slate-600 dark:text-slate-300 truncate">App Feature Ideas</p>
+<p class="text-[10px] text-slate-400 dark:text-slate-500">2 days ago</p>
+</div>
+</div>
+</div>
+<!-- Sidebar Footer -->
+<div class="p-4 border-t border-slate-200 dark:border-border-muted flex flex-col gap-1">
+<button class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-white/5 transition-colors text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-xl">contrast</span>
+<span class="text-sm font-medium">Dark / Light Mode</span>
+</button>
+<button class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-white/5 transition-colors text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col relative bg-background-light dark:bg-background-dark">
+<!-- Header -->
+<header class="h-16 flex items-center justify-between px-8 border-b border-slate-200 dark:border-border-muted z-10">
+<div class="flex-1 flex justify-center">
+<h2 class="text-slate-900 dark:text-white text-base font-semibold">New Conversation</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-400 text-xl pointer-events-none">search</span>
+<input class="h-9 w-48 pl-10 pr-4 bg-slate-200/50 dark:bg-white/5 border-none focus:ring-1 focus:ring-primary rounded-lg text-sm transition-all focus:w-64 placeholder:text-slate-500" placeholder="Search messages..." type="text"/>
+</div>
+<div class="h-8 w-[1px] bg-slate-200 dark:bg-border-muted mx-1"></div>
+<div class="flex items-center gap-2 cursor-pointer group">
+<div class="size-8 rounded-full overflow-hidden border-2 border-transparent group-hover:border-primary transition-all">
+<img class="size-full object-cover" data-alt="User profile circular avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8xWcv1vLkzB6bkgihdDpUVdbyaeCT2Q-dgxr56WhslG6CX9LA_unS63jr26YugaoioC-Olwd4xOFkhGrSGjprwpF7GtBHGwhx2QrMB8Bn_Fix_9zmjkTMGDueVZ0-5SAEHrs-uUKZHi-D6xZzn7MMNdJwd00V4hr9Pixk4d9LOO4uiu_b3oD6QIFyf-KhiGuIAAiKIZB3rsnOQZLptfyx0ZuSQWP7bEdIYQ-4PEA88XAqikcHa4ZTj7cvWyEtNO4YMfRDSSMm1466"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Chat Area (Empty State) -->
+<div class="flex-1 overflow-y-auto custom-scrollbar flex flex-col items-center justify-center p-8">
+<div class="w-full max-w-3xl flex flex-col items-center gap-10">
+<!-- Welcome Section -->
+<div class="text-center space-y-4">
+<div class="size-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-primary text-4xl">rocket_launch</span>
+</div>
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">How can I help you today?</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg max-w-md mx-auto">Select a suggested path or start a new conversation below.</p>
+</div>
+<!-- Suggested Prompts Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+<div class="p-4 rounded-xl border border-slate-200 dark:border-border-muted hover:border-primary/50 hover:bg-primary/5 cursor-pointer transition-all group">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">analytics</span>
+<h3 class="font-semibold text-slate-800 dark:text-slate-200">Analyze Data</h3>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Upload a CSV or paste JSON to get instant insights and trends.</p>
+</div>
+<div class="p-4 rounded-xl border border-slate-200 dark:border-border-muted hover:border-primary/50 hover:bg-primary/5 cursor-pointer transition-all group">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">mail</span>
+<h3 class="font-semibold text-slate-800 dark:text-slate-200">Write an Email</h3>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Draft professional follow-ups or creative newsletters in seconds.</p>
+</div>
+<div class="p-4 rounded-xl border border-slate-200 dark:border-border-muted hover:border-primary/50 hover:bg-primary/5 cursor-pointer transition-all group">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">article</span>
+<h3 class="font-semibold text-slate-800 dark:text-slate-200">Summarize Article</h3>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Get the key takeaways from any long-form content or URL.</p>
+</div>
+<div class="p-4 rounded-xl border border-slate-200 dark:border-border-muted hover:border-primary/50 hover:bg-primary/5 cursor-pointer transition-all group">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">code</span>
+<h3 class="font-semibold text-slate-800 dark:text-slate-200">Generate Code</h3>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Python scripts, React components, or SQL queries on demand.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-6 bg-gradient-to-t from-background-light via-background-light to-transparent dark:from-background-dark dark:via-background-dark dark:to-transparent">
+<div class="max-w-3xl mx-auto relative">
+<div class="flex items-end gap-2 p-3 bg-white dark:bg-[#1b2b27] border border-slate-300 dark:border-border-muted rounded-2xl shadow-xl focus-within:border-primary/50 transition-colors">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<textarea class="flex-1 py-2 px-1 bg-transparent border-none focus:ring-0 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 resize-none max-h-40 overflow-y-auto" placeholder="Type your message..." rows="1"></textarea>
+<button class="size-10 flex items-center justify-center bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-2xl">arrow_upward</span>
+</button>
+</div>
+<div class="mt-2 text-center">
+<p class="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-widest font-bold">AI can make mistakes. Check important info.</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
