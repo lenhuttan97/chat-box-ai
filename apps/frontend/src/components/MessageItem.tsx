@@ -6,9 +6,32 @@ import { useTheme } from '../hooks/useTheme'
 interface MessageItemProps {
   role: 'user' | 'assistant'
   content: string
+  isLoading?: boolean
 }
 
-export const MessageItem = ({ role, content }: MessageItemProps) => {
+const TypingIndicator = () => (
+  <Box sx={{ display: 'flex', gap: 0.5, mt: 1 }}>
+    {[0, 1, 2].map((i) => (
+      <Box
+        key={i}
+        sx={{
+          width: 8,
+          height: 8,
+          borderRadius: '50%',
+          bgcolor: '#6366f1',
+          animation: 'bounce 1.4s infinite ease-in-out',
+          animationDelay: `${i * 0.16}s`,
+          '@keyframes bounce': {
+            '0%, 80%, 100%': { transform: 'scale(0.6)', opacity: 0.5 },
+            '40%': { transform: 'scale(1)', opacity: 1 },
+          },
+        }}
+      />
+    ))}
+  </Box>
+)
+
+export const MessageItem = ({ role, content, isLoading }: MessageItemProps) => {
   const { darkMode } = useTheme()
   const isUser = role === 'user'
 
@@ -55,6 +78,7 @@ export const MessageItem = ({ role, content }: MessageItemProps) => {
           }}
         >
           <ReactMarkdown>{content}</ReactMarkdown>
+          {!isUser && isLoading && <TypingIndicator />}
         </Box>
       </Box>
     </Box>
