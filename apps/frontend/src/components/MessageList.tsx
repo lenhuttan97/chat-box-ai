@@ -6,13 +6,13 @@ import { MessageItem } from './MessageItem'
 import { useTheme } from '../hooks/useTheme'
 
 export const MessageList = () => {
-  const { items: messages } = useSelector((state: RootState) => state.messages)
+  const { items: messages, streaming } = useSelector((state: RootState) => state.messages)
   const { darkMode } = useTheme()
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+  }, [messages, streaming])
 
   return (
     <Box sx={{ flex: 1, overflow: 'auto', bgcolor: darkMode ? '#11221d' : '#f6f8f7' }}>
@@ -39,7 +39,14 @@ export const MessageList = () => {
           <Typography sx={{ color: darkMode ? '#94a3b8' : '#64748b' }}>Start a conversation</Typography>
         </Box>
       ) : (
-        messages.map((msg) => <MessageItem key={msg.id} role={msg.role as 'user' | 'assistant'} content={msg.content} />)
+        messages.map((msg, index) => (
+          <MessageItem
+            key={msg.id}
+            role={msg.role as 'user' | 'assistant'}
+            content={msg.content}
+            isLoading={index === messages.length - 1 && msg.role === 'assistant' && streaming}
+          />
+        ))
       )}
       <div ref={bottomRef} />
     </Box>
