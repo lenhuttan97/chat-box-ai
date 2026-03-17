@@ -15,7 +15,7 @@ export const MessageList = () => {
   }, [messages, streaming])
 
   return (
-    <Box sx={{ flex: 1, overflow: 'auto', bgcolor: darkMode ? '#11221d' : '#f6f8f7' }}>
+    <Box sx={{ flex: 1, overflow: 'auto', overflowAnchor: 'auto', bgcolor: darkMode ? '#11221d' : '#f6f8f7' }}>
       {messages.length === 0 ? (
         <Box
           sx={{
