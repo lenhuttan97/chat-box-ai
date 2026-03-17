@@ -6,16 +6,16 @@ import { MessageItem } from './MessageItem'
 import { useTheme } from '../hooks/useTheme'
 
 export const MessageList = () => {
-  const { items: messages } = useSelector((state: RootState) => state.messages)
+  const { items: messages, streaming } = useSelector((state: RootState) => state.messages)
   const { darkMode } = useTheme()
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+  }, [messages, streaming])
 
   return (
-    <Box sx={{ flex: 1, overflow: 'auto', bgcolor: darkMode ? '#11221d' : '#f6f8f7' }}>
+    <Box sx={{ flex: 1, overflow: 'auto', overflowAnchor: 'auto', bgcolor: darkMode ? '#11221d' : '#f6f8f7' }}>
       {messages.length === 0 ? (
         <Box
           sx={{

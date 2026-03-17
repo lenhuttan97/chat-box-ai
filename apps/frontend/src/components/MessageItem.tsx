@@ -50,8 +50,14 @@ export const MessageItem = ({ role, content }: MessageItemProps) => {
         <Box 
           sx={{ 
             '& p': { m: 0, mb: 1, color: darkMode ? 'white' : '#0f172a' },
-            '& code': { bgcolor: darkMode ? 'rgba(255,255,255,0.1)' : '#f1f5f9', px: 0.5, borderRadius: 0.5 },
+            '& h1, & h2, & h3, & h4, & h5, & h6': { color: darkMode ? 'white' : '#0f172a' },
+            '& ul, & ol': { color: darkMode ? 'white' : '#0f172a' },
+            '& li': { color: darkMode ? 'white' : '#0f172a' },
+            '& span': { color: darkMode ? 'white' : '#0f172a' },
+            '& code': { bgcolor: darkMode ? 'rgba(255,255,255,0.1)' : '#f1f5f9', px: 0.5, borderRadius: 0.5, color: darkMode ? '#e2e8f0' : '#0f172a' },
             '& pre': { bgcolor: darkMode ? 'rgba(0,0,0,0.3)' : '#f1f5f9', p: 1, borderRadius: 1, overflow: 'auto' },
+            '& pre code': { bgcolor: 'transparent', p: 0 },
+            '& a': { color: darkMode ? '#60a5fa' : '#3b82f6' },
           }}
         >
           <ReactMarkdown>{content}</ReactMarkdown>
