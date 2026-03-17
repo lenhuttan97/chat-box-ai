@@ -63,7 +63,7 @@ export const conversationService = {
     data: { name?: string; systemPrompt?: string; autoPrompt?: string; temperature?: number; maxTokens?: number; contextToken?: number }
   ): Promise<Conversation> {
     const token = Cookies.get('token')
-    const response = await axios.patch(`${API_URL}/v1/conversations/${id}`, data, {
+    const response = await axios.put(`${API_URL}/v1/conversations/${id}`, data, {
       headers: { Authorization: `Bearer ${token}` }
     })
     return response.data.data

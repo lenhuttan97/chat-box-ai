@@ -10,20 +10,29 @@ interface InputBarProps {
 
 export const InputBar = ({ onSend, loading }: InputBarProps) => {
   const [message, setMessage] = useState('')
+  const [isComposing, setIsComposing] = useState(false)
   const { darkMode } = useTheme()
 
   const handleSend = () => {
-    if (message.trim() && !loading) {
+    if (message.trim() && !loading && !isComposing) {
       onSend(message.trim())
       setMessage('')
     }
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
       e.preventDefault()
       handleSend()
     }
+  }
+
+  const handleCompositionStart = () => {
+    setIsComposing(true)
+  }
+
+  const handleCompositionEnd = () => {
+    setIsComposing(false)
   }
 
   return (
@@ -44,7 +53,18 @@ export const InputBar = ({ onSend, loading }: InputBarProps) => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
+          onCompositionStart={handleCompositionStart}
+          onCompositionEnd={handleCompositionEnd}
           disabled={loading}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          InputProps={{
+            sx: {
+              color: darkMode ? 'white' : '#0f172a',
+            }
+          }}
           sx={{
             '& .MuiOutlinedInput-root': {
               borderRadius: 2,
@@ -53,8 +73,8 @@ export const InputBar = ({ onSend, loading }: InputBarProps) => {
               '& fieldset': { borderColor: darkMode ? '#3D3D3D' : '#e2e8f0' },
               '&:hover fieldset': { borderColor: darkMode ? '#10a27e' : '#cbd5e1' },
               '&.Mui-focused fieldset': { borderColor: '#10a27e' },
-              '& input::placeholder': { color: '#64748b', opacity: 1 },
             },
+            '& input::placeholder': { color: darkMode ? '#94a3b8' : '#64748b', opacity: 1 },
           }}
         />
         <IconButton
@@ -62,10 +82,10 @@ export const InputBar = ({ onSend, loading }: InputBarProps) => {
           onClick={handleSend}
           disabled={!message.trim() || loading}
           sx={{
-            bgcolor: 'primary.main',
+            bgcolor: '#10a27e',
             color: 'white',
-            '&:hover': { bgcolor: 'primary.dark' },
-            '&:disabled': { bgcolor: 'action.disabledBackground' },
+            '&:hover': { bgcolor: '#0d966d' },
+            '&:disabled': { bgcolor: darkMode ? 'rgba(255,255,255,0.1)' : '#e2e8f0', color: darkMode ? 'rgba(255,255,255,0.3)' : '#94a3b8' },
           }}
         >
           {loading ? <CircularProgress size={24} color="inherit" /> : <SendIcon />}

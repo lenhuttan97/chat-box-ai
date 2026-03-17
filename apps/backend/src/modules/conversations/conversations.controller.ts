@@ -102,6 +102,11 @@ export class ConversationsController {
     res.setHeader('Connection', 'keep-alive')
 
     let conversationId = conversation_id
+    let conversationSettings = {
+      systemPrompt: undefined as string | undefined,
+      temperature: undefined as number | undefined,
+      maxTokens: undefined as number | undefined,
+    }
 
     if (!conversationId) {
       const conversation = await this.conversationsService.createConversation({
@@ -109,6 +114,15 @@ export class ConversationsController {
       })
       conversationId = conversation.id
       res.write(`data: ${JSON.stringify({ conversationId })}\n\n`)
+    } else {
+      const conversation = await this.conversationsService.findConversationById(conversationId)
+      if (conversation) {
+        conversationSettings = {
+          systemPrompt: conversation.systemPrompt ?? undefined,
+          temperature: conversation.temperature ?? undefined,
+          maxTokens: conversation.maxTokens ?? undefined,
+        }
+      }
     }
 
     const existingMessages = await this.conversationsService.findMessagesByConversationIdNoPaginate(conversationId)
@@ -126,7 +140,12 @@ export class ConversationsController {
     let fullResponse = ''
 
     try {
-      for await (const chunk of this.aiService.sendMessage({ message, conversationId, history })) {
+      for await (const chunk of this.aiService.sendMessage({ 
+        message, 
+        conversationId, 
+        history,
+        ...conversationSettings,
+      })) {
         if (chunk.chunk) {
           fullResponse += chunk.chunk
           res.write(`data: ${JSON.stringify({ chunk: chunk.chunk })}\n\n`)
