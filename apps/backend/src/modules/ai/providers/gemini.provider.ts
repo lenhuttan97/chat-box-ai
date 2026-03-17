@@ -87,4 +87,22 @@ export class GeminiProvider {
 
     return contents
   }
+
+  async generateContent(prompt: string): Promise<string> {
+    const model = this.genAI.getGenerativeModel({
+      model: this.modelName,
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 2048,
+      },
+    })
+
+    try {
+      const result = await model.generateContent(prompt)
+      return result.response.text()
+    } catch (error) {
+      this.logger.error('Gemini API error', error)
+      throw new ServiceUnavailableException('AI service unavailable')
+    }
+  }
 }
