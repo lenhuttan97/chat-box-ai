@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Chatbox - Conversation Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#10a27e",
+                        "background-light": "#f6f8f7",
+                        "background-dark": "#11211d",
+                        "modal-bg": "#2D2D2D",
+                        "modal-border": "#3D3D3D"
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3D3D3D;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex items-center justify-center font-display">
+<!-- Mocked Background Page Content (Blurred) -->
+<div class="fixed inset-0 z-0 flex flex-col opacity-20 pointer-events-none">
+<header class="h-16 border-b border-primary/10 flex items-center px-6 justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded-lg"></div>
+<div class="font-bold text-xl">Nexus AI</div>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full bg-primary/20"></div>
+</div>
+</header>
+<main class="flex-1 flex p-6 gap-6">
+<aside class="w-64 border border-primary/10 rounded-xl"></aside>
+<div class="flex-1 border border-primary/10 rounded-xl relative">
+<div class="absolute bottom-6 left-6 right-6 h-12 bg-primary/10 rounded-lg"></div>
+</div>
+</main>
+</div>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+<!-- Modal Container -->
+<div class="w-full max-w-xl bg-modal-bg border border-modal-border rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+<!-- Modal Header -->
+<div class="px-6 py-5 border-b border-modal-border flex items-center justify-between">
+<div>
+<h2 class="text-xl font-bold text-slate-100 leading-tight">Conversation Settings</h2>
+<p class="text-slate-400 text-sm mt-1">Configure your AI assistant's persona and behavior</p>
+</div>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Content -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+<!-- Section: Conversation Name -->
+<div class="space-y-3">
+<label class="block">
+<span class="text-slate-100 text-sm font-semibold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">edit_note</span>
+                            Conversation Name
+                        </span>
+<input class="w-full mt-2 rounded-lg bg-background-dark/50 border-modal-border text-slate-200 focus:ring-primary focus:border-primary placeholder:text-slate-500 px-3 py-2 text-sm" placeholder="e.g., Project Alpha Strategy" value="Project Alpha Strategy"/>
+</label>
+</div>
+<div class="h-px bg-modal-border"></div>
+<!-- Section: Identity -->
+<div class="space-y-4">
+<label class="block">
+<span class="text-slate-100 text-sm font-semibold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">person_search</span>
+                            AI Role / Identity
+                        </span>
+<textarea class="w-full mt-2 rounded-lg bg-background-dark/50 border-modal-border text-slate-200 focus:ring-primary focus:border-primary placeholder:text-slate-500 min-h-[100px] text-sm leading-relaxed" placeholder="e.g., You are a senior software engineer specializing in React and system architecture. Your tone is professional and concise."></textarea>
+</label>
+<label class="block">
+<span class="text-slate-100 text-sm font-semibold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">contextual_token</span>
+                            Context / Background
+                        </span>
+<textarea class="w-full mt-2 rounded-lg bg-background-dark/50 border-modal-border text-slate-200 focus:ring-primary focus:border-primary placeholder:text-slate-500 min-h-[100px] text-sm leading-relaxed" placeholder="e.g., This chat is about a new fintech project. We are using TypeScript, Node.js, and PostgreSQL. Focus on scalability."></textarea>
+</label>
+</div>
+<div class="h-px bg-modal-border"></div>
+<!-- Section: Response Settings -->
+<div class="space-y-5">
+<h3 class="text-slate-100 text-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-lg">tune</span>
+                        Response Settings
+                    </h3>
+<!-- Temperature Slider -->
+<div class="space-y-3">
+<div class="flex justify-between items-center">
+<span class="text-slate-300 text-sm">Temperature / Creativity</span>
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded text-xs font-mono">0.7</span>
+</div>
+<div class="relative flex items-center">
+<div class="h-1.5 w-full bg-modal-border rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[70%]"></div>
+</div>
+<div class="absolute left-[70%] -ml-2 w-4 h-4 bg-white rounded-full shadow-lg border-2 border-primary"></div>
+</div>
+<div class="flex justify-between text-[10px] text-slate-500 uppercase tracking-wider">
+<span>Precise</span>
+<span>Creative</span>
+</div>
+</div>
+<!-- Max Tokens Slider -->
+<div class="space-y-3 pt-2">
+<div class="flex justify-between items-center">
+<span class="text-slate-300 text-sm">Response Length (Max Tokens)</span>
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded text-xs font-mono">2048</span>
+</div>
+<div class="relative flex items-center">
+<div class="h-1.5 w-full bg-modal-border rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[50%]"></div>
+</div>
+<div class="absolute left-[50%] -ml-2 w-4 h-4 bg-white rounded-full shadow-lg border-2 border-primary"></div>
+</div>
+<div class="flex justify-between text-[10px] text-slate-500 uppercase tracking-wider">
+<span>Short</span>
+<span>Long</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="p-6 border-t border-modal-border bg-modal-bg flex items-center justify-end gap-3">
+<button class="px-5 py-2.5 rounded-lg border border-modal-border text-slate-300 hover:bg-modal-border hover:text-white transition-all text-sm font-medium">
+                    Cancel
+                </button>
+<button class="px-5 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white transition-all text-sm font-medium shadow-lg shadow-primary/20">
+                    Save Changes
+                </button>
+</div>
+</div>
+</div>
+</body></html>
