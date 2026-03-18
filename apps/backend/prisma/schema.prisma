@@ -12,6 +12,7 @@ model Conversation {
   id            String    @id @default(uuid())
   name          String
   userId        String?
+  deviceId      String?
   systemPrompt  String?
   autoPrompt    String?
   contextToken  Int       @default(4096)
@@ -21,11 +22,35 @@ model Conversation {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   user          User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  device        Device?   @relation(fields: [deviceId], references: [id], onDelete: SetNull)
   messages      Message[]
 
   @@map("conversations")
 }
 
+
+// Device model
+model Device {
+  id                String         @id @default(uuid())
+  deviceId          String         @unique
+  browser           String?
+  os                String?
+  language          String?
+  timezone          String?
+  screenResolution  String?
+  ipAddress         String?
+  lastSeen          DateTime       @default(now())
+  isOnline          Boolean        @default(false)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  user              User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId            String?
+
+  conversations     Conversation[]
+
+  @@map("devices")
+}
 
 // Message model
 model Message {
@@ -43,17 +68,17 @@ model Message {
 
 // User model
 model User {
-  id            String   @id @default(uuid())
-  email         String?  @unique
-  password      String?  @map("password")
-  display_name  String?  @map("display_name")
-  firebase_uid  String?  @unique @map("firebase_uid")
-  photo_url     String?  @map("photo_url")
-  provider      String?
-  created_at    DateTime @default(now()) @map("created_at")
-  updated_at    DateTime @updatedAt @map("updated_at")
+  id           String        @id @default(uuid())
+  email        String?       @unique
+  password     String?
+  displayName  String?
+  firebaseUid  String?       @unique
+  photoUrl     String?
+  provider     String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   conversations Conversation[]
+  devices      Device[]
 
-  @@index([email])
-  @@map("user")
+  @@map("users")
 }

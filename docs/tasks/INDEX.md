@@ -21,9 +21,8 @@
 
 | ID | Feature | Task | Status |
 |----|---------|------|--------|
-| FT-009-T01 | FT-009 | ai-service-refactor | ✅ done |
-| FT-010-T01 | FT-010 | message-processing | ✅ done |
-| FT-008-T01 | FT-008 | profile-management | ⏳ pending |
+| FT-009-T01 | FT-009 | ai-service-refactor | ⏳ pending |
+| FT-008-T01 | FT-008 | message-processing | ⏳ pending |
 
 ## Chi tiết
 

@@ -11,7 +11,7 @@ export class AuthController {
   async register(@Body() body: { email: string; password: string; displayName?: string }) {
     const user = await this.authService.register(body.email, body.password, body.displayName);
     const token = this.authService.generateJwtToken(user);
-    return { user: { id: user.id, email: user.email, displayName: user.display_name, photoUrl: user.photo_url }, token };
+    return { user: { id: user.id, email: user.email, displayName: user.displayName, photoUrl: user.photoUrl }, token };
   }
 
   @Post('login')
@@ -21,14 +21,14 @@ export class AuthController {
       throw new Error('Invalid credentials');
     }
     const token = this.authService.generateJwtToken(user);
-    return { user: { id: user.id, email: user.email, displayName: user.display_name, photoUrl: user.photo_url }, token };
+    return { user: { id: user.id, email: user.email, displayName: user.displayName, photoUrl: user.photoUrl }, token };
   }
 
   @Post('google')
   async googleLogin(@Body() body: { idToken: string }) {
     const user = await this.authService.firebaseLogin(body.idToken);
     const token = this.authService.generateJwtToken(user);
-    return { user: { id: user.id, email: user.email, displayName: user.display_name, photoUrl: user.photo_url }, token };
+    return { user: { id: user.id, email: user.email, displayName: user.displayName, photoUrl: user.photoUrl }, token };
   }
 
   @Post('logout')
@@ -50,6 +50,6 @@ export class AuthController {
   async updateProfile(@Req() req: Request, @Body() body: { displayName?: string; photoUrl?: string }) {
     const userId = req.user['sub'];
     const user = await this.authService.updateProfile(userId, body.displayName, body.photoUrl);
-    return { user: { id: user.id, email: user.email, displayName: user.display_name, photoUrl: user.photo_url } };
+    return { user: { id: user.id, email: user.email, displayName: user.displayName, photoUrl: user.photoUrl } };
   }
 }

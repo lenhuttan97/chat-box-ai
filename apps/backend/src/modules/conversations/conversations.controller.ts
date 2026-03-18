@@ -11,13 +11,26 @@ import {
   HttpCode,
   HttpStatus,
   Logger,
+  Req,
+  Headers,
 } from '@nestjs/common'
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { ConversationsService } from './conversations.service'
 import { AiService } from '../ai/ai.service'
+import { DeviceService } from '../device/device.service'
 import { CreateConversationDto } from './dto/request/create-conversation.dto'
 import { UpdateConversationDto } from './dto/request/update-conversation.dto'
 import { CreateMessageDto } from './dto/request/create-message.dto'
+
+interface DeviceInfo {
+  deviceId: string
+  browser?: string
+  os?: string
+  language?: string
+  timezone?: string
+  screenResolution?: string
+  ipAddress?: string
+}
 
 @Controller()
 export class ConversationsController {
@@ -26,6 +39,7 @@ export class ConversationsController {
   constructor(
     private readonly conversationsService: ConversationsService,
     private readonly aiService: AiService,
+    private readonly deviceService: DeviceService,
   ) {}
 
   @Post('conversations')
@@ -55,6 +69,18 @@ export class ConversationsController {
     const sizeNum = parseInt(size, 10) || 10
     const result = await this.conversationsService.findConversationsByUserId(userId, pageNum, sizeNum)
     return { data: result.data, message: 'User conversations retrieved', statusCode: HttpStatus.OK, totalElement: result.totalElement }
+  }
+
+  @Get('conversations/device/:deviceId')
+  async findConversationsByDeviceId(
+    @Param('deviceId') deviceId: string,
+    @Query('page') page: string = '1',
+    @Query('size') size: string = '10',
+  ) {
+    const pageNum = parseInt(page, 10) || 1
+    const sizeNum = parseInt(size, 10) || 10
+    const result = await this.conversationsService.findConversationsByDeviceId(deviceId, pageNum, sizeNum)
+    return { data: result.data, message: 'Device conversations retrieved', statusCode: HttpStatus.OK, totalElement: result.totalElement }
   }
 
   @Get('conversations/:id')
@@ -89,7 +115,12 @@ export class ConversationsController {
   }
 
   @Post('conversation/messages')
-  async sendMessage(@Body() body: { message: string; conversation_id?: string }, @Res() res: Response) {
+  async sendMessage(
+    @Body() body: { message: string; conversation_id?: string },
+    @Headers('x-device-info') deviceInfoHeader: string,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
     const { message, conversation_id } = body
 
     if (!message) {
@@ -104,6 +135,29 @@ export class ConversationsController {
     res.setHeader('Cache-Control', 'no-cache')
     res.setHeader('Connection', 'keep-alive')
 
+    let deviceInfo: DeviceInfo | null = null
+    let deviceId: string | undefined
+
+    if (deviceInfoHeader) {
+      try {
+        deviceInfo = JSON.parse(deviceInfoHeader) as DeviceInfo
+        deviceId = deviceInfo.deviceId
+
+        const device = await this.deviceService.findOrCreate({
+          deviceId: deviceInfo.deviceId,
+          browser: deviceInfo.browser,
+          os: deviceInfo.os,
+          language: deviceInfo.language,
+          timezone: deviceInfo.timezone,
+          screenResolution: deviceInfo.screenResolution,
+          ipAddress: req.ip || undefined,
+        })
+        deviceId = device.deviceId
+      } catch (error) {
+        this.logger.warn('Failed to parse device info', error)
+      }
+    }
+
     let conversationId = conversation_id
     let conversationSettings = {
       systemPrompt: undefined as string | undefined,
@@ -112,9 +166,11 @@ export class ConversationsController {
     }
 
     if (!conversationId) {
-      const conversation = await this.conversationsService.createConversation({
+      const createDto: CreateConversationDto = {
         name: message.substring(0, 50),
-      })
+        deviceId: deviceId,
+      }
+      const conversation = await this.conversationsService.createConversation(createDto)
       conversationId = conversation.id
       res.write(`data: ${JSON.stringify({ conversationId })}\n\n`)
     } else {
