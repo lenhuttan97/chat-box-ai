@@ -6,26 +6,26 @@
 |--------|---------|
 | ID | FT-009 |
 | Tên | AI Service Refactor |
-| Trạng thái | pending |
+| Trạng thái | ✅ completed |
 | Priority | high |
 
 ## Tiến độ
 
 | Loại | Trạng thái |
 |------|-------------|
-| Feature (FT-009) | pending |
-| Task (T001) | pending |
-| Task (T002) | pending |
-| Task (T003) | pending |
+| Feature (FT-009) | ✅ completed |
+| Task (T001) | ✅ done |
+| Task (T002) | ✅ done |
+| Task (T003) | ✅ done |
 | Task (T004) | pending |
 
 ## Files
 
 | File | Mô tả | Trạng thái |
 |------|-------|-------------|
-| [T001_refactor-ai-service.md](./T001-refactor-ai-service.md) | Refactor AiService | pending |
-| [T002_ai-provider-factory.md](./T002-ai-provider-factory.md) | Factory pattern | pending |
-| [T003_enhance-error-handling.md](./T003-enhance-error-handling.md) | Error handling | pending |
+| [T001_refactor-ai-service.md](./T001-refactor-ai-service.md) | Refactor AiService | ✅ done |
+| [T002_ai-provider-factory.md](./T002-ai-provider-factory.md) | Factory pattern | ✅ done |
+| [T003_enhance-error-handling.md](./T003-enhance-error-handling.md) | Error handling | ✅ done |
 | [T004_api-key-pool.md](./T004-api-key-pool.md) | API Key Pool Manager | pending |
 
 ## ⚠️ Important Notes

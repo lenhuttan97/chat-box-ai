@@ -1,6 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common'
+import { Injectable, Logger, BadRequestException, ServiceUnavailableException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { GeminiProvider } from './providers/gemini.provider'
+import { AIProvider, GenerateOptions, AnalyzeResult } from './providers/ai-provider.interface'
+import { AiProviderFactory } from './providers/ai-provider-factory'
 
 export interface StreamChunk {
   chunk?: string
@@ -11,6 +12,7 @@ export interface StreamChunk {
 export interface SendMessageOptions {
   message: string
   conversationId?: string
+  provider?: string
   history?: Array<{ role: string; content: string }>
   systemPrompt?: string
   temperature?: number
@@ -18,7 +20,7 @@ export interface SendMessageOptions {
 }
 
 export interface AnalyzeContextResponse {
-  'context': string
+  context: string
   contextToken: number
   temperature: number
   maxTokens: number
@@ -30,22 +32,31 @@ export class AiService {
 
   constructor(
     private readonly configService: ConfigService,
-    private readonly geminiProvider: GeminiProvider,
+    private readonly providerFactory: AiProviderFactory,
   ) {}
 
   async *sendMessage(options: SendMessageOptions): AsyncGenerator<StreamChunk> {
     this.logger.log(`Sending message: ${options.message.substring(0, 50)}...`)
 
+    this.validateMessageOptions(options)
+
+    const providerName = options.provider || 'gemini'
+    const provider = this.providerFactory.getProvider(providerName)
+
+    this.logger.log(`Using provider: ${provider.name}`)
+
     const fullHistory = this.buildHistory(options)
 
     try {
-      const stream = await this.geminiProvider.generateStream({
+      const generateOptions: GenerateOptions = {
         message: options.message,
         history: fullHistory,
         systemPrompt: options.systemPrompt,
         temperature: options.temperature,
         maxTokens: options.maxTokens,
-      })
+      }
+
+      const stream = provider.generateStream(generateOptions)
 
       for await (const chunk of stream) {
         yield { chunk }
@@ -53,8 +64,26 @@ export class AiService {
 
       yield { done: true }
     } catch (error) {
-      this.logger.error('Error generating response', error)
-      throw error
+      this.logger.error(`Error generating response from ${provider.name}`, error)
+      throw new ServiceUnavailableException('AI service unavailable')
+    }
+  }
+
+  private validateMessageOptions(options: SendMessageOptions): void {
+    if (!options.message || options.message.trim().length === 0) {
+      throw new BadRequestException('Message cannot be empty')
+    }
+
+    if (options.message.length > 100000) {
+      throw new BadRequestException('Message too long (max 100000 characters)')
+    }
+
+    if (options.temperature !== undefined && (options.temperature < 0 || options.temperature > 2)) {
+      throw new BadRequestException('Temperature must be between 0 and 2')
+    }
+
+    if (options.maxTokens !== undefined && options.maxTokens < 1) {
+      throw new BadRequestException('maxTokens must be at least 1')
     }
   }
 
@@ -91,14 +120,16 @@ Conversation history:
 ${historyText}`
 
     try {
-      const result = await this.geminiProvider.generateContent(prompt)
+      const provider = this.providerFactory.getProvider('gemini')
+      const result = await provider.generateContent(prompt)
+
       this.logger.log(`AI analysis result: ${result}`)
       const jsonMatch = result.match(/\{[\s\S]*\}/)
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0])
         this.logger.log(`Parsed context: ${JSON.stringify(parsed)}`)
         return {
-          'context': parsed['context'] || '',
+          context: parsed['context'] || '',
           contextToken: parsed.contextToken || 4096,
           temperature: parsed.temperature || 0.7,
           maxTokens: parsed.maxTokens || 2048,
@@ -114,7 +145,7 @@ ${historyText}`
 
   private getDefaultContext(): AnalyzeContextResponse {
     return {
-      'context': '',
+      context: '',
       contextToken: 4096,
       temperature: 0.7,
       maxTokens: 2048,
