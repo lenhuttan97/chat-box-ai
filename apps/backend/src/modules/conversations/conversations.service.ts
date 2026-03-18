@@ -24,6 +24,12 @@ export class ConversationsService {
     return this.toConversationResponse(conversation)
   }
 
+  async findConversationsByDeviceId(deviceId: string, page: number = 1, size: number = 10): Promise<PaginatedResult<ConversationResponseDto>> {
+    this.logger.log(`Finding conversations for device: ${deviceId} - page: ${page}, size: ${size}`)
+    const { data, total } = await this.conversationsRepository.findConversationsByDeviceId(deviceId, page, size)
+    return { data: data.map((c) => this.toConversationResponse(c)), totalElement: total }
+  }
+
   async findAllConversations(page: number = 1, size: number = 10): Promise<PaginatedResult<ConversationResponseDto>> {
     this.logger.log(`Finding all conversations - page: ${page}, size: ${size}`)
     const { data, total } = await this.conversationsRepository.findAllConversations(page, size)
@@ -105,6 +111,7 @@ export class ConversationsService {
       id: string
       name: string
       userId: string | null
+      deviceId: string | null
       systemPrompt: string | null
       autoPrompt: string | null
       contextToken: number
@@ -127,6 +134,7 @@ export class ConversationsService {
       id: conversation.id,
       name: conversation.name,
       userId: conversation.userId,
+      deviceId: conversation.deviceId,
       systemPrompt: conversation.systemPrompt,
       autoPrompt: conversation.autoPrompt,
       contextToken: conversation.contextToken,

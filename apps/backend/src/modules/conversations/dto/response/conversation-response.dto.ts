@@ -4,6 +4,7 @@ export class ConversationResponseDto {
   id: string
   name: string
   userId: string | null
+  deviceId: string | null
   systemPrompt: string | null
   autoPrompt: string | null
   contextToken: number

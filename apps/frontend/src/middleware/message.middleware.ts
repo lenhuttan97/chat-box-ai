@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie'
+import { getDeviceInfo } from '../utils/device'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api'
 
@@ -17,14 +18,15 @@ export const messageService = {
     onChunk: (chunk: string, conversationId: string) => void,
     onDone: (conversationId: string) => void,
   ): Promise<string> {
-    // Get token from cookie (set by Firebase auth service)
     const token = Cookies.get('token')
+    const deviceInfo = getDeviceInfo()
     
     const response = await fetch(`${API_URL}/v1/conversation/messages`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'X-Device-Info': JSON.stringify(deviceInfo),
       },
       body: JSON.stringify({ message, conversation_id: conversationId }),
     })
@@ -79,8 +81,12 @@ export const messageService = {
   async getMessages(conversationId: string): Promise<Message[]> {
     const { default: axios } = await import('axios')
     const token = Cookies.get('token')
+    const deviceInfo = getDeviceInfo()
     const response = await axios.get(`${API_URL}/v1/conversations/${conversationId}/messages`, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        'X-Device-Info': JSON.stringify(deviceInfo),
+      }
     })
     return response.data.data
   },

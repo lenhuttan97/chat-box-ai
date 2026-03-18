@@ -23,7 +23,7 @@ export class UsersRepository {
   }
 
 async findByFirebaseUid(firebaseUid: string): Promise<User | null> {
-    return this.prisma.user.findUnique({ where: { firebase_uid: firebaseUid } });
+    return this.prisma.user.findUnique({ where: { firebaseUid: firebaseUid } });
   }
 
   async update(id: string, data: Prisma.UserUpdateInput): Promise<User> {

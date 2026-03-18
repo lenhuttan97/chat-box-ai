@@ -6,23 +6,23 @@
 |--------|---------|
 | ID | FT-005 |
 | Tên | Anonymous + Device Tracking |
-| Trạng thái | pending |
+| Trạng thái | ✅ completed |
 | Priority | medium |
 
 ## Tiến độ
 
 | Loại | Trạng thái |
 |------|-------------|
-| Feature (FT-005) | pending |
-| Task (T001) | pending |
+| Feature (FT-005) | ✅ completed |
+| Task (T001) | ✅ completed |
 
 ## Files
 
 | File | Mô tả | Trạng thái |
 |------|-------|-------------|
-| [FT-005.md](./FT-005.md) | Feature specification | pending |
-| [api.md](./api.md) | API Documentation | - |
-| [T001-device-tracking.md](../tasks/device-tracking/T001-device-tracking.md) | Task Implementation | pending |
+| [FT-005.md](./FT-005.md) | Feature specification | ✅ completed |
+| [api.md](./api.md) | API Documentation | ✅ completed |
+| [T001-device-tracking.md](../tasks/device-tracking/T001-device-tracking.md) | Task Implementation | ✅ completed |
 
 ## Related
 
