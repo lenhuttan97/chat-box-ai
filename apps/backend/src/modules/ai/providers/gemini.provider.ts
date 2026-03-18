@@ -1,17 +1,10 @@
 import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { GoogleGenerativeAI } from '@google/generative-ai'
-
-export interface GenerateStreamOptions {
-  message: string
-  history?: Array<{ role: string; parts: Array<{ text: string }> }>
-  systemPrompt?: string
-  temperature?: number
-  maxTokens?: number
-}
+import { AIProvider, GenerateOptions } from './ai-provider.interface'
 
 @Injectable()
-export class GeminiProvider {
+export class GeminiProvider implements AIProvider {
   private readonly logger = new Logger(GeminiProvider.name)
   private readonly genAI: GoogleGenerativeAI
   private readonly modelName = 'gemini-3.1-flash-lite-preview'
@@ -24,7 +17,11 @@ export class GeminiProvider {
     this.genAI = new GoogleGenerativeAI(apiKey)
   }
 
-  async *generateStream(options: GenerateStreamOptions): AsyncGenerator<string> {
+  get name(): string {
+    return 'gemini'
+  }
+
+  async *generateStream(options: GenerateOptions): AsyncGenerator<string> {
     const generationConfig = {
       temperature: options.temperature ?? 0.7,
       maxOutputTokens: options.maxTokens ?? 2048,
