@@ -7,11 +7,11 @@
 
 | Phase | Description | Details | Status |
 |-------|-------------|---------|--------|
-| P1 | Input Validation | Validate prompt, options before processing | ⏳ pending |
-| P2 | Error Mapping | Convert provider errors to user-friendly messages | ⏳ pending |
-| P3 | Retry Logic | Add retry with exponential backoff | ⏳ pending |
-| P4 | Rate Limiting | Handle rate limit errors gracefully | ⏳ pending |
+| P1 | Input Validation | Validate prompt, options before processing | ✅ done |
+| P2 | Error Mapping | Convert provider errors to user-friendly messages | ✅ done |
+| P3 | Retry Logic | Add retry with exponential backoff | pending |
+| P4 | Rate Limiting | Handle rate limit errors gracefully | pending |
 
 ## Status
 
-**⏳ pending**
+**🔄 partial** (P1, P2 done; P3, P4 pending)
