@@ -12,11 +12,8 @@ import {
   HttpStatus,
   Logger,
   Req,
-  Headers,
-  Req,
-  Headers,
+  Headers
 } from '@nestjs/common'
-import { Response, Request } from 'express'
 import { Response, Request } from 'express'
 import { ConversationsService } from './conversations.service'
 import { AiService } from '../ai/ai.service'
