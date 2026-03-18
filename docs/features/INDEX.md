@@ -4,8 +4,8 @@
 
 | ID | Tên tính năng | Type | Trạng thái | Priority |
 |----|----------------|------|-------------|----------|
-| FT-001 | Chat với Gemini Streaming | Full | ⏳ pending (bugs) | high |
-| FT-002 | Authentication (Firebase) | Full | ⏳ pending (T002,T003) | high |
+| FT-001 | Chat với Gemini Streaming | Full | ⏳ pending (bugs) | low |
+| FT-002 | Authentication (Firebase) | Full | ✅ completed | high |
 | FT-003 | Chat Settings (Cài đặt đoạn chat) | Full | ✅ completed | high |
 | FT-004 | Auto Chat Settings (Tự động cài đặt) | BE | ⏳ pending | medium |
 | FT-005 | Anonymous + Device Tracking | Full | ✅ completed | medium |

@@ -7,12 +7,12 @@
 
 | Phase | Description | Details | Status |
 |-------|-------------|---------|--------|
-| P1 | Define AIProvider Interface | Create common interface for all providers | ⏳ pending |
-| P2 | Implement Gemini Provider | Refactor existing GeminiProvider | ⏳ pending |
-| P3 | Implement Ollama Provider | Add Ollama support | ⏳ pending |
-| P4 | Implement OpenAI Provider | Add OpenAI support | ⏳ pending |
-| P5 | Create Factory | AIProviderFactory for provider selection | ⏳ pending |
+| P1 | Define AIProvider Interface | Create common interface for all providers | ✅ done |
+| P2 | Implement Gemini Provider | Refactor existing GeminiProvider | ✅ done |
+| P3 | Implement Ollama Provider | Add Ollama support | pending (FT-006) |
+| P4 | Implement OpenAI Provider | Add OpenAI support | pending (FT-006) |
+| P5 | Create Factory | AIProviderFactory for provider selection | ✅ done |
 
 ## Status
 
-**⏳ pending** (depends on FT-009-T01)
+**✅ done** (completed 2026-03-18)
