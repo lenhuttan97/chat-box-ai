@@ -69,8 +69,8 @@ interface IntentResult {
 
 ## Acceptance Criteria
 
-- [ ] Detect ≥ 5 intents cơ bản
-- [ ] Confidence score cho mỗi prediction
-- [ ] Default fallback cho unknown messages
-- [ ] Xử lý trong < 50ms
-- [ ] Unit tests cho mỗi intent pattern
+- [x] Detect ≥ 5 intents cơ bản
+- [x] Confidence score cho mỗi prediction
+- [x] Default fallback cho unknown messages
+- [x] Xử lý trong < 50ms
+- [x] Unit tests cho mỗi intent pattern

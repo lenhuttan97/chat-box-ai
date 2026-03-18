@@ -103,9 +103,9 @@ function buildDecomposedPrompt(subQuestions: SubQuestion[]): string {
 
 ## Acceptance Criteria
 
-- [ ] Detect khi nào cần decompose
-- [ ] Tách đúng ≥ 80% cases đơn giản
-- [ ] Preserve order ưu tiên
-- [ ] Handle dependencies (question B phụ thuộc A)
-- [ ] Fallback graceful khi không decompose được
-- [ ] Performance < 200ms
+- [x] Detect khi nào cần decompose
+- [x] Tách đúng ≥ 80% cases đơn giản
+- [x] Preserve order ưu tiên
+- [x] Handle dependencies (question B phụ thuộc A)
+- [x] Fallback graceful khi không decompose được
+- [x] Performance < 200ms
