@@ -11,13 +11,27 @@ import {
   HttpCode,
   HttpStatus,
   Logger,
+  Req,
+  Headers,
 } from '@nestjs/common'
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { ConversationsService } from './conversations.service'
 import { AiService } from '../ai/ai.service'
+import { DeviceService } from '../device/device.service'
+import { MessageProcessorService } from '../message-processing/message-processor.service'
 import { CreateConversationDto } from './dto/request/create-conversation.dto'
 import { UpdateConversationDto } from './dto/request/update-conversation.dto'
 import { CreateMessageDto } from './dto/request/create-message.dto'
+
+interface DeviceInfo {
+  deviceId: string
+  browser?: string
+  os?: string
+  language?: string
+  timezone?: string
+  screenResolution?: string
+  ipAddress?: string
+}
 
 @Controller()
 export class ConversationsController {
@@ -26,6 +40,8 @@ export class ConversationsController {
   constructor(
     private readonly conversationsService: ConversationsService,
     private readonly aiService: AiService,
+    private readonly deviceService: DeviceService,
+    private readonly messageProcessor: MessageProcessorService,
   ) {}
 
   @Post('conversations')
@@ -199,11 +215,24 @@ export class ConversationsController {
       this.logger.log('Skipping auto-analyze')
     }
 
+    let processedMessage = message
+    try {
+      const processingResult = await this.messageProcessor.process(
+        message,
+        conversationId,
+        history,
+      )
+      processedMessage = processingResult.processedMessage
+      this.logger.log(`Intent: ${processingResult.intent.intent}, Handler: ${processingResult.route.handler}`)
+    } catch (error) {
+      this.logger.warn('Message processing failed, using original message', error)
+    }
+
     let fullResponse = ''
 
     try {
       for await (const chunk of this.aiService.sendMessage({ 
-        message, 
+        message: processedMessage, 
         conversationId, 
         history,
         ...conversationSettings,

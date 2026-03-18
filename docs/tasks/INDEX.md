@@ -13,16 +13,16 @@
 
 | ID | Feature | Task | Status |
 |----|---------|------|--------|
-| FT-005-T01 | FT-005 | device-tracking | ⏳ pending |
-| FT-006-T01 | FT-006 | ai-provider | 🔄 in-progress |
+| FT-005-T01 | FT-005 | device-tracking | ✅ done |
+| FT-006-T01 | FT-006 | ai-provider | ⏳ pending |
 | FT-007-T01 | FT-007 | file-preprocessing | ⏳ pending |
 
 ## Phase 3: Advanced
 
 | ID | Feature | Task | Status |
 |----|---------|------|--------|
-| FT-009-T01 | FT-009 | ai-service-refactor | ⏳ pending |
-| FT-008-T01 | FT-008 | message-processing | ⏳ pending |
+| FT-009-T01 | FT-009 | ai-service-refactor | ✅ done |
+| FT-010-T01 | FT-010 | message-processing | ✅ done |
 
 ## Chi tiết
 

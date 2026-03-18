@@ -169,9 +169,9 @@ function calculateRelevance(query: string, content: string): number {
 
 ## Acceptance Criteria
 
-- [ ] Collect contexts từ ≥ 3 sources
-- [ ] Relevance scoring hoạt động
-- [ ] Token budget không vượt quá
-- [ ] Fallback graceful khi context không có
-- [ ] Performance < 300ms
-- [ ] Handle empty contexts
+- [x] Collect contexts từ ≥ 3 sources
+- [x] Relevance scoring hoạt động
+- [x] Token budget không vượt quá
+- [x] Fallback graceful khi context không có
+- [x] Performance < 300ms
+- [x] Handle empty contexts

@@ -105,10 +105,10 @@ AI Provider (Gemini/Ollama/OpenAI)
 
 | ID | Task | Description | Status |
 |----|------|-------------|--------|
-| T001 | Intent Detection | Phát hiện ý định user | pending |
-| T002 | Question Decomposition | Tách câu hỏi phức tạp | pending |
-| T003 | Context Augmentation | Bổ sung context tự động | pending |
-| T004 | Message Router | Route đến handler phù hợp | pending |
+| T001 | Intent Detection | Phát hiện ý định user | ✅ done |
+| T002 | Question Decomposition | Tách câu hỏi phức tạp | ✅ done |
+| T003 | Context Augmentation | Bổ sung context tự động | ✅ done |
+| T004 | Message Router | Route đến handler phù hợp | ✅ done |
 
 ---
 
