@@ -3,6 +3,7 @@ model Conversation {
   id            String    @id @default(uuid())
   name          String
   userId        String?
+  deviceId      String?
   systemPrompt  String?
   autoPrompt    String?
   contextToken  Int       @default(4096)
@@ -12,6 +13,7 @@ model Conversation {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   user          User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  device        Device?   @relation(fields: [deviceId], references: [id], onDelete: SetNull)
   messages      Message[]
 
   @@map("conversations")

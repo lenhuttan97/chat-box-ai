@@ -38,6 +38,20 @@ export class ConversationsRepository {
     return { data, total }
   }
 
+  async findConversationsByDeviceId(deviceId: string, page: number = 1, size: number = 10): Promise<{ data: Conversation[]; total: number }> {
+    const skip = (page - 1) * size
+    const [data, total] = await Promise.all([
+      this.prisma.conversation.findMany({
+        where: { deviceId },
+        skip,
+        take: size,
+        orderBy: { updatedAt: 'desc' },
+      }),
+      this.prisma.conversation.count({ where: { deviceId } }),
+    ])
+    return { data, total }
+  }
+
   async findConversationById(id: string) {
     return this.prisma.conversation.findUnique({
       where: { id },

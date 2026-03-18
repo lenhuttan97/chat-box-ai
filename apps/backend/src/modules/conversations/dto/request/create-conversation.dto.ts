@@ -10,6 +10,10 @@ export class CreateConversationDto {
 
   @IsString()
   @IsOptional()
+  deviceId?: string
+
+  @IsString()
+  @IsOptional()
   systemPrompt?: string
 
   @IsString()

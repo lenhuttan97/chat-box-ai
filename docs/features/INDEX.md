@@ -8,7 +8,7 @@
 | FT-002 | Authentication (Firebase) | Full | ⏳ pending (T002,T003) | high |
 | FT-003 | Chat Settings (Cài đặt đoạn chat) | Full | ✅ completed | high |
 | FT-004 | Auto Chat Settings (Tự động cài đặt) | BE | ⏳ pending | medium |
-| FT-005 | Anonymous + Device Tracking | Full | ⏳ pending | medium |
+| FT-005 | Anonymous + Device Tracking | Full | ✅ completed | medium |
 | FT-006 | AI Provider Selection (Ollama) | BE | ⏳ pending | high |
 | FT-007 | File Preprocessing | Full | ⏳ pending | low |
 | FT-008 | Profile Management | Full | ⏳ pending (T005) | medium |
@@ -25,7 +25,7 @@
 | [auth-firebase](./auth-firebase/index.md) | Full | ⏳ pending | Tasks: T002, T003 |
 | [chat-settings](./chat-settings/index.md) | Full | ⏳ pending | Tasks: T001 |
 | [auto-chat-settings](./auto-chat-settings/index.md) | BE | ⏳ pending | - |
-| [device-tracking](./device-tracking/index.md) | Full | ⏳ pending | - |
+| [device-tracking](./device-tracking/index.md) | Full | ✅ completed | - |
 | [ai-provider](./ai-provider/index.md) | BE | ⏳ pending | - |
 | [file-preprocessing](./file-preprocessing/index.md) | Full | ⏳ pending | - |
 | [profile](./profile/index.md) | Full | ⏳ pending | Tasks: T005 |

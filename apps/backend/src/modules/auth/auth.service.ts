@@ -71,16 +71,15 @@ export class AuthService {
       const firebaseUid = decodedToken.uid;
       
       // Kiểm tra xem user đã tồn tại trong DB chưa
-      let user = await this.prisma.user.findUnique({ where: { firebase_uid: firebaseUid } });
+      let user = await this.prisma.user.findUnique({ where: { firebaseUid: firebaseUid } });
       
       if (!user) {
-        // Tạo user mới từ Firebase token
         user = await this.prisma.user.create({
           data: {
             email: decodedToken.email,
-            firebase_uid: firebaseUid,
-            display_name: decodedToken.name,
-            photo_url: decodedToken.picture,
+            firebaseUid: firebaseUid,
+            displayName: decodedToken.name,
+            photoUrl: decodedToken.picture,
             provider: decodedToken.firebase?.sign_in_provider || 'google',
           },
         });
@@ -108,7 +107,7 @@ export class AuthService {
       data: {
         email,
         password: hashedPassword,
-        display_name: displayName,
+        displayName: displayName,
         provider: 'email',
       },
     });
@@ -138,8 +137,8 @@ export class AuthService {
     return this.prisma.user.update({
       where: { id: userId },
       data: {
-        display_name: displayName,
-        photo_url: photoUrl,
+        displayName: displayName,
+        photoUrl: photoUrl,
       },
     });
   }
