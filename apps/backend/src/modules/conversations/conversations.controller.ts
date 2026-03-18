@@ -164,7 +164,7 @@ export class ConversationsController {
           screenResolution: deviceInfo.screenResolution,
           ipAddress: req.ip || undefined,
         })
-        deviceId = device.deviceId
+        deviceId = device.id
       } catch (error) {
         this.logger.warn('Failed to parse device info', error)
       }

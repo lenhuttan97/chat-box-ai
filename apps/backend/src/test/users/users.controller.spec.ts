@@ -10,11 +10,12 @@ describe('UsersController', () => {
   const mockUser = {
     id: 'user-1',
     email: 'test@example.com',
-    display_name: 'Test User',
-    photo_url: null,
+    displayName: 'Test User',
+    photoUrl: null,
     provider: 'firebase',
-    created_at: new Date(),
-    updated_at: new Date(),
+    themeSetting: 'auto',
+    createdAt: new Date(),
+    updatedAt: new Date(),
   }
 
   beforeEach(async () => {
@@ -76,15 +77,15 @@ describe('UsersController', () => {
   })
 
   describe('update', () => {
-it('should update user', async () => {
-       service.update.mockResolvedValue({ ...mockUser, display_name: 'Updated' } as any)
+    it('should update user', async () => {
+       service.update.mockResolvedValue({ ...mockUser, displayName: 'Updated' } as any)
 
-       const result = await controller.update('user-1', { display_name: 'Updated' })
+       const result = await controller.update('user-1', { displayName: 'Updated' })
 
-       expect(service.update).toHaveBeenCalledWith('user-1', { display_name: 'Updated' })
+       expect(service.update).toHaveBeenCalledWith('user-1', { displayName: 'Updated' })
        expect(result.statusCode).toBe(HttpStatus.OK)
      })
-  })
+   })
 
   describe('remove', () => {
     it('should delete user', async () => {

@@ -11,17 +11,21 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  display_name?: string
+  displayName?: string
 
   @IsString()
   @IsOptional()
-  firebase_uid?: string
+  firebaseUid?: string
 
   @IsString()
   @IsOptional()
-  photo_url?: string
+  photoUrl?: string
 
   @IsString()
   @IsOptional()
   provider?: string
+
+  @IsString()
+  @IsOptional()
+  themeSetting?: string
 }

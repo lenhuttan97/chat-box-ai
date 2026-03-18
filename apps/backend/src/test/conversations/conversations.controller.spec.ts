@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { ConversationsController } from '../../modules/conversations/conversations.controller'
 import { ConversationsService } from '../../modules/conversations/conversations.service'
 import { AiService } from '../../modules/ai/ai.service'
+import { DeviceService } from '../../modules/device/device.service'
+import { MessageProcessorService } from '../../modules/message-processing/message-processor.service'
 import { HttpStatus } from '@nestjs/common'
 
 describe('ConversationsController', () => {
@@ -13,6 +15,7 @@ describe('ConversationsController', () => {
     id: 'conv-1',
     name: 'Test Conversation',
     userId: 'user-1',
+    deviceId: null,
     systemPrompt: null,
     autoPrompt: null,
     contextToken: 4096,
@@ -36,17 +39,28 @@ describe('ConversationsController', () => {
       createConversation: jest.fn(),
       findAllConversations: jest.fn(),
       findConversationsByUserId: jest.fn(),
+      findConversationsByDeviceId: jest.fn(),
       findConversationById: jest.fn(),
       updateConversation: jest.fn(),
       deleteConversation: jest.fn(),
       createMessage: jest.fn(),
       findMessagesByConversationId: jest.fn(),
+      findMessagesByConversationIdNoPaginate: jest.fn(),
       deleteMessage: jest.fn(),
       countMessages: jest.fn(),
     }
 
     const mockAiService = {
       sendMessage: jest.fn(),
+      analyzeContext: jest.fn(),
+    }
+
+    const mockDeviceService = {
+      findOrCreate: jest.fn(),
+    }
+
+    const mockMessageProcessor = {
+      process: jest.fn(),
     }
 
     const module: TestingModule = await Test.createTestingModule({
@@ -54,6 +68,8 @@ describe('ConversationsController', () => {
       providers: [
         { provide: ConversationsService, useValue: mockConversationsService },
         { provide: AiService, useValue: mockAiService },
+        { provide: DeviceService, useValue: mockDeviceService },
+        { provide: MessageProcessorService, useValue: mockMessageProcessor },
       ],
     }).compile()
 

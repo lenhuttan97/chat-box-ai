@@ -22,6 +22,8 @@
 | BUG-003 | [BUG-003-message-list-jump.md](./BUG-003-message-list-jump.md) | Message list nhảy khi streaming |
 | BUG-004 | [BUG-004-conversation-list-rerender.md](./BUG-004-conversation-list-rerender.md) | Conversation list re-render không cần thiết |
 
+> **Lưu ý:** BUG-005 và BUG-006 đã được chuyển sang FT-005 (Device Tracking)
+
 ## Dependencies
 
 - BUG-001, BUG-002, BUG-003, BUG-004 có thể fix độc lập
