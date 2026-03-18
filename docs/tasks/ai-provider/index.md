@@ -10,4 +10,4 @@
 
 ## Status
 
-**🔄 in-progress** (depends on FT-009-T01 - AI Service Refactor)
+**⏳ pending** (depends on FT-009 - AI Service Refactor)

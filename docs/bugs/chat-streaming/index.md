@@ -8,10 +8,10 @@
 
 | Bug ID | Bug | Status |
 |--------|-----|--------|
-| BUG-001 | Missing Loading Effect | pending |
-| BUG-002 | Streaming Response Not Smooth | pending |
-| BUG-003 | Message List Jumps During Streaming | pending |
-| BUG-004 | Conversation List Re-renders During Streaming | pending |
+| BUG-001 | Missing Loading Effect | ✅ completed |
+| BUG-002 | Streaming Response Not Smooth | ✅ completed |
+| BUG-003 | Message List Jumps During Streaming | ✅ completed |
+| BUG-004 | Conversation List Re-renders During Streaming | ✅ completed |
 
 ## Chi tiết
 
