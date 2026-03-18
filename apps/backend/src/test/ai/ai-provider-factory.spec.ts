@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { AiProviderFactory } from './ai-provider-factory'
-import { GeminiProvider } from './gemini.provider'
+import { AiProviderFactory } from '../../modules/ai/providers/ai-provider-factory'
+import { GeminiProvider } from '../../modules/ai/providers/gemini.provider'
 import { ConfigService } from '@nestjs/config'
 
 const mockConfigService = () => ({

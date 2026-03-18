@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { ConfigService } from '@nestjs/config'
 import { BadRequestException } from '@nestjs/common'
-import { AiService, SendMessageOptions } from './ai.service'
-import { AiProviderFactory } from './providers/ai-provider-factory'
-import { AIProvider } from './providers/ai-provider.interface'
+import { AiService, SendMessageOptions } from '../../modules/ai/ai.service'
+import { AiProviderFactory } from '../../modules/ai/providers/ai-provider-factory'
+import { AIProvider } from '../../modules/ai/providers/ai-provider.interface'
 
 const createMockProvider = (): AIProvider => {
   return {
