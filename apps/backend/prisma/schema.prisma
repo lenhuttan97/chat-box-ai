@@ -13,6 +13,8 @@ model Conversation {
   name          String
   userId        String?
   deviceId      String?
+  provider      String    @default("gemini")
+  model         String?
   systemPrompt  String?
   autoPrompt    String?
   contextToken  Int       @default(4096)
@@ -52,6 +54,22 @@ model Device {
   @@map("devices")
 }
 
+model File {
+  id            String   @id @default(uuid())
+  filename      String
+  originalName  String   @map("original_name")
+  mimeType      String   @map("mime_type")
+  size          Int
+  status        String   @default("processing")
+  extractedText String?  @map("extracted_text")
+  error         String?
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("files")
+}
+
+
 // Message model
 model Message {
   id              String       @id @default(uuid())
@@ -75,6 +93,7 @@ model User {
   firebaseUid  String?       @unique
   photoUrl     String?
   provider     String?
+  themeSetting String        @default("auto")
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   conversations Conversation[]

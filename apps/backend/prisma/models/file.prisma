@@ -1,0 +1,14 @@
+model File {
+  id            String   @id @default(uuid())
+  filename      String
+  originalName  String   @map("original_name")
+  mimeType      String   @map("mime_type")
+  size          Int
+  status        String   @default("processing")
+  extractedText String?  @map("extracted_text")
+  error         String?
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("files")
+}

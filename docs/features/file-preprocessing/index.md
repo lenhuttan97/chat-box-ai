@@ -6,15 +6,15 @@
 |--------|---------|
 | ID | FT-007 |
 | Tên | File Preprocessing |
-| Trạng thái | pending |
+| Trạng thái | ✅ completed |
 | Priority | high |
 
 ## Tiến độ
 
 | Loại | Trạng thái |
 |------|-------------|
-| Feature (FT-007) | pending |
-| Task (T001) | pending |
+| Feature (FT-007) | ✅ completed |
+| Task (T001) | ✅ done |
 
 ## Files
 
