@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { DeviceRepository } from './repository/device.repository'
+import { UsersService } from '../users/users.service'
 import { CreateDeviceDto } from './dto/request/create-device.dto'
 import { Device } from './models/device.model'
 
@@ -17,13 +18,26 @@ export interface DeviceInfo {
 export class DeviceService {
   private readonly logger = new Logger(DeviceService.name)
 
-  constructor(private readonly deviceRepository: DeviceRepository) {}
+  constructor(
+    private readonly deviceRepository: DeviceRepository,
+    private readonly usersService: UsersService,
+  ) {}
 
   async findOrCreate(dto: CreateDeviceDto): Promise<Device> {
     const existing = await this.deviceRepository.findByDeviceId(dto.deviceId)
 
     if (existing) {
       this.logger.log(`Device found: ${dto.deviceId}`)
+
+      if (!existing.userId) {
+        this.logger.log(`Creating virtual user for existing device: ${dto.deviceId}`)
+        const virtualUser = await this.usersService.create({
+          displayName: `Device ${dto.deviceId}`,
+          provider: 'device',
+        })
+        await this.deviceRepository.linkToUser(existing.id, virtualUser.id)
+      }
+
       return this.deviceRepository.update(existing.id, {
         browser: dto.browser,
         os: dto.os,
@@ -37,7 +51,7 @@ export class DeviceService {
     }
 
     this.logger.log(`Creating new device: ${dto.deviceId}`)
-    return this.deviceRepository.create({
+    const device = await this.deviceRepository.create({
       deviceId: dto.deviceId,
       browser: dto.browser,
       os: dto.os,
@@ -47,6 +61,15 @@ export class DeviceService {
       ipAddress: dto.ipAddress,
       isOnline: true,
     })
+
+    const virtualUser = await this.usersService.create({
+      displayName: `Device ${dto.deviceId}`,
+      provider: 'device',
+    })
+
+    await this.deviceRepository.linkToUser(device.id, virtualUser.id)
+
+    return this.deviceRepository.findById(device.id)
   }
 
   async findByUserId(userId: string): Promise<Device[]> {

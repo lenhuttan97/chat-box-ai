@@ -48,7 +48,7 @@ export class DeviceRepository {
 
   async linkToUser(deviceId: string, userId: string): Promise<Device> {
     return this.prisma.device.update({
-      where: { deviceId },
+      where: { id: deviceId },
       data: { userId },
     })
   }
