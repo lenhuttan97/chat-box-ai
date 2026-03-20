@@ -8,7 +8,7 @@
 | T-P002 | Update Display Name | ✅ completed |
 | T-P003 | Update Photo URL | ✅ completed |
 | T-P004 | Update Password | ✅ completed |
-| T-P005 | **Theme Settings (Device-aware)** | pending |
+| T-P005 | **Theme Settings (Device-aware)** | ✅ completed |
 
 ## T-P005: Theme Settings (Device-aware)
 
