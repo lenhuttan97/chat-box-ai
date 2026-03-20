@@ -7,6 +7,7 @@ model User {
   firebaseUid  String?       @unique
   photoUrl     String?
   provider     String?
+  themeSetting String        @default("auto")
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   conversations Conversation[]
