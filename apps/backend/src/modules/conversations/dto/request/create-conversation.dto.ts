@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNumber, IsUUID } from 'class-validator'
+import { IsString, IsOptional, IsNumber, IsUUID, IsIn } from 'class-validator'
 
 export class CreateConversationDto {
   @IsString()
@@ -11,6 +11,15 @@ export class CreateConversationDto {
   @IsString()
   @IsOptional()
   deviceId?: string
+
+  @IsString()
+  @IsOptional()
+  @IsIn(['gemini', 'ollama'])
+  provider?: string
+
+  @IsString()
+  @IsOptional()
+  model?: string
 
   @IsString()
   @IsOptional()

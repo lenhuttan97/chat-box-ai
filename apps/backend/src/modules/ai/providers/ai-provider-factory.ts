@@ -1,16 +1,21 @@
 import { Injectable, Logger, Provider } from '@nestjs/common'
 import { AIProvider } from './ai-provider.interface'
 import { GeminiProvider } from './gemini.provider'
+import { OllamaProvider } from './ollama.provider'
 
 @Injectable()
 export class AiProviderFactory {
   private readonly logger = new Logger(AiProviderFactory.name)
   private readonly providers: Map<string, AIProvider>
 
-  constructor(private readonly geminiProvider: GeminiProvider) {
+  constructor(
+    private readonly geminiProvider: GeminiProvider,
+    private readonly ollamaProvider: OllamaProvider,
+  ) {
     this.providers = new Map()
     this.registerProvider('gemini', this.geminiProvider)
-    this.logger.log('AiProviderFactory initialized with providers: gemini')
+    this.registerProvider('ollama', this.ollamaProvider)
+    this.logger.log('AiProviderFactory initialized with providers: gemini, ollama')
   }
 
   private registerProvider(name: string, provider: AIProvider): void {

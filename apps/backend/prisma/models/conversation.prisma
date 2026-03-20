@@ -4,6 +4,8 @@ model Conversation {
   name          String
   userId        String?
   deviceId      String?
+  provider      String    @default("gemini")
+  model         String?
   systemPrompt  String?
   autoPrompt    String?
   contextToken  Int       @default(4096)

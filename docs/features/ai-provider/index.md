@@ -6,21 +6,21 @@
 |--------|---------|
 | ID | FT-006 |
 | Tên | AI Provider Selection (Ollama) |
-| Trạng thái | pending |
+| Trạng thái | ✅ completed |
 | Priority | high |
 
 ## Tiến độ
 
 | Loại | Trạng thái |
 |------|-------------|
-| Feature (FT-006) | pending |
-| Task (T001) | pending |
+| Feature (FT-006) | ✅ completed |
+| Task (T001) | ✅ done |
 
 ## Files
 
 | File | Mô tả | Trạng thái |
 |------|-------|-------------|
-| [FT-006.md](./FT-006.md) | Feature specification | pending |
+| [FT-006.md](./FT-006.md) | Feature specification | ✅ done |
 | [api.md](./api.md) | API Documentation | - |
 
 ## Related

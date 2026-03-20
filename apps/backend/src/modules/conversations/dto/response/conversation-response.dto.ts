@@ -5,6 +5,8 @@ export class ConversationResponseDto {
   name: string
   userId: string | null
   deviceId: string | null
+  provider: string
+  model: string | null
   systemPrompt: string | null
   autoPrompt: string | null
   contextToken: number

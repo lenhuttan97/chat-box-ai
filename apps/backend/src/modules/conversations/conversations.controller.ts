@@ -19,19 +19,10 @@ import { ConversationsService } from './conversations.service'
 import { AiService } from '../ai/ai.service'
 import { DeviceService } from '../device/device.service'
 import { MessageProcessorService } from '../message-processing/message-processor.service'
+import { FilesService } from '../files/files.service'
 import { CreateConversationDto } from './dto/request/create-conversation.dto'
 import { UpdateConversationDto } from './dto/request/update-conversation.dto'
 import { CreateMessageDto } from './dto/request/create-message.dto'
-
-interface DeviceInfo {
-  deviceId: string
-  browser?: string
-  os?: string
-  language?: string
-  timezone?: string
-  screenResolution?: string
-  ipAddress?: string
-}
 
 interface DeviceInfo {
   deviceId: string
@@ -52,6 +43,7 @@ export class ConversationsController {
     private readonly aiService: AiService,
     private readonly deviceService: DeviceService,
     private readonly messageProcessor: MessageProcessorService,
+    private readonly filesService: FilesService,
   ) {}
 
   @Post('conversations')
@@ -128,12 +120,12 @@ export class ConversationsController {
 
   @Post('conversation/messages')
   async sendMessage(
-    @Body() body: { message: string; conversation_id?: string },
+    @Body() body: { message: string; conversation_id?: string; fileId?: string },
     @Headers('x-device-info') deviceInfoHeader: string,
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    const { message, conversation_id } = body
+    const { message, conversation_id, fileId } = body
 
     if (!message) {
       return res.status(HttpStatus.BAD_REQUEST).json({
@@ -164,7 +156,7 @@ export class ConversationsController {
           screenResolution: deviceInfo.screenResolution,
           ipAddress: req.ip || undefined,
         })
-        deviceId = device.deviceId
+        deviceId = device.id
       } catch (error) {
         this.logger.warn('Failed to parse device info', error)
       }
@@ -172,6 +164,8 @@ export class ConversationsController {
 
     let conversationId = conversation_id
     let conversationSettings = {
+      provider: 'gemini' as string,
+      model: undefined as string | undefined,
       systemPrompt: undefined as string | undefined,
       temperature: undefined as number | undefined,
       maxTokens: undefined as number | undefined,
@@ -189,6 +183,8 @@ export class ConversationsController {
       const conversation = await this.conversationsService.findConversationById(conversationId)
       if (conversation) {
         conversationSettings = {
+          provider: conversation.provider || 'gemini',
+          model: conversation.model ?? undefined,
           systemPrompt: conversation.systemPrompt ?? undefined,
           temperature: conversation.temperature ?? undefined,
           maxTokens: conversation.maxTokens ?? undefined,
@@ -254,6 +250,8 @@ export class ConversationsController {
               : analysis.context
             
             conversationSettings = {
+              provider: updatedConversation.provider || 'gemini',
+              model: updatedConversation.model ?? undefined,
               systemPrompt: mergedSystemPrompt || undefined,
               temperature: updatedConversation.temperature ?? undefined,
               maxTokens: updatedConversation.maxTokens ?? undefined,
@@ -268,6 +266,18 @@ export class ConversationsController {
     }
 
     let processedMessage = message
+
+    if (fileId) {
+      try {
+        const fileContent = await this.filesService.getFileContent(fileId)
+        if (fileContent) {
+          processedMessage = `${message}\n\n[File content attached]:\n${fileContent}`
+          this.logger.log(`Appended file content from ${fileId} to message`)
+        }
+      } catch (error) {
+        this.logger.warn(`Failed to load file content: ${fileId}`, error)
+      }
+    }
     try {
       const processingResult = await this.messageProcessor.process(
         message,
@@ -285,7 +295,9 @@ export class ConversationsController {
     try {
       for await (const chunk of this.aiService.sendMessage({ 
         message: processedMessage, 
-        conversationId, 
+        conversationId,
+        provider: conversationSettings.provider,
+        model: conversationSettings.model,
         history,
         ...conversationSettings,
       })) {
