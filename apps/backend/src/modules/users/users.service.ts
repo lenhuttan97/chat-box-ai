@@ -2,6 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { UsersRepository } from './repository/users.repository'
 import { CreateUserDto } from './dto/request/create-user.dto'
 import { UpdateUserDto } from './dto/request/update-user.dto'
+import { UpdateThemeDto } from './dto/request/update-theme.dto'
 import { UserResponseDto } from './dto/response/user-response.dto'
 
 @Injectable()
@@ -49,6 +50,12 @@ export class UsersService {
     return this.toResponse(user)
   }
 
+  async updateTheme(id: string, dto: UpdateThemeDto): Promise<UserResponseDto> {
+    this.logger.log(`Updating theme for user: ${id}`)
+    const user = await this.usersRepository.update(id, { themeSetting: dto.themeSetting })
+    return this.toResponse(user)
+  }
+
   async remove(id: string): Promise<void> {
     this.logger.log(`Deleting user: ${id}`)
     await this.usersRepository.delete(id)
@@ -60,6 +67,7 @@ export class UsersService {
     displayName: string | null
     photoUrl: string | null
     provider: string | null
+    themeSetting: string
     createdAt: Date
     updatedAt: Date
   }): UserResponseDto {
@@ -69,6 +77,7 @@ export class UsersService {
       displayName: user.displayName,
       photoUrl: user.photoUrl,
       provider: user.provider,
+      themeSetting: user.themeSetting,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     }

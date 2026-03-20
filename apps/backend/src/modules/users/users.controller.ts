@@ -14,6 +14,7 @@ import {
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/request/create-user.dto'
 import { UpdateUserDto } from './dto/request/update-user.dto'
+import { UpdateThemeDto } from './dto/request/update-theme.dto'
 import { AuthGuard } from '@nestjs/passport'
 import { Request } from 'express'
 
@@ -61,5 +62,13 @@ export class UsersController {
       throw new Error('User not found')
     }
     return { data: user, message: 'User profile retrieved', statusCode: HttpStatus.OK }
+  }
+
+  @Put('/me/theme')
+  @UseGuards(AuthGuard('jwt'))
+  async updateTheme(@Req() req: Request, @Body() dto: UpdateThemeDto) {
+    const userId = req.user['sub']
+    const user = await this.usersService.updateTheme(userId, dto)
+    return { data: user, message: 'Theme updated', statusCode: HttpStatus.OK }
   }
 }

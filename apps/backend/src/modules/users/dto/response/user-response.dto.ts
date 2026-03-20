@@ -4,6 +4,7 @@ export class UserResponseDto {
   displayName: string | null
   photoUrl: string | null
   provider: string | null
+  themeSetting: string
   createdAt: Date
   updatedAt: Date
 }
