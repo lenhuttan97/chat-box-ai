@@ -6,9 +6,8 @@
 
 | Bug ID | Bug | Status |
 |--------|-----|--------|
-| BUG-001 | Device Virtual User | ✅ fixed |
-| BUG-002 | User & Conversation Creation Error | ✅ fixed |
-| BUG-003 | Anonymous User Cannot Create Conversation | ⏳ pending |
+| BUG-001 | Device Virtual User | ⏳ pending |
+| BUG-002 | User & Conversation Creation Error | 🔴 in progress |
 
 ## Chi tiết
 
@@ -16,7 +15,6 @@
 |------|------|-------|
 | BUG-001 | [BUG-001-device-virtual-user.md](./BUG-001-device-virtual-user.md) | Device không có user, không tạo được message |
 | BUG-002 | [BUG-002-user-creation-error.md](./BUG-002-user-creation-error.md) | Không thể tạo user và conversation với device |
-| BUG-003 | [BUG-003-anonymous-conversation.md](./BUG-003-anonymous-conversation.md) | Anonymous user không tạo được conversation |
 
 ## Dependencies
 

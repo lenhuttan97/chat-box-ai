@@ -28,16 +28,6 @@ export class DeviceService {
 
     if (existing) {
       this.logger.log(`Device found: ${dto.deviceId}`)
-
-      if (!existing.userId) {
-        this.logger.log(`Creating virtual user for existing device: ${dto.deviceId}`)
-        const virtualUser = await this.usersService.create({
-          displayName: `Device ${dto.deviceId}`,
-          provider: 'device',
-        })
-        await this.deviceRepository.linkToUser(existing.id, virtualUser.id)
-      }
-
       return this.deviceRepository.update(existing.id, {
         browser: dto.browser,
         os: dto.os,
@@ -69,7 +59,7 @@ export class DeviceService {
 
     await this.deviceRepository.linkToUser(device.id, virtualUser.id)
 
-    return this.deviceRepository.findById(device.id)
+    return this.deviceRepository.findById(device.id)!
   }
 
   async findByUserId(userId: string): Promise<Device[]> {
