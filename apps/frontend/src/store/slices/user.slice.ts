@@ -8,6 +8,7 @@ interface User {
   photoURL: string | null
   provider: string | null
   firebaseUid: string | null
+  themeSetting?: 'light' | 'dark' | 'auto'
 }
 
 interface UserState {

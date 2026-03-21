@@ -112,6 +112,8 @@ export class ConversationsService {
       name: string
       userId: string | null
       deviceId: string | null
+      provider: string | null
+      model: string | null
       systemPrompt: string | null
       autoPrompt: string | null
       contextToken: number
@@ -135,6 +137,8 @@ export class ConversationsService {
       name: conversation.name,
       userId: conversation.userId,
       deviceId: conversation.deviceId,
+      provider: conversation.provider || 'gemini',
+      model: conversation.model,
       systemPrompt: conversation.systemPrompt,
       autoPrompt: conversation.autoPrompt,
       contextToken: conversation.contextToken,

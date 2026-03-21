@@ -6,6 +6,7 @@ import { ConversationsModule } from './modules/conversations/conversations.modul
 import { AuthModule } from './modules/auth/auth.module'
 import { DeviceModule } from './modules/device/device.module'
 import { MessageProcessingModule } from './modules/message-processing/message-processing.module'
+import { FilesModule } from './modules/files/files.module'
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MessageProcessingModule } from './modules/message-processing/message-pr
     AuthModule,
     DeviceModule,
     MessageProcessingModule,
+    FilesModule,
   ],
 })
 export class AppModule {}

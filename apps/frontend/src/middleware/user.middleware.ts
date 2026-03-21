@@ -6,6 +6,7 @@ export interface User {
   displayName: string | null
   photoUrl: string | null
   provider: string | null
+  themeSetting?: 'light' | 'dark' | 'auto'
 }
 
 export const userMiddleware = {
@@ -47,6 +48,24 @@ export const userMiddleware = {
     
     if (!response.ok) {
       throw new Error('Failed to update user')
+    }
+    
+    const result = await response.json()
+    return result.data
+  },
+
+  async updateTheme(themeSetting: 'light' | 'dark' | 'auto', token: string): Promise<User> {
+    const response = await fetch(`${API_URL}/users/me/theme`, {
+      method: 'PUT',
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ themeSetting }),
+    })
+    
+    if (!response.ok) {
+      throw new Error('Failed to update theme')
     }
     
     const result = await response.json()

@@ -8,6 +8,7 @@ export interface AuthResponse {
     photoUrl: string | null
   }
   token: string
+  refreshToken: string
 }
 
 export const authMiddleware = {
@@ -23,7 +24,9 @@ export const authMiddleware = {
       throw new Error(error.message || 'Login failed')
     }
     
-    return response.json()
+    const data = await response.json()
+    this.setTokens(data.token, data.refreshToken)
+    return data
   },
 
   async register(email: string, password: string, displayName?: string): Promise<AuthResponse> {
@@ -38,7 +41,9 @@ export const authMiddleware = {
       throw new Error(error.message || 'Register failed')
     }
     
-    return response.json()
+    const data = await response.json()
+    this.setTokens(data.token, data.refreshToken)
+    return data
   },
 
   async googleLogin(idToken: string): Promise<AuthResponse> {
@@ -53,7 +58,34 @@ export const authMiddleware = {
       throw new Error(error.message || 'Google login failed')
     }
     
-    return response.json()
+    const data = await response.json()
+    this.setTokens(data.token, data.refreshToken)
+    return data
+  },
+
+  async refreshToken(): Promise<boolean> {
+    const refreshToken = this.getRefreshToken()
+    if (!refreshToken) {
+      return false
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/auth/refresh-token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refreshToken }),
+      })
+
+      if (!response.ok) {
+        return false
+      }
+
+      const data = await response.json()
+      this.setTokens(data.token, data.refreshToken)
+      return true
+    } catch (error) {
+      return false
+    }
   },
 
   async updatePassword(oldPassword: string, newPassword: string, token: string): Promise<void> {
@@ -92,6 +124,7 @@ export const authMiddleware = {
 
   logout(): void {
     localStorage.removeItem('auth_token')
+    localStorage.removeItem('refresh_token')
     localStorage.removeItem('user')
   },
 
@@ -99,7 +132,16 @@ export const authMiddleware = {
     return localStorage.getItem('auth_token')
   },
 
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refresh_token')
+  },
+
   setToken(token: string): void {
     localStorage.setItem('auth_token', token)
+  },
+
+  setTokens(token: string, refreshToken: string): void {
+    localStorage.setItem('auth_token', token)
+    localStorage.setItem('refresh_token', refreshToken)
   },
 }

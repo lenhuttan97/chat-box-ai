@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { Box, Button, Avatar, Typography, InputBase } from '@mui/material'
 import { useAuth } from '../hooks/useAuth'
 import { useTheme } from '../hooks/useTheme'
@@ -9,6 +9,7 @@ import ContrastIcon from '@mui/icons-material/Contrast'
 import SettingsIcon from '@mui/icons-material/Settings'
 import SearchIcon from '@mui/icons-material/Search'
 import LoginIcon from '@mui/icons-material/Login'
+import { ThemeModal } from './ThemeModal'
 
 interface ChatLayoutProps {
   sidebar: ReactNode
@@ -17,8 +18,9 @@ interface ChatLayoutProps {
 
 export const ChatLayout = ({ sidebar, children }: ChatLayoutProps) => {
   const { user, isAuthenticated } = useAuth()
-  const { darkMode, toggle } = useTheme()
+  const { darkMode } = useTheme()
   const navigate = useNavigate()
+  const [themeModalOpen, setThemeModalOpen] = useState(false)
 
   useEffect(() => {
     const html = document.documentElement
@@ -34,7 +36,7 @@ export const ChatLayout = ({ sidebar, children }: ChatLayoutProps) => {
   }
 
   const handleToggleDarkMode = () => {
-    toggle()
+    setThemeModalOpen(true)
   }
 
   return (
@@ -152,7 +154,7 @@ export const ChatLayout = ({ sidebar, children }: ChatLayoutProps) => {
           >
             <ContrastIcon sx={{ fontSize: 20 }} />
             <Typography sx={{ fontSize: '0.875rem', fontWeight: 500 }}>
-              Dark / Light Mode
+              Theme Settings
             </Typography>
           </Button>
 
@@ -288,6 +290,8 @@ export const ChatLayout = ({ sidebar, children }: ChatLayoutProps) => {
         {/* Content */}
         <Box sx={{ flex: 1, overflow: 'hidden' }}>{children}</Box>
       </Box>
+
+      <ThemeModal open={themeModalOpen} onClose={() => setThemeModalOpen(false)} />
     </Box>
   )
 }

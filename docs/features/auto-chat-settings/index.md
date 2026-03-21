@@ -6,7 +6,7 @@
 |--------|---------|
 | ID | FT-004 |
 | Tên | Auto Chat Settings (Tự động cài đặt chat) |
-| Trạng thái | pending |
+| Trạng thái | ✅ completed |
 | Priority | medium |
 
 ## Tiến độ

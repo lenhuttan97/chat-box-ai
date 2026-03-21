@@ -13,6 +13,7 @@ export interface SendMessageOptions {
   message: string
   conversationId?: string
   provider?: string
+  model?: string
   history?: Array<{ role: string; content: string }>
   systemPrompt?: string
   temperature?: number
@@ -54,6 +55,7 @@ export class AiService {
         systemPrompt: options.systemPrompt,
         temperature: options.temperature,
         maxTokens: options.maxTokens,
+        model: options.model,
       }
 
       const stream = provider.generateStream(generateOptions)
