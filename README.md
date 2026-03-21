@@ -1,172 +1,43 @@
 # Chat Box AI
 
-AI Chat Application với Gemini Streaming, Firebase Authentication và Chat Settings.
+A real-time AI chat application powered by Google Gemini with streaming responses.
 
-## Tính năng
+## Features
 
-### FT-001: Chat Gemini Streaming
-- Chat với AI sử dụng Google Gemini API
-- Streaming real-time với SSE (Server-Sent Events)
-- Hỗ trợ markdown trong tin nhắn
-- Lưu lịch sử chat vào database (khi đăng nhập)
+- **AI Chat**: Real-time streaming responses with Gemini
+- **Authentication**: Google & Email/Password login via Firebase
+- **Chat Settings**: Custom AI role, system prompt, temperature, response length per conversation
+- **Auto Context**: Automatically analyzes and adds context after first message
+- **Device Tracking**: Anonymous user support with virtual users
 
-### FT-002: Authentication (Firebase)
-- Đăng nhập bằng Google
-- Đăng nhập bằng Email/Password
-- Quản lý phiên đăng nhập
-
-### FT-003: Chat Settings
-- Cài đặt riêng cho từng đoạn chat:
-  - Tên conversation
-  - AI Role / Identity (System Prompt)
-  - Context / Background
-  - Temperature (0-1)
-  - Response Length (Max Tokens)
-
-### FT-004: Auto Chat Settings
-- Tự động phân tích và bổ sung context sau tin nhắn đầu
-- Tự động cập nhật sau mỗi 10 lượt tin nhắn
-- Bổ sung chứ không thay thế cài đặt thủ công
-
----
-
-## Công nghệ sử dụng
-
-### Backend
-- **NestJS** - Node.js framework
-- **Prisma** - ORM với SQLite/PostgreSQL
-- **Google Gemini API** - AI Chat
-
-### Frontend
-- **React** + **Vite**
-- **Material-UI (MUI)** - UI Components
-- **Redux Thunk** - State Management
-- **Firebase** - Authentication
-
-### DevOps
-- **Docker** - Containerization
-- **Jest** - Backend Testing
-- **Vitest** - Frontend Testing
-
----
-
-## Cài đặt
-
-### Yêu cầu
-- Node.js 18+
-- pnpm (khuyến nghị)
-- Docker (optional)
-
-### Thiết lập môi trường
-
-1. **Clone project**
-2. **Tạo file .env:**
+## Quick Start
 
 ```bash
-# Backend
-cp apps/backend/.env.example apps/backend/.env
-# Điền GEMINI_API_KEY vào .env
-
-# Frontend  
-cp apps/frontend/.env.example apps/frontend/.env
-# Điền Firebase config vào .env
-```
-
-3. **Cài đặt dependencies:**
-
-```bash
+# Install dependencies
 pnpm install
+
+# Setup environment
+cp apps/backend/.env.example apps/backend/.env
+cp apps/frontend/.env.example apps/frontend/.env
+
+# Run development servers
+pnpm dev
 ```
 
-4. **Khởi động Development Servers:**
-
-```bash
-# Backend
-cd apps/backend
-pnpm run start:dev
-
-# Frontend (terminal khác)
-cd apps/frontend
-pnpm run dev
-```
-
-5. **Mở trình duyệt:**
 - Frontend: http://localhost:5173
-- Backend API: http://localhost:3000
+- Backend: http://localhost:3000
 
-### Docker
+## Tech Stack
 
-```bash
-docker-compose up --build
+- **Frontend**: React + Vite + Material UI + Redux
+- **Backend**: NestJS + Prisma
+- **Database**: SQLite (dev) / PostgreSQL (prod)
+- **AI**: Google Gemini API
+
+## Project Structure
+
 ```
-
----
-
-## Cấu trúc thư mục
-
-```
-chat-box-ai/
-├── apps/
-│   ├── backend/
-│   │   ├── database/           # SQLite (dev)
-│   │   └── prisma/
-│   │       ├── models/        # Model definitions
-│   │       ├── schema.prisma  # Merged schema
-│   │       └── migrations/
-│   └── frontend/
-├── docs/
-└── docker-compose.yml
-```
-
----
-
-## Database
-
-### Development (SQLite)
-```env
-DATABASE_URL=file:./database/dev.db
-```
-
-### Production (PostgreSQL)
-```env
-DATABASE_URL=postgresql://user:password@host:5432/chatbox
-```
-
-**Đổi provider trong `prisma/schema.prisma`:**
-```prisma
-datasource db {
-  provider = "postgresql"  // hoặc "sqlite"
-  url      = env("DATABASE_URL")
-}
-```
-
----
-
----
-
-## API Endpoints
-
-| Method | Endpoint | Mô tả |
-|--------|----------|--------|
-| POST | /api/v1/chat | Gửi tin nhắn (SSE streaming) |
-| GET | /api/v1/conversations | Danh sách conversations |
-| GET | /api/v1/conversations/:id | Chi tiết conversation |
-| PATCH | /api/v1/conversations/:id | Cập nhật settings |
-| DELETE | /api/v1/conversations/:id | Xóa conversation |
-
----
-
-## Scripts
-
-```bash
-# Development
-pnpm dev:be          # Backend
-pnpm dev:fe          # Frontend
-
-# Build
-pnpm build
-
-# Testing
-pnpm test:be         # Backend tests
-pnpm test:fe         # Frontend tests
+apps/
+├── backend/     # NestJS API
+└── frontend/    # React UI
 ```
