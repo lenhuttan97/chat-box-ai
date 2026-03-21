@@ -14,14 +14,14 @@ A real-time AI chat application powered by Google Gemini with streaming response
 
 ```bash
 # Install dependencies
-pnpm install
+npm install
 
 # Setup environment
 cp apps/backend/.env.example apps/backend/.env
 cp apps/frontend/.env.example apps/frontend/.env
 
 # Run development servers
-pnpm dev
+npm dev
 ```
 
 - Frontend: http://localhost:5173
