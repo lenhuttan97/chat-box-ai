@@ -6,7 +6,7 @@
 
 | ID | Task | Status |
 |----|------|--------|
-| T001 | File Upload & Preprocessing | pending |
+| T001 | File Upload & Preprocessing | ⏳ pending |
 
 ## Chi tiết
 
