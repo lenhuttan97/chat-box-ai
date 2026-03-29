@@ -29,10 +29,10 @@ npm dev
 
 ## Tech Stack
 
-- **Frontend**: React + Vite + Material UI + Redux
+- **Frontend**: React + Vite + Tailwind CSS + Redux Toolkit
 - **Backend**: NestJS + Prisma
 - **Database**: SQLite (dev) / PostgreSQL (prod)
-- **AI**: Google Gemini API
+- **AI**: Google Gemini API / OpenAI / Ollama
 
 ## Project Structure
 

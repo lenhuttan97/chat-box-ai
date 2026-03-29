@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { Box, Typography } from '@mui/material'
-import { RootState } from '../store'
-import { MessageItem } from './MessageItem'
-import { useTheme } from '../hooks/useTheme'
+import { RootState } from '../../store'
+import { MessageItem } from '../chat/MessageItem'
+import { useTheme } from '../../hooks/useTheme'
 
 export const MessageList = () => {
   const { items: messages, streaming } = useSelector((state: RootState) => state.messages)

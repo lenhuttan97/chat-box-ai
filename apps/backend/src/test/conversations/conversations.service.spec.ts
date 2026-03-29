@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { ConversationsService } from '../../modules/conversations/conversations.service'
 import { ConversationsRepository } from '../../modules/conversations/repository/conversations.repository'
+import { DeviceService } from '../../modules/device/device.service'
 import { NotFoundException } from '@nestjs/common'
 
 describe('ConversationsService', () => {
@@ -47,10 +48,16 @@ describe('ConversationsService', () => {
       countMessagesByConversationId: jest.fn(),
     }
 
+    const mockDeviceService = {
+      findOrCreate: jest.fn(),
+      findById: jest.fn(),
+    }
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ConversationsService,
         { provide: ConversationsRepository, useValue: mockRepository },
+        { provide: DeviceService, useValue: mockDeviceService },
       ],
     }).compile()
 

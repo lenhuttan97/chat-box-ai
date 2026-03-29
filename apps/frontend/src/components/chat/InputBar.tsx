@@ -1,7 +1,7 @@
 import { useState, KeyboardEvent } from 'react'
 import { Box, TextField, IconButton, CircularProgress } from '@mui/material'
 import { Send as SendIcon } from '@mui/icons-material'
-import { useTheme } from '../hooks/useTheme'
+import { useTheme } from '../../hooks/useTheme'
 
 interface InputBarProps {
   onSend: (message: string) => void

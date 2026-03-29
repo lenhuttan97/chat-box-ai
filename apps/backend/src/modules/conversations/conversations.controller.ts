@@ -47,8 +47,19 @@ export class ConversationsController {
   ) {}
 
   @Post('conversations')
-  async createConversation(@Body() dto: CreateConversationDto) {
-    const conversation = await this.conversationsService.createConversation(dto)
+  async createConversation(
+    @Body() dto: CreateConversationDto,
+    @Headers('x-device-info') deviceInfoHeader: string,
+  ) {
+    let deviceInfo = null
+    if (deviceInfoHeader && !dto.deviceId) {
+      try {
+        deviceInfo = JSON.parse(deviceInfoHeader)
+      } catch (error) {
+        this.logger.warn('Failed to parse device info', error)
+      }
+    }
+    const conversation = await this.conversationsService.createConversation(dto, deviceInfo)
     return { data: conversation, message: 'Conversation created', statusCode: HttpStatus.CREATED }
   }
 

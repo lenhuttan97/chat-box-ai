@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
-import { MessageList } from './MessageList'
-import { InputBar } from './InputBar'
-import { useMessages } from '../store'
+import { MessageList } from '../chat/MessageList'
+import { InputBar } from '../chat/InputBar'
+import { useMessages } from '../../store'
 
 export const ChatWindow = () => {
   const { streaming, sendMessage } = useMessages()

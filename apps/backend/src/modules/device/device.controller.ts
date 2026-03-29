@@ -17,7 +17,7 @@ interface AuthenticatedRequest extends Request {
   user: { userId: string }
 }
 
-@Controller('v1/devices')
+@Controller('devices')
 export class DeviceController {
   constructor(private readonly deviceService: DeviceService) {}
 

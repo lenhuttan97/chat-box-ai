@@ -12,8 +12,8 @@ import {
   IconButton,
 } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material'
-import { useConversations } from '../hooks/useConversations'
-import { useTheme } from '../hooks/useTheme'
+import { useConversations } from '../../hooks/useConversations'
+import { useTheme } from '../../hooks/useTheme'
 
 interface ChatSettingsModalProps {
   open: boolean

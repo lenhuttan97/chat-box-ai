@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Box, List, ListItemButton, ListItemText, Typography, IconButton, CircularProgress } from '@mui/material'
 import { Delete as DeleteIcon, Add as AddIcon, Settings as SettingsIcon } from '@mui/icons-material'
-import { useConversations } from '../hooks/useConversations'
-import { useTheme } from '../hooks/useTheme'
-import { ChatSettingsModal } from './ChatSettingsModal'
+import { useConversations } from '../../hooks/useConversations'
+import { useTheme } from '../../hooks/useTheme'
+import { ChatSettingsModal } from '../common/ChatSettingsModal'
 import { format } from 'date-fns'
 
 export const ConversationList = () => {

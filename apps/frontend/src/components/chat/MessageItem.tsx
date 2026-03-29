@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import ReactMarkdown from 'react-markdown'
 import { Chat as ChatIcon, SmartToy as BotIcon } from '@mui/icons-material'
-import { useTheme } from '../hooks/useTheme'
+import { useTheme } from '../../hooks/useTheme'
 
 interface MessageItemProps {
   role: 'user' | 'assistant'

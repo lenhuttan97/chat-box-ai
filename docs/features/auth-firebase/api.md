@@ -29,17 +29,19 @@ Content-Type: application/json
 **Response:**
 ```json
 {
-  "data": {
+  "user": {
     "id": "user-uuid",
     "email": "user@example.com",
     "displayName": "John Doe",
     "photoUrl": null,
     "provider": "email"
   },
-  "message": "User registered successfully",
-  "statusCode": 201
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
+
+> **Note:** Token và refreshToken được trả về trong response body để client lưu trữ.
 
 ---
 
@@ -62,15 +64,15 @@ Content-Type: application/json
 **Response:**
 ```json
 {
-  "data": {
+  "user": {
     "id": "user-uuid",
     "email": "user@example.com",
     "displayName": "John Doe",
     "photoUrl": null,
     "provider": "email"
   },
-  "message": "Login successful",
-  "statusCode": 200
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
 
@@ -94,17 +96,19 @@ Content-Type: application/json
 **Response:**
 ```json
 {
-  "data": {
+  "user": {
     "id": "user-uuid",
     "email": "user@gmail.com",
     "displayName": "John Doe",
     "photoUrl": "https://lh3.googleusercontent.com/...",
     "provider": "google"
   },
-  "message": "Login successful",
-  "statusCode": 200
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }
 ```
+
+> **Note:** Google login chỉ hoạt động khi Firebase được cấu hình. Nếu Firebase không được cấu hình, API trả về lỗi 401 "Firebase authentication is not configured on the server". User nên sử dụng email/password login/register.
 
 ---
 
@@ -119,11 +123,11 @@ POST /api/v1/auth/logout
 **Response:**
 ```json
 {
-  "data": null,
-  "message": "Logout successful",
-  "statusCode": 200
+  "message": "Logged out successfully"
 }
 ```
+
+> **Note:** Token được xóa khỏi cookie. Client nên gọi authMiddleware.logout() để xóa token khỏi localStorage.
 
 ---
 
@@ -146,9 +150,7 @@ Content-Type: application/json
 **Response:**
 ```json
 {
-  "data": null,
-  "message": "Password updated successfully",
-  "statusCode": 200
+  "message": "Password updated successfully"
 }
 ```
 
@@ -173,15 +175,13 @@ Content-Type: application/json
 **Response:**
 ```json
 {
-  "data": {
+  "user": {
     "id": "user-uuid",
     "email": "user@example.com",
     "displayName": "John Updated",
     "photoUrl": "https://example.com/avatar.jpg",
     "provider": "email"
-  },
-  "message": "Profile updated successfully",
-  "statusCode": 200
+  }
 }
 ```
 
@@ -219,17 +219,54 @@ Authorization: Bearer <jwt_token>
 | Status Code | Description |
 |------------|-------------|
 | 400 | Bad Request - thiếu field hoặc invalid |
-| 401 | Unauthorized - token không hợp lệ |
+| 401 | Unauthorized - token không hợp lệ hoặc Firebase chưa cấu hình |
 | 403 | Forbidden - không có quyền |
 | 409 | Conflict - email đã tồn tại |
 | 422 | Unprocessable Entity - password không đúng |
 | 500 | Internal Server Error |
 
-**Error Example:**
+**Error Examples:**
+
 ```json
+// Invalid credentials (login)
 {
-  "data": null,
-  "message": "Invalid email or password",
+  "message": "Invalid credentials",
   "statusCode": 401
 }
+
+// Firebase not configured
+{
+  "message": "Firebase authentication is not configured on the server",
+  "statusCode": 401
+}
+
+// Email already exists (register)
+{
+  "message": "Email already exists",
+  "statusCode": 409
+}
+```
+
+---
+
+## Firebase Configuration
+
+### Required Environment Variables
+
+Để sử dụng Google Login, cần cấu hình Firebase Admin SDK trong `.env`:
+
+```env
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_CLIENT_EMAIL=your-client-email@project.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\n...
+```
+
+### Fallback Behavior
+
+Khi Firebase **không được cấu hình**:
+- ✅ Email/Password login: **Hoạt động bình thường**
+- ✅ Email/Password register: **Hoạt động bình thường**
+- 🔴 Google login: Trả về **Error 401** "Firebase authentication is not configured on the server"
+
+Hệ thống tự động disable Google login nếu thiếu Firebase config.
 ```

@@ -8,7 +8,7 @@ export class CreateConversationDto {
   @IsOptional()
   userId?: string
 
-  @IsString()
+  @IsUUID()
   @IsOptional()
   deviceId?: string
 

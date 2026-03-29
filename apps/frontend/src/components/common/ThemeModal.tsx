@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Box, Typography, Radio, RadioGroup, FormControlLabel, Button } from '@mui/material'
-import { useTheme } from '../hooks/useTheme'
+import { useTheme } from '../../hooks/useTheme'
 
 interface ThemeModalProps {
   open: boolean

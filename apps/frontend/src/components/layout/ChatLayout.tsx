@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { Box, Button, Avatar, Typography, InputBase } from '@mui/material'
-import { useAuth } from '../hooks/useAuth'
-import { useTheme } from '../hooks/useTheme'
+import { useAuth } from '../../hooks/useAuth'
+import { useTheme } from '../../hooks/useTheme'
 import { useNavigate } from 'react-router-dom'
 import AddIcon from '@mui/icons-material/Add'
 import SmartToyIcon from '@mui/icons-material/SmartToy'
@@ -9,7 +9,7 @@ import ContrastIcon from '@mui/icons-material/Contrast'
 import SettingsIcon from '@mui/icons-material/Settings'
 import SearchIcon from '@mui/icons-material/Search'
 import LoginIcon from '@mui/icons-material/Login'
-import { ThemeModal } from './ThemeModal'
+import { ThemeModal } from '../common/ThemeModal'
 
 interface ChatLayoutProps {
   sidebar: ReactNode
