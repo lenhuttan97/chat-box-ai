@@ -41,4 +41,4 @@ DeviceService không phân biệt trạng thái đăng nhập.
 
 ## Status
 
-**⏳ pending**
+**✅ fixed**

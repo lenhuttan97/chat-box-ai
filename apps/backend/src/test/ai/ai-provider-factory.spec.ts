@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { AiProviderFactory } from '../../modules/ai/providers/ai-provider-factory'
 import { GeminiProvider } from '../../modules/ai/providers/gemini.provider'
+import { OllamaProvider } from '../../modules/ai/providers/ollama.provider'
 import { ConfigService } from '@nestjs/config'
 
 const mockConfigService = () => ({
@@ -9,13 +10,13 @@ const mockConfigService = () => ({
 
 describe('AiProviderFactory', () => {
   let factory: AiProviderFactory
-  let geminiProvider: GeminiProvider
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AiProviderFactory,
         GeminiProvider,
+        OllamaProvider,
         {
           provide: ConfigService,
           useFactory: mockConfigService,
@@ -24,7 +25,6 @@ describe('AiProviderFactory', () => {
     }).compile()
 
     factory = module.get<AiProviderFactory>(AiProviderFactory)
-    geminiProvider = module.get<GeminiProvider>(GeminiProvider)
   })
 
   describe('getProvider', () => {

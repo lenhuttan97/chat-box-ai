@@ -1,6 +1,6 @@
-import { ChatLayout } from '../components/ChatLayout'
-import { ConversationList } from '../components/ConversationList'
-import { ChatWindow } from '../components/ChatWindow'
+import { ChatLayout } from '../components/layout/ChatLayout'
+import { ConversationList } from '../components/chat/ConversationList'
+import { ChatWindow } from '../components/chat/ChatWindow'
 
 const ChatPage = () => {
   return (

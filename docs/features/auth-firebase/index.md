@@ -9,6 +9,16 @@
 | Trạng thái | ✅ completed |
 | Priority | high |
 
+## Firebase Configuration Note
+
+> **⚠️ Important:** Firebase authentication là **optional**. Hệ thống hoạt động hoàn toàn bình thường với Email/Password login/register khi không có Firebase config.
+>
+> - ✅ Email/Password login: **Hoạt động**
+> - ✅ Email/Password register: **Hoạt động**
+> - 🔴 Google login: **Requires Firebase config**
+
+Xem chi tiết: [api.md](./api.md#firebase-configuration)
+
 ## Tiến độ
 
 | Loại | Trạng thái |

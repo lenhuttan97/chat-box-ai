@@ -1,5 +1,7 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { Injectable, Logger, NotFoundException, BadRequestException } from '@nestjs/common'
 import { ConversationsRepository } from './repository/conversations.repository'
+import { DeviceService } from '../device/device.service'
+import { CreateDeviceDto } from '../device/dto/request/create-device.dto'
 import { CreateConversationDto } from './dto/request/create-conversation.dto'
 import { UpdateConversationDto } from './dto/request/update-conversation.dto'
 import { CreateMessageDto } from './dto/request/create-message.dto'
@@ -15,12 +17,35 @@ interface PaginatedResult<T> {
 export class ConversationsService {
   private readonly logger = new Logger(ConversationsService.name)
 
-  constructor(private readonly conversationsRepository: ConversationsRepository) {}
+  constructor(
+    private readonly conversationsRepository: ConversationsRepository,
+    private readonly deviceService: DeviceService,
+  ) {}
 
   // Conversation methods
-  async createConversation(dto: CreateConversationDto): Promise<ConversationResponseDto> {
+  async createConversation(dto: CreateConversationDto, deviceInfo?: CreateDeviceDto): Promise<ConversationResponseDto> {
     this.logger.log('Creating conversation')
-    const conversation = await this.conversationsRepository.createConversation(dto)
+    
+    let finalDeviceId = dto.deviceId
+    
+    if (dto.deviceId) {
+      const device = await this.deviceService.findById(dto.deviceId)
+      if (!device) {
+        throw new BadRequestException(`Device ${dto.deviceId} not found`)
+      }
+    } else if (deviceInfo) {
+      const device = await this.deviceService.findOrCreate(deviceInfo)
+      finalDeviceId = device.id
+    }
+
+    const conversationData: any = { ...dto }
+    delete conversationData.deviceId
+    
+    if (finalDeviceId) {
+      conversationData.device = { connect: { id: finalDeviceId } }
+    }
+
+    const conversation = await this.conversationsRepository.createConversation(conversationData)
     return this.toConversationResponse(conversation)
   }
 

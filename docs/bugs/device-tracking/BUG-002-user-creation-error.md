@@ -80,4 +80,4 @@ Foreign key constraint violated on the foreign key
 
 ## Status
 
-**🔴 in progress - Root cause đã xác định, cần debug tiếp**
+**✅ fixed**

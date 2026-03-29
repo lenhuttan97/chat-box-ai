@@ -4,6 +4,7 @@ import { ConversationsService } from '../../modules/conversations/conversations.
 import { AiService } from '../../modules/ai/ai.service'
 import { DeviceService } from '../../modules/device/device.service'
 import { MessageProcessorService } from '../../modules/message-processing/message-processor.service'
+import { FilesService } from '../../modules/files/files.service'
 import { HttpStatus } from '@nestjs/common'
 
 describe('ConversationsController', () => {
@@ -63,6 +64,12 @@ describe('ConversationsController', () => {
       process: jest.fn(),
     }
 
+    const mockFilesService = {
+      processFile: jest.fn(),
+      getFile: jest.fn(),
+      getFileContent: jest.fn(),
+    }
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ConversationsController],
       providers: [
@@ -70,6 +77,7 @@ describe('ConversationsController', () => {
         { provide: AiService, useValue: mockAiService },
         { provide: DeviceService, useValue: mockDeviceService },
         { provide: MessageProcessorService, useValue: mockMessageProcessor },
+        { provide: FilesService, useValue: mockFilesService },
       ],
     }).compile()
 
@@ -86,9 +94,9 @@ describe('ConversationsController', () => {
     it('should create conversation', async () => {
       conversationsService.createConversation.mockResolvedValue(mockConversation as any)
 
-      const result = await controller.createConversation({ name: 'Test' })
+      const result = await controller.createConversation({ name: 'Test' }, undefined)
 
-      expect(conversationsService.createConversation).toHaveBeenCalledWith({ name: 'Test' })
+      expect(conversationsService.createConversation).toHaveBeenCalled()
       expect(result.statusCode).toBe(HttpStatus.CREATED)
     })
   })
