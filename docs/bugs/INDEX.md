@@ -8,15 +8,15 @@
 | BUG-FT001-02 | Streaming Response Not Smooth | FT-001 | ✅ fixed |
 | BUG-FT001-03 | Message List Jumps During Streaming | FT-001 | ✅ fixed |
 | BUG-FT001-04 | Conversation List Re-renders | FT-001 | ✅ fixed |
-| BUG-FT005-01 | Device Virtual User | FT-005 | ⏳ pending |
-| BUG-FT005-02 | User & Conversation Creation Error | FT-005 | 🔴 in progress |
+| BUG-FT005-01 | Device Virtual User | FT-005 | ✅ fixed |
+| BUG-FT005-02 | User & Conversation Creation Error | FT-005 | ✅ fixed |
 
 ## Summary
 
 | Type | Count |
 |------|-------|
 | FE | 4 (all fixed) |
-| BE | 2 (FT-005, pending) |
+| BE | 2 (all fixed) |
 
 ## Chi tiết
 
