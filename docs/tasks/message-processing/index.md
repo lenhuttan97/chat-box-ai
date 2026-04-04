@@ -4,12 +4,12 @@
 
 ## Tasks
 
-| ID | Task | Status |
-|----|------|--------|
-| T001 | Intent Detection | pending |
-| T002 | Question Decomposition | pending |
-| T003 | Context Augmentation | pending |
-| T004 | Message Router | pending |
+| ID | Task | GitHub Issue | Status |
+|----|------|--------------|--------|
+| T001 | Intent Detection | #40 | ⏳ pending |
+| T002 | Question Decomposition | #45 | ⏳ pending |
+| T003 | Context Augmentation | #46 | ⏳ pending |
+| T004 | Message Router | #47 | ✅ done (BE only) |
 
 ## Chi tiết
 
