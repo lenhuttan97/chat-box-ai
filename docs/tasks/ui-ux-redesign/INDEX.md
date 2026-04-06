@@ -11,7 +11,7 @@ Update current UI/UX to match premium design specifications from `stitch_home_ch
 
 | # | Task | GitHub Issue | Status |
 |---|------|--------------|--------|
-| T001 | Update Tailwind config với premium design tokens | #20 | ⏳ |
+| T001 | Update Tailwind config với premium design tokens | #20 | ✅ done |
 | T002 | Add global styles (noise, glassmorphism, glow) | #21 | ⏳ |
 | T003 | Create premium Sidebar component | #22 | ⏳ |
 | T004 | Create premium Header component | #23 | ⏳ |

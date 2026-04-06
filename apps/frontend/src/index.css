@@ -2,14 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Import Inter font from fontsource (no CDN needed) */
+@import '@fontsource/inter/300.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+
+/* ============================================
+   CSS Custom Properties - Premium Design Tokens
+   Based on docs/design/simple-openui/DESIGN.md
+   ============================================ */
+
+/* --- Light Mode (Default) --- */
+:root {
+  /* Background Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f4f4f5;
+  --bg-tertiary: #e4e4e7;
+  --bg-glass: rgba(255, 255, 255, 0.7);
+
+  /* Text Colors */
+  --text-primary: #18181b;
+  --text-secondary: #52525b;
+  --text-tertiary: #71717a;
+
+  /* Accent Colors */
+  --accent-primary: #059669;
+  --accent-hover: #047857;
+  --accent-glow: rgba(5, 150, 105, 0.15);
+  --accent-gradient: linear-gradient(135deg, #059669 0%, #047857 100%);
+
+  /* Border Colors */
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-default: rgba(0, 0, 0, 0.1);
+  --border-focus: rgba(5, 150, 105, 0.3);
+
+  /* Message Bubbles */
+  --user-bubble: #e4e4e7;
+  --ai-bubble: transparent;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.06);
+}
+
+/* --- Dark Mode --- */
+.dark {
+  /* Background Colors */
+  --bg-primary: #09090b;
+  --bg-secondary: #18181b;
+  --bg-tertiary: #27272a;
+  --bg-glass: rgba(255, 255, 255, 0.03);
+
+  /* Text Colors */
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+
+  /* Accent Colors */
+  --accent-primary: #10a27e;
+  --accent-hover: #13b894;
+  --accent-glow: rgba(16, 162, 126, 0.15);
+  --accent-gradient: linear-gradient(135deg, #10a27e 0%, #059669 100%);
+
+  /* Border Colors */
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-focus: rgba(16, 162, 126, 0.3);
+
+  /* Message Bubbles */
+  --user-bubble: #27272a;
+  --ai-bubble: transparent;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.06);
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ============================================
+   Custom Scrollbar
+   ============================================ */
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
@@ -17,6 +104,56 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(16, 162, 126, 0.2);
+  background: var(--border-default);
   border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* Firefox scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default) transparent;
+}
+
+/* ============================================
+   Utility Classes (Optional Enhancements)
+   ============================================ */
+
+/* Glassmorphism effect */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+/* Accent glow effect */
+.accent-glow {
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtle hover transition */
+.hover-lift {
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* Focus ring */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--border-focus);
 }
