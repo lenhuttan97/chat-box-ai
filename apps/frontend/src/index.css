@@ -2,12 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import Inter font from fontsource (no CDN needed) */
+/* ============================================
+   Fonts
+   ============================================ */
+
+/* Inter font from fontsource */
 @import '@fontsource/inter/300.css';
 @import '@fontsource/inter/400.css';
 @import '@fontsource/inter/500.css';
 @import '@fontsource/inter/600.css';
 @import '@fontsource/inter/700.css';
+
+/* Material Symbols Rounded */
+@import '@fontsource/material-symbols-rounded/400.css';
+@import '@fontsource/material-symbols-rounded/500.css';
+@import '@fontsource/material-symbols-rounded/600.css';
+
+.material-symbols-rounded {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.material-symbols-rounded.filled {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
 
 /* ============================================
    CSS Custom Properties - Premium Design Tokens
@@ -119,29 +136,107 @@ body {
 }
 
 /* ============================================
-   Utility Classes (Optional Enhancements)
+   Global Styles - Issue #21
+   Glassmorphism, Noise Overlay, Glow Effects
    ============================================ */
 
-/* Glassmorphism effect */
+/* --- Glassmorphism --- */
+/* Glass effect with blur(16px) as per spec */
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
 }
 
-/* Accent glow effect */
+/* Glass variant with stronger blur */
+.glass-heavy {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-subtle);
+}
+
+/* --- Glow Effects --- */
+/* Subtle accent glow */
 .accent-glow {
   box-shadow: 0 0 20px var(--accent-glow);
 }
 
-/* Gradient text */
+/* Small glow */
+.accent-glow-sm {
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Large glow */
+.accent-glow-lg {
+  box-shadow: 0 0 40px var(--accent-glow);
+}
+
+/* Glow orb - radial gradient with primary color */
+.glow-orb {
+  position: relative;
+}
+
+.glow-orb::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    var(--accent-glow) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Glow button on hover */
+.glow-button {
+  transition: box-shadow 200ms ease;
+}
+
+.glow-button:hover {
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* --- Noise Overlay --- */
+/* 2% SVG turbulence noise texture */
+.noise {
+  position: relative;
+}
+
+.noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.02;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Noise overlay on dark backgrounds */
+.noise-dark::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+}
+
+/* --- Gradient Text --- */
 .gradient-text {
   background: var(--accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* ============================================
+   Utility Classes
+   ============================================ */
 
 /* Subtle hover transition */
 .hover-lift {
@@ -157,3 +252,54 @@ body {
   outline: none;
   box-shadow: 0 0 0 2px var(--border-focus);
 }
+
+/* Animated gradient background */
+.animated-gradient {
+  background: linear-gradient(
+    -45deg,
+    var(--bg-primary),
+    var(--bg-secondary),
+    var(--bg-tertiary),
+    var(--bg-secondary)
+  );
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Fade animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 200ms ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 200ms ease-out forwards;
+}
+
+/* Staggered animation delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
