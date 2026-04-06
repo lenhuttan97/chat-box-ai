@@ -14,7 +14,8 @@ Update current UI/UX to match premium design specifications from `stitch_home_ch
 | T001 | Update Tailwind config với premium design tokens | #20 | ✅ done |
 | T002 | Add global styles (noise, glassmorphism, glow) | #21 | ✅ done |
 | T003 | Create premium Sidebar component | #22 | ✅ done |
-| T004 | Create premium Header component | #23 | ⏳ |
+| T004 | Create premium Header component | #23 | ✅ done |
+| T005 | Update ChatLayout - migrate MUI → Tailwind | #24 | ⏳ |
 | T005 | Update ChatLayout - migrate MUI → Tailwind | #24 | ⏳ |
 | T006 | Create premium LoginPage | #25 | ⏳ |
 | T007 | Update ChatWindow | #26 | ⏳ |
