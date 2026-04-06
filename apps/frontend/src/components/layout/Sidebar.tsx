@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { useConversations } from '../../hooks/useConversations'
 import { format } from 'date-fns'
+import SmartToyIcon from '@mui/icons-material/SmartToy'
+import AddIcon from '@mui/icons-material/Add'
+import ChatIcon from '@mui/icons-material/Chat'
+import DeleteIcon from '@mui/icons-material/Delete'
+import ContrastIcon from '@mui/icons-material/Contrast'
+import SettingsIcon from '@mui/icons-material/Settings'
+import LoginIcon from '@mui/icons-material/Login'
 
 interface SidebarProps {
   onNewChat?: () => void
@@ -10,9 +17,13 @@ interface SidebarProps {
 
 export const Sidebar = ({ onNewChat }: SidebarProps) => {
   const { isAuthenticated } = useAuth()
-  const { conversations, currentConversation, loadConversation, removeConversation, selectConversation } = useConversations()
+  const { conversations, currentConversation, loadConversation, removeConversation, selectConversation, loadConversations } = useConversations()
   const navigate = useNavigate()
   const [localConversations, setLocalConversations] = useState(conversations)
+
+  useEffect(() => {
+    loadConversations()
+  }, [loadConversations])
 
   useEffect(() => {
     setLocalConversations(conversations)
@@ -39,7 +50,7 @@ export const Sidebar = ({ onNewChat }: SidebarProps) => {
         {/* Logo + Title */}
         <div className="flex items-center gap-3 px-2">
           <div className="flex items-center justify-center w-8 h-8 rounded-button bg-accent text-white">
-            <span className="material-symbols-rounded text-xl">smart_toy</span>
+            <SmartToyIcon sx={{ fontSize: 20 }} />
           </div>
           <div>
             <h1 className="text-body font-bold text-text-primary leading-tight">
@@ -56,7 +67,7 @@ export const Sidebar = ({ onNewChat }: SidebarProps) => {
           onClick={handleNewChat}
           className="flex items-center justify-center gap-2 h-11 rounded-button bg-accent text-white font-semibold text-body shadow-sm hover:bg-accent-hover transition-colors"
         >
-          <span className="material-symbols-rounded text-xl">add</span>
+          <AddIcon sx={{ fontSize: 20 }} />
           <span>New Chat</span>
         </button>
       </div>
@@ -80,9 +91,7 @@ export const Sidebar = ({ onNewChat }: SidebarProps) => {
                   : 'hover:bg-bg-tertiary'
                 }`}
             >
-              <span className="material-symbols-rounded text-text-tertiary text-lg">
-                chat
-              </span>
+              <ChatIcon sx={{ fontSize: 20, color: 'var(--text-tertiary)' }} />
               <div className="flex-1 min-w-0">
                 <p className="text-body font-medium text-text-primary truncate">
                   {conv.name}
@@ -95,9 +104,7 @@ export const Sidebar = ({ onNewChat }: SidebarProps) => {
                 onClick={(e) => handleDeleteConversation(e, conv.id)}
                 className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-bg-tertiary transition-opacity"
               >
-                <span className="material-symbols-rounded text-text-tertiary text-sm">
-                  delete
-                </span>
+                <DeleteIcon sx={{ fontSize: 16, color: 'var(--text-tertiary)' }} />
               </button>
             </button>
           ))}
@@ -119,7 +126,7 @@ export const Sidebar = ({ onNewChat }: SidebarProps) => {
           onClick={() => window.dispatchEvent(new CustomEvent('open-theme-modal'))}
           className="flex items-center gap-3 px-3 py-2.5 rounded-button text-text-secondary hover:bg-bg-tertiary transition-colors w-full"
         >
-          <span className="material-symbols-rounded text-xl">contrast</span>
+          <ContrastIcon sx={{ fontSize: 20 }} />
           <span className="text-body font-medium">Theme Settings</span>
         </button>
 
@@ -129,7 +136,7 @@ export const Sidebar = ({ onNewChat }: SidebarProps) => {
             onClick={() => navigate('/profile')}
             className="flex items-center gap-3 px-3 py-2.5 rounded-button text-text-secondary hover:bg-bg-tertiary transition-colors w-full"
           >
-            <span className="material-symbols-rounded text-xl">settings</span>
+            <SettingsIcon sx={{ fontSize: 20 }} />
             <span className="text-body font-medium">Settings</span>
           </button>
         ) : (
@@ -137,7 +144,7 @@ export const Sidebar = ({ onNewChat }: SidebarProps) => {
             onClick={() => navigate('/login')}
             className="flex items-center gap-3 px-3 py-2.5 rounded-button text-text-secondary hover:bg-bg-tertiary transition-colors w-full"
           >
-            <span className="material-symbols-rounded text-xl">login</span>
+            <LoginIcon sx={{ fontSize: 20 }} />
             <span className="text-body font-medium">Settings</span>
           </button>
         )}
