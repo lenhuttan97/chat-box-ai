@@ -41,7 +41,7 @@ export class AuthService {
         this.firebaseAuth = null;
       }
     } catch (error) {
-      this.logger.error('Failed to initialize Firebase Admin SDK', error.stack);
+      this.logger.error('Failed to initialize Firebase Admin SDK', error);
       this.firebaseAuth = null;
     }
   }
@@ -87,7 +87,7 @@ export class AuthService {
       
       return user;
     } catch (error) {
-      this.logger.error('Firebase token verification failed', error.stack);
+      this.logger.error('Firebase token verification failed', error);
       throw new UnauthorizedException('Invalid Firebase token');
     }
   }

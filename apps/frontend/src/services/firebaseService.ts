@@ -96,7 +96,7 @@ export class FirebaseAuthService {
     return auth.currentUser.getIdToken();
   }
 
-  static async getIdTokenResult(): Promise<any> {
+  static async getIdTokenResult(): Promise<unknown> {
     if (!auth.currentUser) {
       throw new Error('No authenticated user');
     }
@@ -119,11 +119,11 @@ export class FirebaseAuthService {
   }
 
   // Decode JWT token to get user info
-  static decodeToken(token: string): any {
+  static decodeToken(token: string): unknown {
     try {
       return jwtDecode(token);
-    } catch (error) {
-      console.error('Error decoding token:', error);
+    } catch (e) {
+      console.error('Error decoding token:', e);
       return null;
     }
   }
@@ -131,10 +131,10 @@ export class FirebaseAuthService {
   // Check if token is expired
   static isTokenExpired(token: string): boolean {
     try {
-      const decoded: any = jwtDecode(token);
+      const decoded = jwtDecode(token) as { exp?: number };
       const currentTime = Math.floor(Date.now() / 1000);
-      return decoded.exp < currentTime;
-    } catch (error) {
+      return (decoded.exp ?? 0) < currentTime;
+    } catch {
       return true;
     }
   }

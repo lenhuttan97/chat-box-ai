@@ -17,7 +17,7 @@ const LoginPage = () => {
     try {
       await loginEmail(email, password)
       navigate('/')
-    } catch (err) {
+    } catch {
       // Error is handled by useAuth hook
     }
   }
@@ -26,7 +26,7 @@ const LoginPage = () => {
     try {
       await loginGoogle()
       navigate('/')
-    } catch (err) {
+    } catch {
       // Error is handled by useAuth hook
     }
   }

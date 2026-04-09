@@ -74,16 +74,16 @@ export const MessageItem = ({ role, content, isLoading }: MessageItemProps) => {
         >
           <ReactMarkdown
             components={{
-              p: ({node, ...props}) => <p className="mb-2" {...props} />,
-              h1: ({node, ...props}) => <h1 className={`font-bold text-lg mb-2 ${darkMode ? 'text-white' : 'text-slate-900'}`} {...props} />,
-              h2: ({node, ...props}) => <h2 className={`font-bold text-md mb-2 ${darkMode ? 'text-white' : 'text-slate-900'}`} {...props} />,
-              h3: ({node, ...props}) => <h3 className={`font-semibold text-md mb-2 ${darkMode ? 'text-white' : 'text-slate-900'}`} {...props} />,
-              ul: ({node, ...props}) => <ul className="list-disc pl-5 mb-2" {...props} />,
-              ol: ({node, ...props}) => <ol className="list-decimal pl-5 mb-2" {...props} />,
-              li: ({node, ...props}) => <li className="mb-1" {...props} />,
-              code: ({node, ...props}) => <code className={`px-1.5 py-0.5 rounded ${darkMode ? 'bg-slate-700/50 text-slate-200' : 'bg-slate-200 text-slate-800'}`} {...props} />,
-              pre: ({node, ...props}) => <pre className={`p-3 rounded-lg overflow-x-auto mb-2 ${darkMode ? 'bg-slate-800/50' : 'bg-slate-100'}`} {...props} />,
-              a: ({node, ...props}) => <a className={`text-blue-500 hover:underline ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} {...props} />,
+              p: ({node: _node, ...props}) => <p className="mb-2" {...props} />,
+              h1: ({node: _node, ...props}) => <h1 className={`font-bold text-lg mb-2 ${darkMode ? 'text-white' : 'text-slate-900'}`} {...props} />,
+              h2: ({node: _node, ...props}) => <h2 className={`font-bold text-md mb-2 ${darkMode ? 'text-white' : 'text-slate-900'}`} {...props} />,
+              h3: ({node: _node, ...props}) => <h3 className={`font-semibold text-md mb-2 ${darkMode ? 'text-white' : 'text-slate-900'}`} {...props} />,
+              ul: ({node: _node, ...props}) => <ul className="list-disc pl-5 mb-2" {...props} />,
+              ol: ({node: _node, ...props}) => <ol className="list-decimal pl-5 mb-2" {...props} />,
+              li: ({node: _node, ...props}) => <li className="mb-1" {...props} />,
+              code: ({node: _node, ...props}) => <code className={`px-1.5 py-0.5 rounded ${darkMode ? 'bg-slate-700/50 text-slate-200' : 'bg-slate-200 text-slate-800'}`} {...props} />,
+              pre: ({node: _node, ...props}) => <pre className={`p-3 rounded-lg overflow-x-auto mb-2 ${darkMode ? 'bg-slate-800/50' : 'bg-slate-100'}`} {...props} />,
+              a: ({node: _node, ...props}) => <a className={`text-blue-500 hover:underline ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} {...props} />,
             }}
           >
             {content}

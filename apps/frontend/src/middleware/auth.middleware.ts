@@ -83,7 +83,7 @@ export const authMiddleware = {
       const data = await response.json()
       this.setTokens(data.token, data.refreshToken)
       return true
-    } catch (error) {
+    } catch (_error) {
       return false
     }
   },

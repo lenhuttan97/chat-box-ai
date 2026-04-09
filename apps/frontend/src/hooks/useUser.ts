@@ -6,6 +6,7 @@ import {
   selectUserLoading, 
   selectUserError 
 } from '../store/slices/user.slice'
+import type { User } from '../middleware/user.middleware'
 
 export const useUser = () => {
   const dispatch: AppDispatch = useDispatch()
@@ -20,7 +21,7 @@ export const useUser = () => {
   const updateProfile = (displayName: string, photoURL?: string) => 
     dispatch(updateUserProfile({ displayName, photoURL }))
   
-  const setCurrentUser = (user: any) => dispatch(setUser(user))
+  const setCurrentUser = (user: User | null) => dispatch(setUser(user))
   
   const logout = () => dispatch(clearUser())
   

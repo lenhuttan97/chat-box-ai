@@ -17,8 +17,8 @@ Update current UI/UX to match premium design specifications from `stitch_home_ch
 | T004 | Create premium Header component | #23 | ✅ done |
 | T005 | Update ChatLayout - migrate MUI → Tailwind | #24 | ✅ done |
 | T006 | Create premium LoginPage | #25 | ✅ done |
-| T007 | Update ChatWindow | #26 | ⏳ |
-| T008 | Update InputBar - rounded-full | #27 | ⏳ |
+| T007 | Update ChatWindow | #26 | ✅ done |
+| T008 | Update InputBar - rounded-full | #27 | ✅ done |
 | T009 | Update MessageList | #28 | ⏳ |
 | T010 | Update ConversationList | #29 | ⏳ |
 

@@ -34,7 +34,6 @@ export const messageService = {
     const reader = response.body?.getReader()
     const decoder = new TextDecoder()
     let conversationIdResult = conversationId || ''
-    let fullResponse = ''
 
     if (!reader) {
       throw new Error('No response body')
@@ -61,14 +60,13 @@ export const messageService = {
             }
 
             if (data.chunk) {
-              fullResponse += data.chunk
               onChunk(data.chunk, conversationIdResult)
             }
 
             if (data.error) {
               throw new Error(data.error)
             }
-          } catch (e) {
+          } catch {
             // Ignore parse errors
           }
         }

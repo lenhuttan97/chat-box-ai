@@ -24,7 +24,7 @@ const RegisterPage = () => {
     try {
       await registerEmail(email, password, displayName)
       navigate('/')
-    } catch (err) {
+    } catch {
       // Error is handled by useAuth hook
     }
   }
@@ -33,7 +33,7 @@ const RegisterPage = () => {
     try {
       await loginGoogle()
       navigate('/')
-    } catch (err) {
+    } catch {
       // Error is handled by useAuth hook
     }
   }

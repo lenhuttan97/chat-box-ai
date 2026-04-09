@@ -24,7 +24,7 @@ const UpdatePasswordPage = () => {
     try {
       await updatePassword(newPassword)
       navigate('/profile')
-    } catch (err) {
+    } catch {
       // Error is handled by useAuth hook
     }
   }
