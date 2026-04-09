@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Box } from '@mui/material'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
@@ -12,6 +13,14 @@ const RegisterPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+  useEffect(() => {
+    const html = document.documentElement
+    html.classList.add('dark')
+    return () => {
+      html.classList.remove('dark')
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -45,44 +54,44 @@ const RegisterPage = () => {
   }
 
   return (
-    <main className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#131315]">
+    <Box component="main" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#11211d]">
       {/* Background emerald glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-emerald-500/10 blur-[120px]" />
-        <div className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-emerald-400/5 blur-[100px]" />
-      </div>
+      <Box className="absolute inset-0 pointer-events-none">
+        <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-emerald-500/10 blur-[120px]" />
+        <Box className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-emerald-400/5 blur-[100px]" />
+      </Box>
 
       {/* Noise overlay */}
-      <div className="noise-dark pointer-events-none absolute inset-0 opacity-20" />
+      <Box className="noise-dark pointer-events-none absolute inset-0 opacity-20" />
 
       {/* Register Card */}
-      <div className="relative z-10 w-full max-w-md mx-4">
-        <div className="glass rounded-[24px] p-8 backdrop-blur-xl border border-white/10 shadow-2xl">
+      <Box className="relative z-10 w-full max-w-md mx-4">
+        <Box className="glass rounded-[24px] p-8 backdrop-blur-xl border border-white/10 shadow-2xl">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/10 mb-4">
+          <Box className="text-center mb-8">
+            <Box className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/10 mb-4">
               <svg className="w-8 h-8 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
               </svg>
-            </div>
-            <h1 className="text-2xl font-bold text-[#e5e1e4]">Create Account</h1>
-            <p className="text-sm text-[#e5e1e4]/60 mt-2">Sign up to continue to AI Chat</p>
-          </div>
+            </Box>
+            <Box component="h1" className="text-2xl font-bold text-[#e5e1e4]">Create Account</Box>
+            <Box component="p" className="text-sm text-[#e5e1e4]/60 mt-2">Sign up to continue to AI Chat</Box>
+          </Box>
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-3 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
+            <Box className="mb-4 p-3 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
               {error}
-            </div>
+            </Box>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} noValidate className="space-y-4 mb-6">
+          <Box component="form" onSubmit={handleSubmit} noValidate className="space-y-4 mb-6">
             {/* Full Name */}
-            <div>
-              <label htmlFor="displayName" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
+            <Box>
+              <Box component="label" htmlFor="displayName" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
                 Full Name
-              </label>
+              </Box>
               <input
                 id="displayName"
                 type="text"
@@ -91,16 +100,16 @@ const RegisterPage = () => {
                 required
                 autoFocus
                 autoComplete="name"
-                placeholder="Enter your name"
+                placeholder="Enter your full name"
                 className="w-full h-12 px-5 rounded-full bg-white/5 border border-white/10 text-[#e5e1e4] placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400/50 transition-all duration-200"
               />
-            </div>
+            </Box>
 
             {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
+            <Box>
+              <Box component="label" htmlFor="email" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
                 Email
-              </label>
+              </Box>
               <input
                 id="email"
                 type="email"
@@ -111,14 +120,14 @@ const RegisterPage = () => {
                 placeholder="Enter your email"
                 className="w-full h-12 px-5 rounded-full bg-white/5 border border-white/10 text-[#e5e1e4] placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400/50 transition-all duration-200"
               />
-            </div>
+            </Box>
 
             {/* Password */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
+            <Box>
+              <Box component="label" htmlFor="password" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
                 Password
-              </label>
-              <div className="relative">
+              </Box>
+              <Box className="relative">
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -129,7 +138,8 @@ const RegisterPage = () => {
                   placeholder="Enter your password"
                   className="w-full h-12 px-5 pr-14 rounded-full bg-white/5 border border-white/10 text-[#e5e1e4] placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400/50 transition-all duration-200"
                 />
-                <button
+                <Box
+                  component="button"
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-[#e5e1e4]/50 hover:text-[#e5e1e4]/80 transition-colors"
@@ -141,20 +151,20 @@ const RegisterPage = () => {
                     </svg>
                   ) : (
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                   )}
-                </button>
-              </div>
-            </div>
+                </Box>
+              </Box>
+            </Box>
 
             {/* Confirm Password */}
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
+            <Box>
+              <Box component="label" htmlFor="confirmPassword" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
                 Confirm Password
-              </label>
-              <div className="relative">
+              </Box>
+              <Box className="relative">
                 <input
                   id="confirmPassword"
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -165,7 +175,8 @@ const RegisterPage = () => {
                   placeholder="Confirm your password"
                   className="w-full h-12 px-5 pr-14 rounded-full bg-white/5 border border-white/10 text-[#e5e1e4] placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400/50 transition-all duration-200"
                 />
-                <button
+                <Box
+                  component="button"
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-[#e5e1e4]/50 hover:text-[#e5e1e4]/80 transition-colors"
@@ -177,59 +188,62 @@ const RegisterPage = () => {
                     </svg>
                   ) : (
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 0 016 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                     </svg>
                   )}
-                </button>
-              </div>
-            </div>
+                </Box>
+              </Box>
+            </Box>
 
-            {/* Submit Button */}
-            <button
+            {/* Primary Register Button */}
+            <Box
+              component="button"
               type="submit"
               disabled={isLoading}
-              className="w-full h-12 rounded-full bg-emerald-500 text-white font-semibold text-base hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:ring-offset-2 focus:ring-offset-[#131315] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 rounded-full bg-emerald-500 text-white font-semibold text-base hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:ring-offset-2 focus:ring-offset-[#11211d] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
-                <span className="flex items-center justify-center gap-2">
+                <Box component="span" className="flex items-center justify-center gap-2">
                   <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
                   Creating account...
-                </span>
+                </Box>
               ) : (
                 'Sign Up'
               )}
-            </button>
+            </Box>
 
             {/* Reset Button */}
-            <div className="text-center">
-              <button
+            <Box className="text-center">
+              <Box
+                component="button"
                 type="button"
                 onClick={handleReset}
                 className="text-sm text-[#e5e1e4]/50 hover:text-[#e5e1e4]/80 transition-colors"
               >
                 Reset form
-              </button>
-            </div>
-          </form>
+              </Box>
+            </Box>
+          </Box>
 
           {/* Divider */}
-          <div className="relative mb-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-white/10" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 text-[#e5e1e4]/50 bg-[#131315]/50 backdrop-blur-sm">Or sign up with</span>
-            </div>
-          </div>
+          <Box className="relative mb-6">
+            <Box className="absolute inset-0 flex items-center">
+              <Box className="w-full border-t border-white/10" />
+            </Box>
+            <Box className="relative flex justify-center text-sm">
+              <Box component="span" className="px-4 text-[#e5e1e4]/50 bg-[#11211d]/50 backdrop-blur-sm">Or sign up with</Box>
+            </Box>
+          </Box>
 
           {/* Social Login Buttons */}
-          <div className="space-y-3 mb-6">
+          <Box className="space-y-3 mb-6">
             {/* Google */}
-            <button
+            <Box
+              component="button"
               onClick={handleGoogleLogin}
               disabled={isLoading}
               className="w-full h-12 flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/5 text-[#e5e1e4] font-medium hover:bg-white/10 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -240,20 +254,20 @@ const RegisterPage = () => {
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
               </svg>
-              {isLoading ? 'Signing up...' : 'Sign up with Google'}
-            </button>
-          </div>
+              {isLoading ? 'Signing up...' : 'Continue with Google'}
+            </Box>
+          </Box>
 
           {/* Login Link */}
-          <div className="text-center text-sm text-[#e5e1e4]/60">
+          <Box className="text-center text-sm text-[#e5e1e4]/60">
             Already have an account?{' '}
             <Link to="/login" className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
               Sign in
             </Link>
-          </div>
-        </div>
-      </div>
-    </main>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   )
 }
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Box } from '@mui/material'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
@@ -10,6 +10,14 @@ const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+
+  useEffect(() => {
+    const html = document.documentElement
+    html.classList.add('dark')
+    return () => {
+      html.classList.remove('dark')
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -38,7 +46,7 @@ const LoginPage = () => {
   }
 
   return (
-    <Box component="main" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#131315]">
+    <Box component="main" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#11211d]">
       {/* Background emerald glow */}
       <Box className="absolute inset-0 pointer-events-none">
         <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-emerald-500/10 blur-[120px]" />
@@ -129,7 +137,7 @@ const LoginPage = () => {
               component="button"
               type="submit"
               disabled={isLoading}
-              className="w-full h-12 rounded-full bg-emerald-500 text-white font-semibold text-base hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:ring-offset-2 focus:ring-offset-[#131315] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 rounded-full bg-emerald-500 text-white font-semibold text-base hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:ring-offset-2 focus:ring-offset-[#11211d] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <Box component="span" className="flex items-center justify-center gap-2">
@@ -163,7 +171,7 @@ const LoginPage = () => {
               <Box className="w-full border-t border-white/10" />
             </Box>
             <Box className="relative flex justify-center text-sm">
-              <Box component="span" className="px-4 text-[#e5e1e4]/50 bg-[#131315]/50 backdrop-blur-sm">Or sign in with</Box>
+              <Box component="span" className="px-4 text-[#e5e1e4]/50 bg-[#11211d]/50 backdrop-blur-sm">Or sign in with</Box>
             </Box>
           </Box>
 
