@@ -13,9 +13,10 @@ import LoginIcon from '@mui/icons-material/Login'
 
 interface SidebarProps {
   onNewChat?: () => void
+  className?: string
 }
 
-export const Sidebar = ({ onNewChat }: SidebarProps) => {
+export const Sidebar = ({ onNewChat, className }: SidebarProps) => {
   const { isAuthenticated } = useAuth()
   const { conversations, currentConversation, loadConversation, removeConversation, selectConversation, loadConversations } = useConversations()
   const navigate = useNavigate()
