@@ -1,13 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { Box, Typography } from '@mui/material'
 import { RootState } from '../../store'
 import { MessageItem } from '../chat/MessageItem'
-import { useTheme } from '../../hooks/useTheme'
 
 export const MessageList = () => {
   const { items: messages, streaming } = useSelector((state: RootState) => state.messages)
-  const { darkMode } = useTheme()
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -15,40 +12,35 @@ export const MessageList = () => {
   }, [messages, streaming])
 
   return (
-    <Box sx={{ flex: 1, overflow: 'auto', overflowAnchor: 'auto', bgcolor: darkMode ? '#11221d' : '#f6f8f7' }}>
+    <div className="flex-1 overflow-auto overflow-anchor-auto bg-bg-primary relative">
       {messages.length === 0 ? (
-        <Box
-          sx={{
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            gap: 2,
-            color: darkMode ? '#94a3b8' : '#64748b',
-          }}
-        >
-          <Box
-            component="img"
-            src="/chat-icon.png"
-            sx={{ width: 64, height: 64, opacity: 0.5 }}
-            onError={(e) => {
-              e.currentTarget.style.display = 'none'
-            }}
-          />
-          <Typography sx={{ color: darkMode ? '#94a3b8' : '#64748b' }}>Start a conversation</Typography>
-        </Box>
+        <div className="h-full flex flex-col items-center justify-center gap-4 text-text-secondary">
+          <div className="relative">
+            <img
+              src="/chat-icon.png"
+              alt="Chat"
+              className="w-16 h-16 opacity-50"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+            <div className="absolute inset-0 bg-emerald-500/10 rounded-full blur-xl -z-10"></div>
+          </div>
+          <p className="text-text-secondary">Start a conversation</p>
+        </div>
       ) : (
-        messages.map((msg, index) => (
-          <MessageItem
-            key={msg.id}
-            role={msg.role as 'user' | 'assistant'}
-            content={msg.content}
-            isLoading={index === messages.length - 1 && msg.role === 'assistant' && streaming}
-          />
-        ))
+        <div className="pb-4">
+          {messages.map((msg, index) => (
+            <MessageItem
+              key={msg.id}
+              role={msg.role as 'user' | 'assistant'}
+              content={msg.content}
+              isLoading={index === messages.length - 1 && msg.role === 'assistant' && streaming}
+            />
+          ))}
+        </div>
       )}
       <div ref={bottomRef} />
-    </Box>
+    </div>
   )
 }
