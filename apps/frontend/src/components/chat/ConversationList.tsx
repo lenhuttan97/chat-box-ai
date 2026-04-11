@@ -1,14 +1,11 @@
 import { useState } from 'react'
-import { Box, List, ListItemButton, ListItemText, Typography, IconButton, CircularProgress } from '@mui/material'
-import { Delete as DeleteIcon, Add as AddIcon, Settings as SettingsIcon } from '@mui/icons-material'
+import { Add as AddIcon, Settings as SettingsIcon, Delete as DeleteIcon } from '@mui/icons-material'
 import { useConversations } from '../../hooks/useConversations'
-import { useTheme } from '../../hooks/useTheme'
 import { ChatSettingsModal } from '../common/ChatSettingsModal'
 import { format } from 'date-fns'
 
 export const ConversationList = () => {
   const { conversations, currentConversation, loading, loadConversation, removeConversation, selectConversation } = useConversations()
-  const { darkMode } = useTheme()
   const [settingsOpen, setSettingsOpen] = useState(false)
 
   const handleNewChat = () => {
@@ -17,94 +14,75 @@ export const ConversationList = () => {
 
   if (loading) {
     return (
-      <Box sx={{ p: 2, display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress size={24} sx={{ color: '#10a27e' }} />
-      </Box>
+      <div className="p-2 flex justify-center">
+        <div className="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+      </div>
     )
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography 
-          variant="h6" 
-          fontWeight="bold"
-          sx={{ color: darkMode ? 'white' : '#0f172a' }}
-        >
+    <div className="flex flex-col h-full bg-bg-secondary border-r border-border-subtle">
+      <div className="p-4 flex items-center justify-between">
+        <p className="text-h2 font-bold text-text-primary">
           Conversations
-        </Typography>
-        <IconButton 
-          size="small" 
+        </p>
+        <button
           onClick={handleNewChat}
-          sx={{ color: darkMode ? '#94a3b8' : '#64748b' }}
+          className="p-2 text-text-secondary hover:text-accent transition-colors rounded-button"
         >
           <AddIcon />
-        </IconButton>
-      </Box>
-      <List sx={{ flex: 1, overflow: 'auto' }}>
-        {conversations.map((conv) => (
-          <ListItemButton
-            key={conv.id}
-            selected={currentConversation?.id === conv.id}
-            onClick={() => loadConversation(conv.id)}
-            sx={{ 
-              px: 2, 
-              py: 1.5,
-              color: darkMode ? '#cbd5e1' : '#475569',
-              '&.Mui-selected': {
-                bgcolor: darkMode ? 'rgba(16,162,126,0.15)' : 'rgba(16,162,126,0.1)',
-                '&:hover': {
-                  bgcolor: darkMode ? 'rgba(16,162,126,0.2)' : 'rgba(16,162,126,0.15)',
-                }
-              },
-              '&:hover': {
-                bgcolor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
-              }
-            }}
-          >
-            <ListItemText
-              primary={conv.name}
-              secondary={format(new Date(conv.updatedAt), 'MMM d, yyyy')}
-              primaryTypographyProps={{ 
-                noWrap: true,
-                sx: { color: darkMode ? 'white' : '#0f172a' }
-              }}
-              secondaryTypographyProps={{
-                sx: { color: darkMode ? '#94a3b8' : '#64748b' }
-              }}
-            />
-            <IconButton 
-              size="small" 
-              onClick={(e) => { 
-                e.stopPropagation()
-                loadConversation(conv.id)
-                setSettingsOpen(true) 
-              }}
-              sx={{ color: darkMode ? '#94a3b8' : '#64748b' }}
+        </button>
+      </div>
+      <div className="flex-1 overflow-y-auto custom-scrollbar">
+        <div className="space-y-1 p-2">
+          {conversations.map((conv) => (
+            <button
+              key={conv.id}
+              onClick={() => loadConversation(conv.id)}
+              className={`w-full flex items-center gap-3 p-3 rounded-card text-left transition-colors group ${
+                currentConversation?.id === conv.id
+                  ? "bg-bg-tertiary border-l-2 border-accent"
+                  : "hover:bg-bg-tertiary"
+              }`}
             >
-              <SettingsIcon fontSize="small" />
-            </IconButton>
-            <IconButton 
-              size="small" 
-              onClick={(e) => { e.stopPropagation(); removeConversation(conv.id) }}
-              sx={{ color: darkMode ? '#94a3b8' : '#64748b' }}
-            >
-              <DeleteIcon fontSize="small" />
-            </IconButton>
-          </ListItemButton>
-        ))}
-        {conversations.length === 0 && (
-          <Box sx={{ p: 2, textAlign: 'center' }}>
-            <Typography 
-              variant="body2" 
-              sx={{ color: darkMode ? '#94a3b8' : '#64748b' }}
-            >
-              No conversations yet
-            </Typography>
-          </Box>
-        )}
-      </List>
+              <div className="flex-1 min-w-0">
+                <p className="text-body font-medium text-text-primary truncate">
+                  {conv.name}
+                </p>
+                <p className="text-caption text-text-tertiary">
+                  {format(new Date(conv.updatedAt), 'MMM d, yyyy')}
+                </p>
+              </div>
+              <span className="opacity-0 group-hover:opacity-100 flex gap-1">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    loadConversation(conv.id)
+                    setSettingsOpen(true)
+                  }}
+                  className="p-1 rounded hover:bg-bg-tertiary transition-colors"
+                >
+                  <SettingsIcon className="text-text-tertiary" fontSize="small" />
+                </button>
+                <button
+                  onClick={(e) => { e.stopPropagation(); removeConversation(conv.id) }}
+                  className="p-1 rounded hover:bg-bg-tertiary transition-colors"
+                >
+                  <DeleteIcon className="text-text-tertiary" fontSize="small" />
+                </button>
+              </span>
+            </button>
+          ))}
+          {conversations.length === 0 && (
+            <div className="p-4 text-center">
+              <p className="text-caption text-text-tertiary">
+                No conversations yet
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
       <ChatSettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
-    </Box>
+    </div>
   )
 }
