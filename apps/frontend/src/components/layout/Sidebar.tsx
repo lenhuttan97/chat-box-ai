@@ -145,7 +145,7 @@ export const Sidebar = ({ onNewChat, className = "", sx }: SidebarProps) => {
 
         {isAuthenticated ? (
           <button
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate("/settings")}
             className="flex items-center gap-3 px-4 py-2 h-10 rounded-button text-text-secondary hover:bg-bg-tertiary transition-colors w-full"
           >
             <SettingsIcon sx={{ fontSize: 20 }} />

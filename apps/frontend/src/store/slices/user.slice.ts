@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { FirebaseAuthService } from '../../services/firebaseService'
+import { FirebaseAuthService } from '../../services/firebase/firebaseService'
 
 interface User {
   id: string | null

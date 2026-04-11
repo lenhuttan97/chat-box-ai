@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { FirebaseAuthService } from '../../services/firebaseService'
+import { FirebaseAuthService } from '../../services/firebase/firebaseService'
 import type { RootState } from '../index'
 
 interface AuthUser {
@@ -59,7 +59,7 @@ export const registerWithEmail = createAsyncThunk(
       const userCredential: any = await FirebaseAuthService.signUpWithEmail(email, password, displayName)
       const idToken = await FirebaseAuthService.getIdToken()
       FirebaseAuthService.saveTokenToCookie(idToken)
-      
+      console.log("userCredential user: ", userCredential.user)
       return {
         id: userCredential.user.uid,
         email: userCredential.user.email,
@@ -83,13 +83,15 @@ export const loginWithGoogle = createAsyncThunk(
       const idToken = await FirebaseAuthService.getIdToken()
       FirebaseAuthService.saveTokenToCookie(idToken)
       
+      console.log("loginWithGoogle: ", userCredential);
+
       return {
-        id: userCredential.user.uid,
-        email: userCredential.user.email,
-        displayName: userCredential.user.displayName,
-        photoURL: userCredential.user.photoURL,
-        provider: userCredential.user.providerData[0]?.providerId || null,
-        firebaseUid: userCredential.user.uid,
+        id: userCredential.uid,
+        email: userCredential.email,
+        displayName: userCredential.displayName,
+        photoURL: userCredential.photoURL,
+        provider: userCredential.providerData[0]?.providerId || null,
+        firebaseUid: userCredential.uid,
         accessToken: idToken
       }
     } catch (error: any) {
