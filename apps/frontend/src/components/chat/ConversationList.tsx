@@ -39,10 +39,10 @@ export const ConversationList = () => {
             <button
               key={conv.id}
               onClick={() => loadConversation(conv.id)}
-              className={`w-full flex items-center gap-3 p-3 rounded-card text-left transition-colors group ${
+              className={`w-full flex items-center gap-3 p-3 rounded-card text-left transition-all duration-200 group ${
                 currentConversation?.id === conv.id
-                  ? "bg-bg-tertiary border-l-2 border-accent"
-                  : "hover:bg-bg-tertiary"
+                  ? "bg-gradient-to-r from-bg-tertiary/80 to-accent/10 border-l-2 border-accent shadow-[0_4px_12px_-4px_rgba(16,162,126,0.1)]"
+                  : "hover:bg-bg-tertiary/60"
               }`}
             >
               <div className="flex-1 min-w-0">
@@ -53,22 +53,24 @@ export const ConversationList = () => {
                   {format(new Date(conv.updatedAt), 'MMM d, yyyy')}
                 </p>
               </div>
-              <span className="opacity-0 group-hover:opacity-100 flex gap-1">
+              <span className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
                 <button
                   onClick={(e) => {
                     e.stopPropagation()
                     loadConversation(conv.id)
                     setSettingsOpen(true)
                   }}
-                  className="p-1 rounded hover:bg-bg-tertiary transition-colors"
+                  className="p-1.5 rounded-full hover:bg-bg-tertiary transition-colors"
+                  title="Settings"
                 >
-                  <SettingsIcon className="text-text-tertiary" fontSize="small" />
+                  <SettingsIcon className="text-text-tertiary hover:text-text-primary" fontSize="small" />
                 </button>
                 <button
                   onClick={(e) => { e.stopPropagation(); removeConversation(conv.id) }}
-                  className="p-1 rounded hover:bg-bg-tertiary transition-colors"
+                  className="p-1.5 rounded-full hover:bg-error-container/30 transition-colors"
+                  title="Delete conversation"
                 >
-                  <DeleteIcon className="text-text-tertiary" fontSize="small" />
+                  <DeleteIcon className="text-text-tertiary hover:text-error" fontSize="small" />
                 </button>
               </span>
             </button>
