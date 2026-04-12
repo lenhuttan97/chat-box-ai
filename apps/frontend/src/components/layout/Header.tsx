@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { SxProps, Theme } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+import { useUser } from '../../hooks/useUser'
 import SearchIcon from '@mui/icons-material/Search'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import LoginIcon from '@mui/icons-material/Login'
@@ -15,7 +16,8 @@ interface HeaderProps {
 }
 
 export const Header = ({ title = 'New Conversation', className = '', sx }: HeaderProps) => {
-  const { user, isAuthenticated } = useAuth()
+  const { isAuthenticated } = useAuth()
+  const { currentUser } = useUser()
   const navigate = useNavigate()
   const [modelAnchorEl, setModelAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedModel, setSelectedModel] = useState('gemini-2.0-flash')
@@ -99,8 +101,8 @@ export const Header = ({ title = 'New Conversation', className = '', sx }: Heade
           className="flex items-center gap-2 p-1 rounded-full hover:opacity-80 transition-opacity"
         >
           <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-border-subtle hover:border-accent transition-colors">
-            {isAuthenticated && user?.photoURL ? (
-              <img src={user.photoURL} alt={user.displayName || 'User'} className="w-full h-full object-cover" />
+            {isAuthenticated && currentUser?.photoUrl ? (
+              <img src={currentUser.photoUrl} alt={currentUser.displayName || 'User'} className="w-full h-full object-cover" />
             ) : (
               <div className="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center">
                 <LoginIcon sx={{ fontSize: 20 }} />

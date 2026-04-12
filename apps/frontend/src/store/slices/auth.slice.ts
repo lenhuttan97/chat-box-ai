@@ -64,14 +64,14 @@ export const logoutUser = createAsyncThunk(
 
 export const updateUserProfile = createAsyncThunk(
   'auth/updateUserProfile',
-  async ({ displayName, photoURL }: { displayName: string; photoURL?: string }, { rejectWithValue }) => {
+  async ({ displayName, photoUrl }: { displayName: string; photoUrl?: string }, { rejectWithValue }) => {
     try {
       const token = authMiddleware.getToken();
       if (!token) {
         throw new Error("No authentication token found");
       }
-      const updatedUser = await authMiddleware.updateProfile(displayName, photoURL || '', token);
-      return { displayName, photoURL }
+      const updatedUser = await authMiddleware.updateProfile(displayName, photoUrl || '', token);
+      return { displayName, photoUrl }
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -167,7 +167,7 @@ const authSlice = createSlice({
           id: userData.id,
           email: userData.email,
           displayName: userData.displayName,
-          photoURL: userData.photoURL,
+          photoUrl: userData.photoUrl,
           provider: userData.provider,
           firebaseUid: userData.firebaseUid
         }
@@ -192,7 +192,7 @@ const authSlice = createSlice({
           id: userData.id,
           email: userData.email,
           displayName: userData.displayName,
-          photoURL: userData.photoURL,
+          photoUrl: userData.photoUrl,
           provider: userData.provider,
           firebaseUid: userData.firebaseUid
         }
@@ -217,7 +217,7 @@ const authSlice = createSlice({
           id: userData.id,
           email: userData.email,
           displayName: userData.displayName,
-          photoURL: userData.photoURL,
+          photoUrl: userData.photoUrl,
           provider: userData.provider,
           firebaseUid: userData.firebaseUid
         }
@@ -250,11 +250,11 @@ const authSlice = createSlice({
         state.isLoading = true
         state.error = null
       })
-      .addCase(updateUserProfile.fulfilled, (state, action: PayloadAction<{displayName: string; photoURL?: string}>) => {
+      .addCase(updateUserProfile.fulfilled, (state, action: PayloadAction<{displayName: string; photoUrl?: string}>) => {
         state.isLoading = false
         if (state.user) {
           state.user.displayName = action.payload.displayName
-          state.user.photoURL = action.payload.photoURL ?? state.user.photoURL
+          state.user.photoUrl = action.payload.photoUrl ?? state.user.photoUrl
         }
         state.error = null
       })
@@ -304,7 +304,7 @@ const authSlice = createSlice({
           id: userData.id,
           email: userData.email,
           displayName: userData.displayName,
-          photoURL: userData.photoURL,
+          photoUrl: userData.photoUrl,
           provider: userData.provider,
           firebaseUid: userData.firebaseUid
         }

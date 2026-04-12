@@ -41,8 +41,8 @@ export const useAuth = () => {
   const logout = () =>
     dispatch(logoutUser())
 
-  const updateProfile = (displayName: string, photoURL?: string) =>
-    dispatch(updateUserProfile({ displayName, photoURL }))
+  const updateProfile = (displayName: string, photoUrl?: string) =>
+    dispatch(updateUserProfile({ displayName, photoUrl }))
 
   const updatePassword = (newPassword: string) =>
     dispatch(updateUserPassword({ newPassword }))

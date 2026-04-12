@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import { useAuth } from '../../hooks/useAuth';
+import { useUser } from '../../hooks/useUser';
 import PersonIcon from '@mui/icons-material/Person';
 import PaletteIcon from '@mui/icons-material/Palette';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
@@ -55,22 +56,23 @@ const SettingsSection = ({ title, description, icon, children, defaultOpen = fal
 
 // Profile Settings Section
 const ProfileSection = () => {
-  const { user, updateProfile } = useAuth();
-  const [displayName, setDisplayName] = useState(user?.displayName || '');
+  const { updateProfile: updateAuthProfile } = useAuth();
+  const { currentUser, updateProfile: updateUserProfile, isLoading: userLoading } = useUser();
+  const [displayName, setDisplayName] = useState(currentUser?.displayName || '');
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      setDisplayName(user.displayName || '');
+    if (currentUser) {
+      setDisplayName(currentUser.displayName || '');
     }
-  }, [user]);
+  }, [currentUser]);
 
   const handleSave = async () => {
     if (!displayName.trim()) return;
     setSaving(true);
     try {
-      await updateProfile(displayName, user?.photoURL == null ? "" : user.photoURL);
+      await updateUserProfile(displayName, currentUser?.photoUrl == null ? "" : currentUser.photoUrl);
       setIsEditing(false);
     } catch (error) {
       console.error('Failed to update profile:', error);
@@ -84,15 +86,15 @@ const ProfileSection = () => {
       {/* Avatar */}
       <div className="flex items-center gap-4">
         <div className="relative group">
-          {user?.photoURL ? (
+          {currentUser?.photoUrl ? (
             <img
-              src={user.photoURL}
+              src={currentUser?.photoUrl}
               alt="Avatar"
               className="w-16 h-16 rounded-full object-cover ring-2 ring-accent/20 ring-offset-2 ring-offset-bg-secondary"
             />
           ) : (
             <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center text-white text-xl font-semibold ring-2 ring-accent/20 ring-offset-2 ring-offset-bg-secondary">
-              {user?.displayName?.[0] || user?.email?.[0] || 'U'}
+              {currentUser?.displayName?.[0] || currentUser?.email?.[0] || 'U'}
             </div>
           )}
           <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
@@ -100,7 +102,7 @@ const ProfileSection = () => {
           </div>
         </div>
         <div>
-          <p className="text-text-primary font-medium">{user?.displayName || 'User'}</p>
+          <p className="text-text-primary font-medium">{currentUser?.displayName || 'User'}</p>
           <p className="text-sm text-text-secondary">Pro Plan Member</p>
         </div>
       </div>
@@ -148,7 +150,7 @@ const ProfileSection = () => {
         <label className="block text-sm font-medium text-text-primary mb-2">Email Address</label>
         <input
           type="email"
-          value={user?.email || ''}
+          value={currentUser?.email || ''}
           disabled
           readOnly
           className="w-full px-3 py-2 rounded-input border border-border-default bg-bg-input/50 text-text-primary opacity-60 cursor-not-allowed"
@@ -363,7 +365,7 @@ const DataManagementSection = () => {
       {/* Delete */}
       <div className="p-4 flex items-center justify-between">
         <div>
-          <p className="font-medium text-error">Delete Account</p>
+          <p className="font-medium text-text-primary">Delete Account</p>
           <p className="text-sm text-text-secondary">Permanently remove all your data and workspace access.</p>
         </div>
         <button
