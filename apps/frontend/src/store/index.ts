@@ -29,11 +29,11 @@ export {
   sendPasswordReset,
   initializeAuth,
   clearError,
-} from './slices/auth.firebase.slice'
+} from './slices/auth.slice'
 
 export {
   useAuthSelector
-} from './slices/auth.firebase.slice'
+} from './slices/auth.slice'
 
 export {
   toggleDarkMode,

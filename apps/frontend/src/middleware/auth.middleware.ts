@@ -11,8 +11,8 @@ export const authMiddleware = {
     return authService.register(email, password, displayName);
   },
 
-  async googleLogin(idToken: string) {
-    return authService.googleLogin(idToken);
+  async googleLogin() {
+    return authService.googleLogin();
   },
 
   async refreshToken() {

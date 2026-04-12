@@ -42,11 +42,8 @@ export const loginWithGoogle = createAsyncThunk(
   'auth/loginWithGoogle',
   async (_, { rejectWithValue }) => {
     try {
-      // For Google login, we need to handle Firebase login separately
-      // This would require the Firebase service, but for now we'll simulate
-      // In a real implementation, you'd use Firebase to get an ID token first
-      // then send it to your backend
-      throw new Error("Google login implementation requires Firebase setup");
+      const response = await authMiddleware.googleLogin();
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -215,15 +212,16 @@ const authSlice = createSlice({
       .addCase(loginWithGoogle.fulfilled, (state, action: PayloadAction<any>) => {
         state.isLoading = false
         state.isAuthenticated = true
+        const userData = action.payload.user;
         state.user = {
-          id: action.payload.id,
-          email: action.payload.email,
-          displayName: action.payload.displayName,
-          photoURL: action.payload.photoURL,
-          provider: action.payload.provider,
-          firebaseUid: action.payload.firebaseUid
+          id: userData.id,
+          email: userData.email,
+          displayName: userData.displayName,
+          photoURL: userData.photoURL,
+          provider: userData.provider,
+          firebaseUid: userData.firebaseUid
         }
-        state.accessToken = action.payload.accessToken
+        state.accessToken = action.payload.token
         state.error = null
       })
       .addCase(loginWithGoogle.rejected, (state, action) => {
@@ -301,13 +299,14 @@ const authSlice = createSlice({
       .addCase(initializeAuth.fulfilled, (state, action: PayloadAction<any>) => {
         state.isLoading = false
         state.isAuthenticated = true
+        const userData = action.payload;
         state.user = {
-          id: action.payload.id,
-          email: action.payload.email,
-          displayName: action.payload.displayName,
-          photoURL: action.payload.photoURL,
-          provider: action.payload.provider,
-          firebaseUid: action.payload.firebaseUid
+          id: userData.id,
+          email: userData.email,
+          displayName: userData.displayName,
+          photoURL: userData.photoURL,
+          provider: userData.provider,
+          firebaseUid: userData.firebaseUid
         }
         // We may not have a new token here, so only update if available
         if (action.payload.accessToken) {

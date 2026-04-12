@@ -66,6 +66,17 @@ export class AuthController {
     res.json({ message: 'Logged out successfully' });
   }
 
+  @Get('profile')
+  @UseGuards(AuthGuard('jwt'))
+  async getProfile(@Req() req: Request) {
+    const userId = req.user['sub'];
+    const user = await this.authService.getUserById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return { user: { id: user.id, email: user.email, displayName: user.displayName, photoUrl: user.photoUrl } };
+  }
+
   @Put('password')
   @UseGuards(AuthGuard('jwt'))
   async updatePassword(@Req() req: Request, @Body() body: { oldPassword: string; newPassword: string }) {

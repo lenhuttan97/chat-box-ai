@@ -1,4 +1,5 @@
 import { User, AuthResponse } from '../../types';
+import { FirebaseAuthService } from '../firebase/firebaseService';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
@@ -53,23 +54,33 @@ export class AuthService {
   /**
    * Login with Google using Firebase ID token
    */
-  async googleLogin(idToken: string): Promise<AuthResponse> {
-    const response = await fetch(`${API_URL}/auth/google`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ idToken }),
-    });
+  async googleLogin(): Promise<AuthResponse> {
+    try {
+      // First, authenticate with Firebase to get the ID token
+      const firebaseUser = await FirebaseAuthService.signInWithGoogle();
+      const idToken = await FirebaseAuthService.getIdToken();
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ message: 'Google login failed' }));
-      throw new Error(errorData.message || 'Google login failed');
+      // Then send the ID token to our backend to get our own JWT
+      const response = await fetch(`${API_URL}/auth/google`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ idToken }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Google login failed' }));
+        throw new Error(errorData.message || 'Google login failed');
+      }
+
+      const data = await response.json();
+      this.setTokens(data.token, data.refreshToken);
+      return data;
+    } catch (error) {
+      console.error('Google login error:', error);
+      throw new Error('Google login failed');
     }
-
-    const data = await response.json();
-    this.setTokens(data.token, data.refreshToken);
-    return data;
   }
 
   /**
@@ -116,6 +127,12 @@ export class AuthService {
     } finally {
       // Clear local storage regardless of API call success
       this.clearTokens();
+      // Also sign out from Firebase
+      try {
+        await FirebaseAuthService.signOut();
+      } catch (firebaseError) {
+        console.error('Firebase sign out failed:', firebaseError);
+      }
     }
   }
 
