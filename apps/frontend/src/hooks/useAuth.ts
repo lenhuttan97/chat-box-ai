@@ -15,7 +15,7 @@ import {
   selectAccessToken,
   selectAuthError,
   selectAuthLoading
-} from '../store/slices/auth.slice'
+} from '../store/slices/auth.firebase.slice'
 
 export const useAuth = () => {
   const dispatch: AppDispatch = useDispatch()

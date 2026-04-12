@@ -1,31 +1,9 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { getDeviceInfo, getDeviceId } from '../utils/device'
+import { Message,  Conversation} from '../types'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api'
-
-export interface Message {
-  id: string
-  conversationId?: string
-  role: 'user' | 'assistant'
-  content: string
-  createdAt: string
-}
-
-export interface Conversation {
-  id: string
-  name: string
-  userId?: string
-  deviceId?: string
-  systemPrompt?: string
-  autoPrompt?: string
-  contextToken: number
-  temperature: number
-  maxTokens: number
-  messageCount: number
-  createdAt: string
-  updatedAt: string
-}
 
 const getDeviceHeader = () => {
   const deviceInfo = getDeviceInfo()

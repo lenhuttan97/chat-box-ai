@@ -47,9 +47,6 @@ export class FirebaseAuthService {
   static async signInWithGoogle(): Promise<User> {
     const provider = new GoogleAuthProvider();
     const userCredential = await signInWithPopup(auth, provider);
-
-    console.log("signInWithGoogle: ", userCredential);
-
     return userCredential.user;
   }
 

@@ -6,7 +6,7 @@ import {
   selectUserLoading, 
   selectUserError 
 } from '../store/slices/user.slice'
-import type { User } from '../middleware/user.middleware'
+import type { User } from '../types'
 
 export const useUser = () => {
   const dispatch: AppDispatch = useDispatch()

@@ -2,7 +2,8 @@ import { Controller, Post, Body, Get, Put, UseGuards, Req, Res } from '@nestjs/c
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Request, Response } from 'express';
-import { TokenCookieMiddleware } from './token-cookie.middleware';
+import { TokenCookieMiddleware } from './jwt/token-cookie.middleware';
+import { LoginResponse } from './dto/response/login.response'
 
 @Controller('auth')
 export class AuthController {
@@ -10,13 +11,13 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() body: { email: string; password: string; displayName?: string }, @Res() res: Response) {
-    const user = await this.authService.register(body.email, body.password, body.displayName);
+    const user = await this.authService.register(body.email, body.password, body.displayName);LoginResponse
     const token = this.authService.generateJwtToken(user);
     const refreshToken = this.authService.generateRefreshToken(user);
     
     TokenCookieMiddleware.setTokenCookie(res, token, refreshToken);
     
-    res.json({ user: { id: user.id, email: user.email, displayName: user.displayName, photoUrl: user.photoUrl }, token, refreshToken });
+    res.json(JSON.stringify(refreshToken));
   }
 
   @Post('login')

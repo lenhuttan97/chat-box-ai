@@ -1,15 +1,6 @@
-const API_URL = import.meta.env.VITE_API_URL || '/api'
+import { AuthResponse } from '../types'
 
-export interface AuthResponse {
-  user: {
-    id: string
-    email: string | null
-    displayName: string | null
-    photoUrl: string | null
-  }
-  token: string
-  refreshToken: string
-}
+const API_URL = import.meta.env.VITE_API_URL || '/api'
 
 export const authMiddleware = {
   async login(email: string, password: string): Promise<AuthResponse> {

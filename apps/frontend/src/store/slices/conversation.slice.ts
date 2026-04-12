@@ -1,13 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { conversationService, Conversation } from '../../middleware/conversation.middleware'
+import { conversationService } from '../../middleware/conversation.middleware'
 import { setMessages } from './message.slice'
-
-interface ConversationState {
-  items: Conversation[]
-  currentConversation: Conversation | null
-  loading: boolean
-  error: string | null
-}
+import { ConversationState, Conversation } from '../../types'
 
 const initialState: ConversationState = {
   items: [],

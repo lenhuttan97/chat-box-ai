@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { authMiddleware } from '../../middleware/auth.middleware'
+import { FirebaseAuthService } from '../../services/firebase/firebaseService'
 import type { RootState } from '../index'
 import {AuthState} from '../../types'
 
@@ -17,7 +17,7 @@ export const loginWithEmail = createAsyncThunk(
   'auth/loginWithEmail',
   async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const userCredential: any = await authMiddleware.login(email, password)
+      const userCredential: any = await FirebaseAuthService.signInWithEmail(email, password)
       const idToken = await FirebaseAuthService.getIdToken()
       FirebaseAuthService.saveTokenToCookie(idToken)
       
