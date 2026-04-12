@@ -2,10 +2,12 @@ import { Controller, Post, Body, Get, Put, UseGuards, Req, Res } from '@nestjs/c
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Request, Response } from 'express';
-import { TokenCookieMiddleware } from './token-cookie.middleware';
+import { TokenCookieMiddleware } from './jwt/token-cookie.middleware';
+import { LoginResponse } from './dto/response/login.response'
 
 @Controller('auth')
 export class AuthController {
+
   constructor(private authService: AuthService) {}
 
   @Post('register')
@@ -13,9 +15,9 @@ export class AuthController {
     const user = await this.authService.register(body.email, body.password, body.displayName);
     const token = this.authService.generateJwtToken(user);
     const refreshToken = this.authService.generateRefreshToken(user);
-    
+
     TokenCookieMiddleware.setTokenCookie(res, token, refreshToken);
-    
+
     res.json({ user: { id: user.id, email: user.email, displayName: user.displayName, photoUrl: user.photoUrl }, token, refreshToken });
   }
 
@@ -27,9 +29,9 @@ export class AuthController {
     }
     const token = this.authService.generateJwtToken(user);
     const refreshToken = this.authService.generateRefreshToken(user);
-    
+
     TokenCookieMiddleware.setTokenCookie(res, token, refreshToken);
-    
+
     res.json({ user: { id: user.id, email: user.email, displayName: user.displayName, photoUrl: user.photoUrl }, token, refreshToken });
   }
 
@@ -38,9 +40,9 @@ export class AuthController {
     const user = await this.authService.firebaseLogin(body.idToken);
     const token = this.authService.generateJwtToken(user);
     const refreshToken = this.authService.generateRefreshToken(user);
-    
+
     TokenCookieMiddleware.setTokenCookie(res, token, refreshToken);
-    
+
     res.json({ user: { id: user.id, email: user.email, displayName: user.displayName, photoUrl: user.photoUrl }, token, refreshToken });
   }
 
@@ -52,9 +54,9 @@ export class AuthController {
     }
     const token = this.authService.generateJwtToken(user);
     const refreshToken = this.authService.generateRefreshToken(user);
-    
+
     TokenCookieMiddleware.setTokenCookie(res, token, refreshToken);
-    
+
     res.json({ user: { id: user.id, email: user.email, displayName: user.displayName, photoUrl: user.photoUrl }, token, refreshToken });
   }
 
@@ -62,6 +64,17 @@ export class AuthController {
   logout(@Res() res: Response) {
     TokenCookieMiddleware.clearTokenCookie(res);
     res.json({ message: 'Logged out successfully' });
+  }
+
+  @Get('profile')
+  @UseGuards(AuthGuard('jwt'))
+  async getProfile(@Req() req: Request) {
+    const userId = req.user['sub'];
+    const user = await this.authService.getUserById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return { user: { id: user.id, email: user.email, displayName: user.displayName, photoUrl: user.photoUrl } };
   }
 
   @Put('password')

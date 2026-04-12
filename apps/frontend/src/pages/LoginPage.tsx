@@ -32,12 +32,9 @@ const LoginPage = () => {
   }
 
   const handleGoogleLogin = async () => {
-    try {
       await loginGoogle()
-      navigate('/')
-    } catch {
-      // Error is handled by useAuth hook
-    }
+      .then(() => navigate('/'))
+      .catch(error => console.log("Login Google error: ", error));
   }
 
   const handleReset = () => {

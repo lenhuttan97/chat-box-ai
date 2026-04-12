@@ -1,147 +1,53 @@
-const API_URL = import.meta.env.VITE_API_URL || '/api'
+import { AuthService } from '../services/auth/auth.service';
 
-export interface AuthResponse {
-  user: {
-    id: string
-    email: string | null
-    displayName: string | null
-    photoUrl: string | null
-  }
-  token: string
-  refreshToken: string
-}
+const authService = new AuthService();
 
 export const authMiddleware = {
-  async login(email: string, password: string): Promise<AuthResponse> {
-    const response = await fetch(`${API_URL}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
-    
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || 'Login failed')
-    }
-    
-    const data = await response.json()
-    this.setTokens(data.token, data.refreshToken)
-    return data
+  async login(email: string, password: string) {
+    return authService.login(email, password);
   },
 
-  async register(email: string, password: string, displayName?: string): Promise<AuthResponse> {
-    const response = await fetch(`${API_URL}/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, displayName }),
-    })
-    
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || 'Register failed')
-    }
-    
-    const data = await response.json()
-    this.setTokens(data.token, data.refreshToken)
-    return data
+  async register(email: string, password: string, displayName?: string) {
+    return authService.register(email, password, displayName);
   },
 
-  async googleLogin(idToken: string): Promise<AuthResponse> {
-    const response = await fetch(`${API_URL}/auth/google`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idToken }),
-    })
-    
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || 'Google login failed')
-    }
-    
-    const data = await response.json()
-    this.setTokens(data.token, data.refreshToken)
-    return data
+  async googleLogin() {
+    return authService.googleLogin();
   },
 
-  async refreshToken(): Promise<boolean> {
-    const refreshToken = this.getRefreshToken()
-    if (!refreshToken) {
-      return false
-    }
-
-    try {
-      const response = await fetch(`${API_URL}/auth/refresh-token`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refreshToken }),
-      })
-
-      if (!response.ok) {
-        return false
-      }
-
-      const data = await response.json()
-      this.setTokens(data.token, data.refreshToken)
-      return true
-    } catch (_error) {
-      return false
-    }
+  async refreshToken() {
+    return authService.refreshToken();
   },
 
-  async updatePassword(oldPassword: string, newPassword: string, token: string): Promise<void> {
-    const response = await fetch(`${API_URL}/auth/password`, {
-      method: 'PUT',
-      headers: { 
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ oldPassword, newPassword }),
-    })
-    
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || 'Update password failed')
-    }
+  async updatePassword(oldPassword: string, newPassword: string, token: string) {
+    return authService.updatePassword(oldPassword, newPassword, token);
   },
 
-  async updateProfile(displayName: string, photoUrl: string, token: string): Promise<AuthResponse> {
-    const response = await fetch(`${API_URL}/auth/profile`, {
-      method: 'PUT',
-      headers: { 
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ displayName, photoUrl }),
-    })
-    
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || 'Update profile failed')
-    }
-    
-    return response.json()
+  async updateProfile(displayName: string, photoUrl: string, token: string) {
+    return authService.updateProfile(displayName, photoUrl, token);
   },
 
-  logout(): void {
-    localStorage.removeItem('auth_token')
-    localStorage.removeItem('refresh_token')
-    localStorage.removeItem('user')
+  async getCurrentUser() {
+    return authService.getCurrentUser();
   },
 
-  getToken(): string | null {
-    return localStorage.getItem('auth_token')
+  logout() {
+    return authService.logout();
   },
 
-  getRefreshToken(): string | null {
-    return localStorage.getItem('refresh_token')
+  getToken() {
+    return authService.getToken();
   },
 
-  setToken(token: string): void {
-    localStorage.setItem('auth_token', token)
+  getRefreshToken() {
+    return authService.getRefreshToken();
   },
 
-  setTokens(token: string, refreshToken: string): void {
-    localStorage.setItem('auth_token', token)
-    localStorage.setItem('refresh_token', refreshToken)
+  setToken(token: string) {
+    authService.setToken(token);
   },
-}
+
+  setTokens(token: string, refreshToken: string) {
+    authService.setTokens(token, refreshToken);
+  },
+};

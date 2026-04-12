@@ -1,15 +1,8 @@
 import Cookies from 'js-cookie'
 import { getDeviceInfo } from '../utils/device'
+import { Message } from '../types'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api'
-
-export interface Message {
-  id: string
-  conversationId: string
-  role: 'user' | 'assistant'
-  content: string
-  createdAt: string
-}
 
 export const messageService = {
   async sendMessageWithStream(

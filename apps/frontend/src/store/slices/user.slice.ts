@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { FirebaseAuthService } from '../../services/firebaseService'
+import { authMiddleware } from '../../middleware/auth.middleware'
 
 interface User {
   id: string | null
   email: string | null
   displayName: string | null
-  photoURL: string | null
+  photoUrl: string | null
   provider: string | null
   firebaseUid: string | null
   themeSetting?: 'light' | 'dark' | 'auto'
@@ -27,17 +27,9 @@ export const fetchUserProfile = createAsyncThunk(
   'user/fetchProfile',
   async (_, { rejectWithValue }) => {
     try {
-      const user = FirebaseAuthService.getCurrentUser()
-      if (!user) return null
-      
-      return {
-        id: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        provider: user.providerData[0]?.providerId || null,
-        firebaseUid: user.uid,
-      }
+      // Get user profile from backend API instead of Firebase
+      const user = await authMiddleware.getCurrentUser()
+      return user
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -46,10 +38,17 @@ export const fetchUserProfile = createAsyncThunk(
 
 export const updateUserProfile = createAsyncThunk(
   'user/updateProfile',
-  async ({ displayName, photoURL }: { displayName: string; photoURL?: string }, { rejectWithValue }) => {
+  async ({ displayName, photoUrl }: { displayName: string; photoUrl?: string }, { rejectWithValue }) => {
     try {
-      await FirebaseAuthService.updateUserProfile(displayName, photoURL)
-      return { displayName, photoURL }
+      // Get current token
+      const token = authMiddleware.getToken()
+      if (!token) {
+        throw new Error('No authentication token found')
+      }
+
+      // Update user profile through auth service
+      const updatedUser = await authMiddleware.updateProfile(displayName, photoUrl || '', token)
+      return updatedUser
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -89,10 +88,8 @@ const userSlice = createSlice({
       })
       .addCase(updateUserProfile.fulfilled, (state, action) => {
         state.isLoading = false
-        if (state.currentUser) {
-          state.currentUser.displayName = action.payload.displayName
-          state.currentUser.photoURL = action.payload.photoURL || state.currentUser.photoURL
-        }
+        // Update the current user with the returned data
+        state.currentUser = action.payload
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
         state.isLoading = false

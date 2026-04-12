@@ -42,7 +42,7 @@ export const ChatWindow = () => {
   return (
     <div className="flex flex-col h-full bg-bg-secondary">
       {/* Conversation Header */}
-      <div className="px-6 py-4 border-b border-border group">
+      {/* <div className="px-6 py-4 border-b border-border group">
         {isEditing ? (
           <div className="flex items-center gap-2">
             <input
@@ -94,9 +94,9 @@ export const ChatWindow = () => {
             )}
           </div>
         )}
-      </div>
+      </div> */}
 
-      <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative overflow-auto">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 right-12 h-72 w-72 rounded-full bg-emerald-500/10 blur-[120px]" />
           <div className="absolute bottom-0 left-1/3 h-56 w-56 rounded-full bg-emerald-400/5 blur-[100px]" />

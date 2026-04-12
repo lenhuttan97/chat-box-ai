@@ -12,7 +12,7 @@ interface ChatLayoutProps {
 export const ChatLayout = ({ children }: ChatLayoutProps) => {
   const { darkMode } = useTheme()
   const navigate = useNavigate()
-  const [themeModalOpen, setThemeModalOpen] = useState(false)
+  const [themeModalOpen, setThemeModalOpen] = useState(false);
 
   useEffect(() => {
     const html = document.documentElement

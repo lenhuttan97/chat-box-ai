@@ -10,7 +10,7 @@ import {
 import { DeviceService } from './device.service'
 import { DeviceResponseDto, DeviceListResponseDto } from './dto/response/device-response.dto'
 import { UpdateDeviceDto } from './dto/request/update-device.dto'
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
+import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard'
 import { Request } from 'express'
 
 interface AuthenticatedRequest extends Request {

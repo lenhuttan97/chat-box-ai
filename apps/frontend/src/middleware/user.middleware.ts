@@ -1,13 +1,6 @@
-const API_URL = import.meta.env.VITE_API_URL || '/api'
+import { User } from '../types'
 
-export interface User {
-  id: string
-  email: string | null
-  displayName: string | null
-  photoUrl: string | null
-  provider: string | null
-  themeSetting?: 'light' | 'dark' | 'auto'
-}
+const API_URL = import.meta.env.VITE_API_URL || '/api'
 
 export const userMiddleware = {
   async getCurrentUser(token: string): Promise<User> {

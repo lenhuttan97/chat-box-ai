@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ProfilePage from './pages/ProfilePage'
 import UpdatePasswordPage from './pages/UpdatePasswordPage'
+import SettingsPage from './pages/SettingsPage'
 import RequireAuth from './auth/RequireAuth'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route element={<RequireAuth />}>
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/update-password" element={<UpdatePasswordPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
