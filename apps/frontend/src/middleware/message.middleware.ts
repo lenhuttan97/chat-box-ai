@@ -2,7 +2,7 @@ import Cookies from 'js-cookie'
 import { getDeviceInfo } from '../utils/device'
 import { Message } from '../types'
 
-const API_URL = import.meta.env.VITE_API_URL || '/api'
+const API_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, '') || '/api'
 
 export const messageService = {
   async sendMessageWithStream(
@@ -71,11 +71,16 @@ export const messageService = {
   },
 
   async getMessages(conversationId: string): Promise<Message[]> {
+    if (!conversationId || conversationId.trim() === '') {
+      console.warn('getMessages called with empty conversationId')
+      return []
+    }
+
     const { default: axios } = await import('axios')
     const token = Cookies.get('token')
     const deviceInfo = getDeviceInfo()
     const response = await axios.get(`${API_URL}/v1/conversations/${conversationId}/messages`, {
-      headers: { 
+      headers: {
         Authorization: `Bearer ${token}`,
         'X-Device-Info': JSON.stringify(deviceInfo),
       }

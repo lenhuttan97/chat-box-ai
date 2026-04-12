@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography, Radio, RadioGroup, FormControlLabel, Button } from '@mui/material'
 import { useTheme } from '../../hooks/useTheme'
 
 interface ThemeModalProps {
@@ -23,84 +22,71 @@ export const ThemeModal = ({ open, onClose }: ThemeModalProps) => {
   if (!open) return null
 
   return (
-    <Box
+    <div
       onClick={onClose}
-      sx={{
-        position: 'fixed',
-        inset: 0,
-        bgcolor: 'rgba(0,0,0,0.5)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 9999,
-      }}
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999] p-4"
     >
-      <Box
+      <div
         onClick={(e) => e.stopPropagation()}
-        sx={{
-          bgcolor: 'white',
-          borderRadius: 2,
-          p: 3,
-          width: 320,
-          maxWidth: '90vw',
-        }}
+        className="bg-surface-3/95 backdrop-blur-xl border border-border-subtle/40 rounded-xl p-6 w-full max-w-sm"
       >
-        <Typography sx={{ fontSize: '1.125rem', fontWeight: 600, mb: 2, color: '#0f172a' }}>
+        <h3 className="text-lg font-semibold text-text-primary mb-4">
           Theme Settings
-        </Typography>
+        </h3>
 
-        <RadioGroup
-          value={selectedTheme}
-          onChange={(e) => setSelectedTheme(e.target.value as 'light' | 'dark' | 'auto')}
-        >
-          <FormControlLabel
-            value="light"
-            control={<Radio />}
-            label={
-              <Typography sx={{ fontSize: '0.875rem', color: '#0f172a' }}>
-                Light
-              </Typography>
-            }
-            sx={{ mb: 1 }}
-          />
-          <FormControlLabel
-            value="dark"
-            control={<Radio />}
-            label={
-              <Typography sx={{ fontSize: '0.875rem', color: '#0f172a' }}>
-                Dark
-              </Typography>
-            }
-            sx={{ mb: 1 }}
-          />
-          <FormControlLabel
-            value="auto"
-            control={<Radio />}
-            label={
-              <Typography sx={{ fontSize: '0.875rem', color: '#0f172a' }}>
-                Auto (System preference)
-              </Typography>
-            }
-          />
-        </RadioGroup>
+        <div className="space-y-3 mb-6">
+          <label className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-4/50 cursor-pointer">
+            <input
+              type="radio"
+              name="theme"
+              value="light"
+              checked={selectedTheme === 'light'}
+              onChange={(e) => setSelectedTheme(e.target.value as 'light' | 'dark' | 'auto')}
+              className="w-4 h-4 text-accent bg-surface-2 border-border-subtle focus:ring-accent focus:ring-2"
+            />
+            <span className="text-text-primary font-medium">Light</span>
+          </label>
 
-        <Box sx={{ display: 'flex', gap: 2, mt: 3, justifyContent: 'flex-end' }}>
-          <Button onClick={onClose} sx={{ color: '#64748b', textTransform: 'none' }}>
+          <label className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-4/50 cursor-pointer">
+            <input
+              type="radio"
+              name="theme"
+              value="dark"
+              checked={selectedTheme === 'dark'}
+              onChange={(e) => setSelectedTheme(e.target.value as 'light' | 'dark' | 'auto')}
+              className="w-4 h-4 text-accent bg-surface-2 border-border-subtle focus:ring-accent focus:ring-2"
+            />
+            <span className="text-text-primary font-medium">Dark</span>
+          </label>
+
+          <label className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-4/50 cursor-pointer">
+            <input
+              type="radio"
+              name="theme"
+              value="auto"
+              checked={selectedTheme === 'auto'}
+              onChange={(e) => setSelectedTheme(e.target.value as 'light' | 'dark' | 'auto')}
+              className="w-4 h-4 text-accent bg-surface-2 border-border-subtle focus:ring-accent focus:ring-2"
+            />
+            <span className="text-text-primary font-medium">Auto (System preference)</span>
+          </label>
+        </div>
+
+        <div className="flex gap-3 justify-end">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-lg text-text-secondary hover:bg-surface-4/50 transition-colors"
+          >
             Cancel
-          </Button>
-          <Button
+          </button>
+          <button
             onClick={handleSave}
-            sx={{
-              bgcolor: '#10a27e',
-              color: 'white',
-              textTransform: 'none',
-              '&:hover': { bgcolor: 'rgba(16,162,126,0.9)' },
-            }}
+            className="px-4 py-2 rounded-lg bg-accent text-white font-semibold hover:brightness-110 transition-all shadow-lg shadow-accent-glow"
           >
             Save
-          </Button>
-        </Box>
-      </Box>
-    </Box>
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }

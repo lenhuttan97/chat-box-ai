@@ -4,8 +4,8 @@ import { useUser } from "../hooks/useUser";
 import { useEffect, useState } from "react";
 
 const RequireAuth = () => {
-  const { isAuthenticated, initialize, isLoading: authLoading, user } = useAuth();
-  const { loadUser, currentUser, logout, isLoading: userLoading } = useUser();
+  const { isAuthenticated, initialize, isLoading: authLoading } = useAuth();
+  const { loadUser, logout, isLoading: userLoading } = useUser();
   const location = useLocation();
   const [initializing, setInitializing] = useState(true);
 

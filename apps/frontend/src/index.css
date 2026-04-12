@@ -13,6 +13,9 @@
 @import '@fontsource/material-symbols-rounded/400.css';
 @import '@fontsource/material-symbols-rounded/500.css';
 @import '@fontsource/material-symbols-rounded/600.css';
+@import '@fontsource/material-symbols-outlined/400.css';
+@import '@fontsource/material-symbols-outlined/500.css';
+@import '@fontsource/material-symbols-outlined/600.css';
 
 @tailwind base;
 @tailwind components;
@@ -37,10 +40,17 @@
 
 /* --- Light Mode (Default) --- */
 :root {
-  /* Background Colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f4f4f5;
-  --bg-tertiary: #e4e4e7;
+  /* Surface Hierarchy */
+  --surface-1: #fafafa;
+  --surface-2: #f4f4f5;
+  --surface-3: #e4e4e7;
+  --surface-4: #ffffff;
+  --surface-5: #18181b;
+
+  /* Background Colors (Legacy for backward compatibility) */
+  --bg-primary: var(--surface-1);
+  --bg-secondary: var(--surface-2);
+  --bg-tertiary: var(--surface-3);
   --bg-glass: rgba(255, 255, 255, 0.7);
 
   /* Text Colors */
@@ -60,7 +70,7 @@
   --border-focus: rgba(5, 150, 105, 0.3);
 
   /* Message Bubbles */
-  --user-bubble: #e4e4e7;
+  --user-bubble: var(--surface-3);
   --ai-bubble: transparent;
 
   /* Glassmorphism */
@@ -70,30 +80,37 @@
 
 /* --- Dark Mode --- */
 .dark {
-  /* Background Colors */
-  --bg-primary: #09090b;
-  --bg-secondary: #18181b;
-  --bg-tertiary: #27272a;
+  /* Surface Hierarchy - Updated to match premium design */
+  --surface-1: #131315; /* surface */
+  --surface-2: #1c1b1d; /* surface-container-low */
+  --surface-3: #2a2a2c; /* surface-container-high */
+  --surface-4: #353437; /* surface-container-highest */
+  --surface-5: #0e0e10; /* surface-container-lowest */
+
+  /* Background Colors (Legacy for backward compatibility) */
+  --bg-primary: var(--surface-1);
+  --bg-secondary: var(--surface-2);
+  --bg-tertiary: var(--surface-3);
   --bg-glass: rgba(255, 255, 255, 0.03);
 
   /* Text Colors */
-  --text-primary: #fafafa;
-  --text-secondary: #a1a1aa;
-  --text-tertiary: #71717a;
+  --text-primary: #e5e1e4; /* on-background */
+  --text-secondary: #bccac2; /* on-surface-variant */
+  --text-tertiary: #86948d; /* outline */
 
   /* Accent Colors */
-  --accent-primary: #10a27e;
-  --accent-hover: #13b894;
-  --accent-glow: rgba(16, 162, 126, 0.15);
-  --accent-gradient: linear-gradient(135deg, #10a27e 0%, #059669 100%);
+  --accent-primary: #61dbb4; /* primary */
+  --accent-hover: #006c52; /* inverse-primary */
+  --accent-glow: rgba(97, 219, 180, 0.15); /* primary glow */
+  --accent-gradient: linear-gradient(135deg, #61dbb4 0%, #006c52 100%);
 
   /* Border Colors */
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-default: rgba(255, 255, 255, 0.1);
-  --border-focus: rgba(16, 162, 126, 0.3);
+  --border-subtle: rgba(61, 74, 68, 0.1); /* outline-variant at 10% opacity */
+  --border-default: rgba(134, 148, 141, 0.2); /* outline at 20% opacity */
+  --border-focus: rgba(97, 219, 180, 0.3); /* primary at 30% opacity */
 
   /* Message Bubbles */
-  --user-bubble: #27272a;
+  --user-bubble: var(--surface-3);
   --ai-bubble: transparent;
 
   /* Glassmorphism */
@@ -145,19 +162,19 @@ body {
    ============================================ */
 
 /* --- Glassmorphism --- */
-/* Glass effect with blur(16px) as per spec */
+/* Glass effect with optimized blur(12px) for better performance */
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
 }
 
-/* Glass variant with stronger blur */
+/* Glass variant with optimized blur */
 .glass-heavy {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-subtle);
 }
 
@@ -211,7 +228,9 @@ body {
 /* --- Noise Overlay --- */
 /* 2% SVG turbulence noise texture */
 .noise {
-  position: relative;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
 }
 
 .noise::before {
@@ -221,13 +240,23 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   opacity: 0.02;
   pointer-events: none;
-  z-index: 1;
 }
 
 /* Noise overlay on dark backgrounds */
+.noise-dark {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .noise-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   opacity: 0.03;
+  pointer-events: none;
 }
 
 /* --- Gradient Text --- */
@@ -242,13 +271,81 @@ body {
    Utility Classes
    ============================================ */
 
-/* Subtle hover transition */
+/* Enhanced responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .mobile-responsive-padding {
+    padding: 0.5rem;
+  }
+
+  .mobile-responsive-gap {
+    gap: 0.5rem;
+  }
+
+  .mobile-responsive-text {
+    font-size: 0.875rem;
+  }
+
+  .suggestion-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem;
+  }
+
+  .chat-input-container {
+    padding: 0.5rem;
+  }
+
+  .mobile-responsive-height {
+    height: auto;
+    min-height: 400px;
+  }
+}
+
+/* Enhanced hover transition for smoother interaction */
 .hover-lift {
-  transition: transform 150ms ease, box-shadow 150ms ease;
+  transition: transform 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 200ms ease;
 }
 
 .hover-lift:hover {
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px -4px rgba(16, 162, 126, 0.15);
+}
+
+/* Enhanced suggestion button hover effect */
+.suggestion-btn {
+  transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.suggestion-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(5, 150, 105, 0.18);
+}
+
+/* Smooth transition for group hover effects */
+.group:hover .group-hover\:transform-hover {
+  transform: scale(1.05);
+  transition: transform 200ms ease;
+}
+
+/* Enhanced input bar styles */
+.chat-input-enhanced {
+  transition: all 200ms ease;
+  border: 1px solid var(--border-default);
+  background: var(--surface-4);
+}
+
+.chat-input-enhanced:focus-within {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+  outline: none;
+}
+
+.input-bar-interactive {
+  transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.input-bar-interactive:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.15);
 }
 
 /* Focus ring */
@@ -291,6 +388,68 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Loading animations for AI responses */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -100% 0; }
+  100% { background-position: 100% 0; }
+}
+
+.loading-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 1.5s infinite;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 1s;
+}
+
+/* Shimmer effect for loading content */
+.shimmer-effect {
+  background: linear-gradient(90deg, transparent, rgba(5, 150, 105, 0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.ai-thinking {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--surface-3);
+  border-radius: 12px;
+  margin: 8px 0;
+  animation: fadeIn 0.3s ease;
+}
+
+.ai-thinking-icon {
+  animation: bounce 1s infinite;
 }
 
 .animate-fade-in {

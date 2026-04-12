@@ -1,42 +1,63 @@
 import { useState, useEffect } from 'react';
 import { useTheme } from '../../hooks/useTheme';
-import { useAuth } from '../../hooks/useAuth';
 import { useUser } from '../../hooks/useUser';
-import PersonIcon from '@mui/icons-material/Person';
-import PaletteIcon from '@mui/icons-material/Palette';
-import SmartToyIcon from '@mui/icons-material/SmartToy';
-import DatabaseIcon from '@mui/icons-material/Storage';
-import EditIcon from '@mui/icons-material/Edit';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import EditIcon from '@mui/icons-material/Edit';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import PaletteIcon from '@mui/icons-material/Palette';
+import HelpIcon from '@mui/icons-material/Help';
+import InfoIcon from '@mui/icons-material/Info';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import StorageIcon from '@mui/icons-material/Storage';
 
 interface SettingsSectionProps {
   title: string;
   description: string;
-  icon: React.ReactNode;
+  icon: string;
   children: React.ReactNode;
   defaultOpen?: boolean;
 }
+
+const iconMap: Record<string, React.ComponentType<{ sx?: React.CSSProperties }>> = {
+  'account_circle': AccountCircleIcon,
+  'notifications': NotificationsIcon,
+  'palette': PaletteIcon,
+  'help': HelpIcon,
+  'info': InfoIcon,
+  'person': AccountCircleIcon,
+  'smart_toy': SmartToyIcon,
+  'storage': StorageIcon,
+};
 
 const SettingsSection = ({ title, description, icon, children, defaultOpen = false }: SettingsSectionProps) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="bg-bg-secondary rounded-card border border-border-subtle overflow-hidden">
+    <div className="bg-surface-3/50 backdrop-blur-sm border border-[color:var(--border-subtle)]/40 rounded-xl overflow-hidden">
       <button
-        className="w-full p-4 flex justify-between items-center text-left hover:bg-bg-tertiary transition-colors"
+        className="w-full p-4 flex justify-between items-center text-left hover:bg-surface-3/80 transition-colors"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent">
-            {icon}
+          <div className="w-10 h-10 rounded-lg bg-[color:var(--accent-primary)]/10 flex items-center justify-center text-[color:var(--accent-primary)]">
+            {icon === 'account_circle' && <AccountCircleIcon sx={{ fontSize: 16 }} />}
+            {icon === 'notifications' && <NotificationsIcon sx={{ fontSize: 16 }} />}
+            {icon === 'palette' && <PaletteIcon sx={{ fontSize: 16 }} />}
+            {icon === 'help' && <HelpIcon sx={{ fontSize: 16 }} />}
+            {icon === 'info' && <InfoIcon sx={{ fontSize: 16 }} />}
+            {icon === 'person' && <AccountCircleIcon sx={{ fontSize: 16 }} />}
+            {icon === 'smart_toy' && <SmartToyIcon sx={{ fontSize: 16 }} />}
+            {icon === 'storage' && <StorageIcon sx={{ fontSize: 16 }} />}
+            {!(icon in iconMap) && <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: `'FILL' 0` }}>{icon}</span>}
           </div>
           <div>
-            <h2 className="font-semibold text-text-primary">{title}</h2>
-            <p className="text-sm text-text-secondary">{description}</p>
+            <h2 className="font-semibold text-[color:var(--text-primary)]">{title}</h2>
+            <p className="text-sm text-[color:var(--text-secondary)]">{description}</p>
           </div>
         </div>
         <svg
-          className={`w-5 h-5 text-text-secondary transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 text-[color:var(--text-secondary)] transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -46,7 +67,7 @@ const SettingsSection = ({ title, description, icon, children, defaultOpen = fal
       </button>
 
       {isOpen && (
-        <div className="px-4 pb-4 border-t border-border-subtle pt-4">
+        <div className="px-4 pb-4 border-t border-[color:var(--border-subtle)]/40 pt-4">
           {children}
         </div>
       )}
@@ -56,8 +77,7 @@ const SettingsSection = ({ title, description, icon, children, defaultOpen = fal
 
 // Profile Settings Section
 const ProfileSection = () => {
-  const { updateProfile: updateAuthProfile } = useAuth();
-  const { currentUser, updateProfile: updateUserProfile, isLoading: userLoading } = useUser();
+  const { currentUser, updateProfile: updateUserProfile } = useUser();
   const [displayName, setDisplayName] = useState(currentUser?.displayName || '');
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -90,53 +110,53 @@ const ProfileSection = () => {
             <img
               src={currentUser?.photoUrl}
               alt="Avatar"
-              className="w-16 h-16 rounded-full object-cover ring-2 ring-accent/20 ring-offset-2 ring-offset-bg-secondary"
+              className="w-16 h-16 rounded-full object-cover border-2 border-[color:var(--accent-primary)]/20"
             />
           ) : (
-            <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center text-white text-xl font-semibold ring-2 ring-accent/20 ring-offset-2 ring-offset-bg-secondary">
+            <div className="w-16 h-16 rounded-full bg-[color:var(--accent-primary)] flex items-center justify-center text-white text-xl font-semibold border-2 border-[color:var(--accent-primary)]/20">
               {currentUser?.displayName?.[0] || currentUser?.email?.[0] || 'U'}
             </div>
           )}
           <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-            <PhotoCameraIcon className="text-white" />
+            <PhotoCameraIcon sx={{ fontSize: 20, color: 'white' }} />
           </div>
         </div>
         <div>
-          <p className="text-text-primary font-medium">{currentUser?.displayName || 'User'}</p>
-          <p className="text-sm text-text-secondary">Pro Plan Member</p>
+          <p className="text-[color:var(--text-primary)] font-medium">{currentUser?.displayName || 'User'}</p>
+          <p className="text-sm text-[color:var(--text-secondary)]">Pro Plan Member</p>
         </div>
       </div>
 
       {/* Display Name */}
       <div>
-        <label className="block text-sm font-medium text-text-primary mb-2">Display Name</label>
+        <label className="block text-sm font-medium text-[color:var(--text-primary)] mb-2">Display Name</label>
         <div className="flex gap-2">
           <input
             type="text"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
             disabled={!isEditing}
-            className="flex-1 px-3 py-2 rounded-input border border-border-default bg-bg-input text-text-primary focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-60"
+            className="flex-1 px-3 py-2 rounded-lg border border-[color:var(--border-subtle)]/40 bg-surface-3/50 text-[color:var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)] focus:border-transparent disabled:opacity-60"
           />
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
-              className="p-2 rounded-button bg-bg-tertiary text-text-secondary hover:text-accent transition-colors"
+              className="p-2 rounded-lg bg-surface-3 text-[color:var(--text-secondary)] hover:text-[color:var(--accent-primary)] transition-colors"
             >
-              <EditIcon fontSize="small" />
+              <EditIcon sx={{ fontSize: 14 }} />
             </button>
           ) : (
             <div className="flex gap-2">
               <button
                 onClick={() => setIsEditing(false)}
-                className="px-3 py-2 text-text-secondary hover:text-text-primary"
+                className="px-3 py-2 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="px-4 py-2 rounded-button bg-accent text-white font-medium hover:bg-accent-hover transition-colors disabled:opacity-50"
+                className="px-4 py-2 rounded-lg bg-[color:var(--accent-primary)] text-white font-medium hover:brightness-110 transition-colors disabled:opacity-50 shadow-sm shadow-[color:var(--accent-glow)]"
               >
                 {saving ? 'Saving...' : 'Save'}
               </button>
@@ -147,20 +167,20 @@ const ProfileSection = () => {
 
       {/* Email (read-only) */}
       <div>
-        <label className="block text-sm font-medium text-text-primary mb-2">Email Address</label>
+        <label className="block text-sm font-medium text-[color:var(--text-primary)] mb-2">Email Address</label>
         <input
           type="email"
           value={currentUser?.email || ''}
           disabled
           readOnly
-          className="w-full px-3 py-2 rounded-input border border-border-default bg-bg-input/50 text-text-primary opacity-60 cursor-not-allowed"
+          className="w-full px-3 py-2 rounded-lg border border-[color:var(--border-subtle)]/40 bg-surface-3/50 text-[color:var(--text-primary)] opacity-60 cursor-not-allowed"
         />
       </div>
 
       {/* Change Password */}
       <div className="pt-2">
-        <button className="text-accent hover:text-accent-hover font-medium text-sm flex items-center gap-1">
-          <EditIcon fontSize="small" />
+        <button className="text-[color:var(--accent-primary)] hover:brightness-110 font-medium text-sm flex items-center gap-1">
+          <EditIcon sx={{ fontSize: 14 }} />
           Change Password
         </button>
       </div>
@@ -187,29 +207,29 @@ const AppearanceSection = () => {
             onClick={() => setThemeSetting(theme.id)}
             className={`p-4 rounded-xl flex flex-col items-center gap-2 transition-all ${
               themeSetting === theme.id
-                ? 'bg-accent/10 border-2 border-accent text-accent'
-                : 'border border-border-subtle hover:border-accent/50 text-text-secondary hover:text-accent'
+                ? 'bg-[color:var(--accent-primary)]/10 border-2 border-[color:var(--accent-primary)] text-[color:var(--accent-primary)]'
+                : 'border border-[color:var(--border-subtle)]/40 hover:border-[color:var(--accent-primary)]/50 text-[color:var(--text-secondary)] hover:text-[color:var(--accent-primary)]'
             }`}
           >
             <span className="text-2xl">{theme.icon}</span>
             <span className="text-sm font-medium">{theme.label}</span>
             {themeSetting === theme.id && (
-              <div className="w-2 h-2 rounded-full bg-accent absolute top-2 right-2" />
+              <div className="w-2 h-2 rounded-full bg-[color:var(--accent-primary)] absolute top-2 right-2" />
             )}
           </button>
         ))}
       </div>
 
-      <div className="flex items-center justify-between pt-2 p-3 bg-bg-tertiary rounded-lg">
+      <div className="flex items-center justify-between pt-2 p-3 bg-surface-3/50 rounded-lg">
         <div>
-          <p className="text-text-primary font-medium">Current theme</p>
-          <p className="text-sm text-text-secondary">
+          <p className="text-[color:var(--text-primary)] font-medium">Current theme</p>
+          <p className="text-sm text-[color:var(--text-secondary)]">
             {darkMode ? 'Dark mode' : 'Light mode'} is currently active
           </p>
         </div>
         <div
           className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors ${
-            darkMode ? 'bg-accent' : 'bg-border-default'
+            darkMode ? 'bg-[color:var(--accent-primary)]' : 'bg-[color:var(--border-subtle)]/40'
           }`}
         >
           <div
@@ -262,30 +282,30 @@ const AISelectionSection = () => {
           onClick={() => handleSelect(model.id)}
           className={`w-full p-4 rounded-xl flex items-center justify-between transition-all ${
             selectedModel === model.id
-              ? 'bg-accent/10 border-2 border-accent/30'
-              : 'border border-border-subtle hover:border-accent/50'
+              ? 'bg-[color:var(--accent-primary)]/10 border-2 border-[color:var(--accent-primary)]/30'
+              : 'border border-[color:var(--border-subtle)]/40 hover:border-[color:var(--accent-primary)]/50'
           }`}
         >
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-              selectedModel === model.id ? 'bg-accent/20 text-accent' : 'bg-bg-tertiary text-text-secondary'
+              selectedModel === model.id ? 'bg-[color:var(--accent-primary)]/20 text-[color:var(--accent-primary)]' : 'bg-surface-3/50 text-[color:var(--text-secondary)]'
             }`}>
               <span>{model.icon}</span>
             </div>
             <div className="text-left">
               <div className="flex items-center gap-2">
-                <p className="font-semibold text-text-primary">{model.name}</p>
+                <p className="font-semibold text-[color:var(--text-primary)]">{model.name}</p>
                 {model.badge && (
-                  <span className="text-[10px] bg-accent text-white font-extrabold px-2 py-0.5 rounded-full uppercase tracking-tighter">
+                  <span className="text-[10px] bg-[color:var(--accent-primary)] text-white font-extrabold px-2 py-0.5 rounded-full uppercase tracking-tighter">
                     {model.badge}
                   </span>
                 )}
               </div>
-              <p className="text-sm text-text-secondary">{model.description}</p>
+              <p className="text-sm text-[color:var(--text-secondary)]">{model.description}</p>
             </div>
           </div>
           <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-            selectedModel === model.id ? 'border-accent bg-accent' : 'border-border-default'
+            selectedModel === model.id ? 'border-[color:var(--accent-primary)] bg-[color:var(--accent-primary)]' : 'border-[color:var(--border-default)]'
           }`}>
             {selectedModel === model.id && (
               <div className="w-2 h-2 rounded-full bg-white" />
@@ -329,17 +349,17 @@ const DataManagementSection = () => {
   };
 
   return (
-    <div className="space-y-0 divide-y divide-border-subtle">
+    <div className="space-y-0 divide-y divide-[color:var(--border-subtle)]/40">
       {/* History Toggle */}
       <div className="p-4 flex items-center justify-between">
         <div>
-          <p className="font-medium text-text-primary">Chat History & Training</p>
-          <p className="text-sm text-text-secondary">Save new chats to your history and help improve our models.</p>
+          <p className="font-medium text-[color:var(--text-primary)]">Chat History & Training</p>
+          <p className="text-sm text-[color:var(--text-secondary)]">Save new chats to your history and help improve our models.</p>
         </div>
         <button
           onClick={handleHistoryToggle}
           className={`w-12 h-6 rounded-full relative flex items-center px-1 transition-colors ${
-            historyEnabled ? 'bg-accent' : 'bg-border-default'
+            historyEnabled ? 'bg-[color:var(--accent-primary)]' : 'bg-[color:var(--border-default)]'
           }`}
         >
           <div className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform ${
@@ -351,12 +371,12 @@ const DataManagementSection = () => {
       {/* Export */}
       <div className="p-4 flex items-center justify-between">
         <div>
-          <p className="font-medium text-text-primary">Export Data</p>
-          <p className="text-sm text-text-secondary">Download a copy of your chat history and personal settings.</p>
+          <p className="font-medium text-[color:var(--text-primary)]">Export Data</p>
+          <p className="text-sm text-[color:var(--text-secondary)]">Download a copy of your chat history and personal settings.</p>
         </div>
         <button
           onClick={handleExport}
-          className="text-accent font-semibold text-sm hover:underline"
+          className="text-[color:var(--accent-primary)] font-semibold text-sm hover:underline"
         >
           Export
         </button>
@@ -365,12 +385,12 @@ const DataManagementSection = () => {
       {/* Delete */}
       <div className="p-4 flex items-center justify-between">
         <div>
-          <p className="font-medium text-text-primary">Delete Account</p>
-          <p className="text-sm text-text-secondary">Permanently remove all your data and workspace access.</p>
+          <p className="font-medium text-[color:var(--text-primary)]">Delete Account</p>
+          <p className="text-sm text-[color:var(--text-secondary)]">Permanently remove all your data and workspace access.</p>
         </div>
         <button
           onClick={handleDelete}
-          className="text-error font-semibold text-sm px-4 py-2 border border-error/30 rounded-lg hover:bg-error/10 transition-colors"
+          className="text-[color:var(--error)] font-semibold text-sm px-4 py-2 border border-[color:var(--error)]/30 rounded-lg hover:bg-[color:var(--error)]/10 transition-colors"
         >
           Delete
         </button>
@@ -379,21 +399,21 @@ const DataManagementSection = () => {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-bg-secondary p-6 rounded-xl max-w-md mx-4">
-            <h3 className="text-lg font-semibold text-text-primary mb-2">Delete Account?</h3>
-            <p className="text-text-secondary mb-4">
+          <div className="bg-surface-2 p-6 rounded-xl max-w-md mx-4">
+            <h3 className="text-lg font-semibold text-[color:var(--text-primary)] mb-2">Delete Account?</h3>
+            <p className="text-[color:var(--text-secondary)] mb-4">
               This action cannot be undone. All your data will be permanently deleted.
             </p>
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 rounded-lg border border-border-default text-text-secondary hover:bg-bg-tertiary"
+                className="px-4 py-2 rounded-lg border border-[color:var(--border-default)] text-[color:var(--text-secondary)] hover:bg-surface-3"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="px-4 py-2 rounded-lg bg-error text-white font-medium hover:bg-error/90"
+                className="px-4 py-2 rounded-lg bg-[color:var(--error)] text-white font-medium hover:bg-[color:var(--error)]/90"
               >
                 Delete
               </button>
@@ -408,10 +428,10 @@ const DataManagementSection = () => {
 // Main SettingsPage Component
 export const SettingsPage = () => {
   return (
-    <div className="flex flex-col h-full bg-bg-primary text-text-primary">
-      <div className="p-6 border-b border-border-subtle">
-        <h1 className="text-2xl font-bold">Settings</h1>
-        <p className="text-text-secondary mt-1">Manage your workspace preferences and model configurations.</p>
+    <div className="flex flex-col h-full bg-surface-1 text-[color:var(--text-primary)]">
+      <div className="p-6 border-b border-[color:var(--border-subtle)]/40">
+        <h1 className="text-2xl font-bold text-[color:var(--text-primary)]">Settings</h1>
+        <p className="text-[color:var(--text-secondary)] mt-1">Manage your workspace preferences and model configurations.</p>
       </div>
 
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
@@ -419,7 +439,7 @@ export const SettingsPage = () => {
         <SettingsSection
           title="Profile Settings"
           description="Manage your account information"
-          icon={<PersonIcon />}
+          icon="person"
           defaultOpen={true}
         >
           <ProfileSection />
@@ -429,7 +449,7 @@ export const SettingsPage = () => {
         <SettingsSection
           title="Appearance"
           description="Customize the look and feel"
-          icon={<PaletteIcon />}
+          icon="palette"
         >
           <AppearanceSection />
         </SettingsSection>
@@ -438,7 +458,7 @@ export const SettingsPage = () => {
         <SettingsSection
           title="AI Model Selection"
           description="Choose your preferred AI model"
-          icon={<SmartToyIcon />}
+          icon="smart_toy"
         >
           <AISelectionSection />
         </SettingsSection>
@@ -447,7 +467,7 @@ export const SettingsPage = () => {
         <SettingsSection
           title="Data Management"
           description="Control your data and privacy"
-          icon={<DatabaseIcon />}
+          icon="storage"
         >
           <DataManagementSection />
         </SettingsSection>

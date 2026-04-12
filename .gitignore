@@ -49,3 +49,4 @@ database
 # Agent
 .agent
 AGENTS.md
+mock_ui_home_chat_page

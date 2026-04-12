@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import { authMiddleware } from '../../middleware/auth.middleware'
 import type { RootState } from '../index'
-import {AuthState} from '../../types'
+import { AuthState } from '../../types'
 
 // Define initial state
 const initialState: AuthState = {
@@ -9,7 +9,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
   isLoading: false,
   error: null,
-  accessToken: null
+  accessToken: null,
 }
 
 // Async thunks for authentication actions
@@ -70,7 +70,7 @@ export const updateUserProfile = createAsyncThunk(
       if (!token) {
         throw new Error("No authentication token found");
       }
-      const updatedUser = await authMiddleware.updateProfile(displayName, photoUrl || '', token);
+      await authMiddleware.updateProfile(token, displayName, photoUrl ?? '');
       return { displayName, photoUrl }
     } catch (error: any) {
       return rejectWithValue(error.message)
@@ -98,8 +98,8 @@ export const sendPasswordReset = createAsyncThunk(
   'auth/sendPasswordReset',
   async ({ email }: { email: string }, { rejectWithValue }) => {
     try {
-      // Placeholder for password reset functionality
-      // This would be implemented in your backend API
+      // Email would be used when backend implementation is added
+      console.log('Password reset requested for:', email);
       throw new Error("Password reset not implemented in backend API yet");
     } catch (error: any) {
       return rejectWithValue(error.message)

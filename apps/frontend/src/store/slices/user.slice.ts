@@ -47,7 +47,7 @@ export const updateUserProfile = createAsyncThunk(
       }
 
       // Update user profile through auth service
-      const updatedUser = await authMiddleware.updateProfile(displayName, photoUrl || '', token)
+      const updatedUser = await authMiddleware.updateProfile(token, displayName, photoUrl || '')
       return updatedUser
     } catch (error: any) {
       return rejectWithValue(error.message)

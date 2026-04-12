@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { Box } from '@mui/material'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 const RegisterPage = () => {
   const navigate = useNavigate()
@@ -54,28 +57,26 @@ const RegisterPage = () => {
   }
 
   return (
-    <Box component="main" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#11211d]">
-      {/* Background emerald glow */}
+    <Box component="main" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[color:var(--surface)]">
+      {/* Background glow effects */}
       <Box className="absolute inset-0 pointer-events-none">
-        <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-emerald-500/10 blur-[120px]" />
-        <Box className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-emerald-400/5 blur-[100px]" />
+        <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[color:var(--accent-primary)]/10 blur-[120px]" />
+        <Box className="absolute top-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-[color:var(--accent-primary)]/5 blur-[100px]" />
       </Box>
 
       {/* Noise overlay */}
-      <Box className="noise-dark pointer-events-none absolute inset-0 opacity-20" />
+      <Box className="noise-dark pointer-events-none absolute inset-0 opacity-[0.02]" />
 
       {/* Register Card */}
       <Box className="relative z-10 w-full max-w-md mx-4">
-        <Box className="glass rounded-[24px] p-8 backdrop-blur-xl border border-white/10 shadow-2xl">
+        <Box className="glass rounded-[24px] p-8 backdrop-blur-xl border border-[color:var(--border-subtle)]/40 shadow-2xl">
           {/* Header */}
           <Box className="text-center mb-8">
-            <Box className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/10 mb-4">
-              <svg className="w-8 h-8 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-              </svg>
+            <Box className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[color:var(--accent-primary)]/10 mb-4">
+              <PersonAddIcon sx={{ fontSize: 32, color: 'var(--accent-primary)' }} />
             </Box>
-            <Box component="h1" className="text-2xl font-bold text-[#e5e1e4]">Create Account</Box>
-            <Box component="p" className="text-sm text-[#e5e1e4]/60 mt-2">Sign up to continue to AI Chat</Box>
+            <Box component="h1" className="text-2xl font-bold text-[color:var(--text-primary)]">Create Account</Box>
+            <Box component="p" className="text-sm text-[color:var(--text-secondary)] mt-2">Sign up to continue to Premium AI</Box>
           </Box>
 
           {/* Error Message */}
@@ -89,7 +90,7 @@ const RegisterPage = () => {
           <Box component="form" onSubmit={handleSubmit} noValidate className="space-y-4 mb-6">
             {/* Full Name */}
             <Box>
-              <Box component="label" htmlFor="displayName" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
+              <Box component="label" htmlFor="displayName" className="block text-sm font-medium text-[color:var(--text-secondary)] mb-2">
                 Full Name
               </Box>
               <input
@@ -101,13 +102,13 @@ const RegisterPage = () => {
                 autoFocus
                 autoComplete="name"
                 placeholder="Enter your full name"
-                className="w-full h-12 px-5 rounded-full bg-white/5 border border-white/10 text-[#e5e1e4] placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400/50 transition-all duration-200"
+                className="w-full h-12 px-5 rounded-full bg-surface-3/50 border border-[color:var(--border-subtle)]/40 text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)]/50 transition-all duration-200"
               />
             </Box>
 
             {/* Email */}
             <Box>
-              <Box component="label" htmlFor="email" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
+              <Box component="label" htmlFor="email" className="block text-sm font-medium text-[color:var(--text-secondary)] mb-2">
                 Email
               </Box>
               <input
@@ -118,13 +119,13 @@ const RegisterPage = () => {
                 required
                 autoComplete="email"
                 placeholder="Enter your email"
-                className="w-full h-12 px-5 rounded-full bg-white/5 border border-white/10 text-[#e5e1e4] placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400/50 transition-all duration-200"
+                className="w-full h-12 px-5 rounded-full bg-surface-3/50 border border-[color:var(--border-subtle)]/40 text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)]/50 transition-all duration-200"
               />
             </Box>
 
             {/* Password */}
             <Box>
-              <Box component="label" htmlFor="password" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
+              <Box component="label" htmlFor="password" className="block text-sm font-medium text-[color:var(--text-secondary)] mb-2">
                 Password
               </Box>
               <Box className="relative">
@@ -136,24 +137,19 @@ const RegisterPage = () => {
                   required
                   autoComplete="new-password"
                   placeholder="Enter your password"
-                  className="w-full h-12 px-5 pr-14 rounded-full bg-white/5 border border-white/10 text-[#e5e1e4] placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400/50 transition-all duration-200"
+                  className="w-full h-12 px-5 pr-14 rounded-full bg-surface-3/50 border border-[color:var(--border-subtle)]/40 text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)]/50 transition-all duration-200"
                 />
                 <Box
                   component="button"
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-[#e5e1e4]/50 hover:text-[#e5e1e4]/80 transition-colors"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? (
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                    </svg>
+                    <VisibilityIcon sx={{ fontSize: '1.25rem' }} />
                   ) : (
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
+                    <VisibilityOffIcon sx={{ fontSize: '1.25rem' }} />
                   )}
                 </Box>
               </Box>
@@ -161,7 +157,7 @@ const RegisterPage = () => {
 
             {/* Confirm Password */}
             <Box>
-              <Box component="label" htmlFor="confirmPassword" className="block text-sm font-medium text-[#e5e1e4]/80 mb-2">
+              <Box component="label" htmlFor="confirmPassword" className="block text-sm font-medium text-[color:var(--text-secondary)] mb-2">
                 Confirm Password
               </Box>
               <Box className="relative">
@@ -173,24 +169,19 @@ const RegisterPage = () => {
                   required
                   autoComplete="new-password"
                   placeholder="Confirm your password"
-                  className="w-full h-12 px-5 pr-14 rounded-full bg-white/5 border border-white/10 text-[#e5e1e4] placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400/50 transition-all duration-200"
+                  className="w-full h-12 px-5 pr-14 rounded-full bg-surface-3/50 border border-[color:var(--border-subtle)]/40 text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)]/50 transition-all duration-200"
                 />
                 <Box
                   component="button"
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-[#e5e1e4]/50 hover:text-[#e5e1e4]/80 transition-colors"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] transition-colors"
                   aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                 >
                   {showConfirmPassword ? (
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                    </svg>
+                    <VisibilityIcon sx={{ fontSize: '1.25rem' }} />
                   ) : (
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
+                    <VisibilityOffIcon sx={{ fontSize: '1.25rem' }} />
                   )}
                 </Box>
               </Box>
@@ -201,7 +192,7 @@ const RegisterPage = () => {
               component="button"
               type="submit"
               disabled={isLoading}
-              className="w-full h-12 rounded-full bg-emerald-500 text-white font-semibold text-base hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:ring-offset-2 focus:ring-offset-[#11211d] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 rounded-full bg-[color:var(--accent-primary)] text-white font-semibold text-base hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:ring-offset-2 focus:ring-offset-[color:var(--surface)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[color:var(--accent-glow)]"
             >
               {isLoading ? (
                 <Box component="span" className="flex items-center justify-center gap-2">
@@ -222,7 +213,7 @@ const RegisterPage = () => {
                 component="button"
                 type="button"
                 onClick={handleReset}
-                className="text-sm text-[#e5e1e4]/50 hover:text-[#e5e1e4]/80 transition-colors"
+                className="text-sm text-[color:var(--text-secondary)]/50 hover:text-[color:var(--text-secondary)] transition-colors"
               >
                 Reset form
               </Box>
@@ -232,10 +223,10 @@ const RegisterPage = () => {
           {/* Divider */}
           <Box className="relative mb-6">
             <Box className="absolute inset-0 flex items-center">
-              <Box className="w-full border-t border-white/10" />
+              <Box className="w-full border-t border-[color:var(--border-subtle)]/40" />
             </Box>
             <Box className="relative flex justify-center text-sm">
-              <Box component="span" className="px-4 text-[#e5e1e4]/50 bg-[#11211d]/50 backdrop-blur-sm">Or sign up with</Box>
+              <Box component="span" className="px-4 text-[color:var(--text-secondary)]/50 bg-[color:var(--surface)]/50 backdrop-blur-sm">Or sign up with</Box>
             </Box>
           </Box>
 
@@ -246,7 +237,7 @@ const RegisterPage = () => {
               component="button"
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full h-12 flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/5 text-[#e5e1e4] font-medium hover:bg-white/10 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 flex items-center justify-center gap-3 rounded-full border border-[color:var(--border-subtle)]/40 bg-surface-3/50 text-[color:var(--text-primary)] font-medium hover:bg-surface-3 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -259,9 +250,9 @@ const RegisterPage = () => {
           </Box>
 
           {/* Login Link */}
-          <Box className="text-center text-sm text-[#e5e1e4]/60">
+          <Box className="text-center text-sm text-[color:var(--text-secondary)]">
             Already have an account?{' '}
-            <Link to="/login" className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
+            <Link to="/login" className="text-[color:var(--accent-primary)] hover:brightness-110 font-medium transition-colors">
               Sign in
             </Link>
           </Box>
