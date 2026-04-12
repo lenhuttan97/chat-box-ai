@@ -17,19 +17,8 @@ export const loginWithEmail = createAsyncThunk(
   'auth/loginWithEmail',
   async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const userCredential: any = await authMiddleware.login(email, password)
-      const idToken = await FirebaseAuthService.getIdToken()
-      FirebaseAuthService.saveTokenToCookie(idToken)
-      
-      return {
-        id: userCredential.user.uid,
-        email: userCredential.user.email,
-        displayName: userCredential.user.displayName,
-        photoURL: userCredential.user.photoURL,
-        provider: userCredential.user.providerData[0]?.providerId || null,
-        firebaseUid: userCredential.user.uid,
-        accessToken: idToken
-      }
+      const response = await authMiddleware.login(email, password);
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -40,19 +29,9 @@ export const registerWithEmail = createAsyncThunk(
   'auth/registerWithEmail',
   async ({ email, password, displayName }: { email: string; password: string; displayName?: string }, { rejectWithValue }) => {
     try {
-      const userCredential: any = await FirebaseAuthService.signUpWithEmail(email, password, displayName)
-      const idToken = await FirebaseAuthService.getIdToken()
-      FirebaseAuthService.saveTokenToCookie(idToken)
-      console.log("userCredential user: ", userCredential.user)
-      return {
-        id: userCredential.user.uid,
-        email: userCredential.user.email,
-        displayName: userCredential.user.displayName,
-        photoURL: userCredential.user.photoURL,
-        provider: userCredential.user.providerData[0]?.providerId || null,
-        firebaseUid: userCredential.user.uid,
-        accessToken: idToken
-      }
+      const response = await authMiddleware.register(email, password, displayName);
+      console.log("userCredential user: ", response.user);
+      return response;
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -63,21 +42,11 @@ export const loginWithGoogle = createAsyncThunk(
   'auth/loginWithGoogle',
   async (_, { rejectWithValue }) => {
     try {
-      const userCredential: any = await FirebaseAuthService.signInWithGoogle()
-      const idToken = await FirebaseAuthService.getIdToken()
-      FirebaseAuthService.saveTokenToCookie(idToken)
-      
-      console.log("loginWithGoogle: ", userCredential);
-
-      return {
-        id: userCredential.uid,
-        email: userCredential.email,
-        displayName: userCredential.displayName,
-        photoURL: userCredential.photoURL,
-        provider: userCredential.providerData[0]?.providerId || null,
-        firebaseUid: userCredential.uid,
-        accessToken: idToken
-      }
+      // For Google login, we need to handle Firebase login separately
+      // This would require the Firebase service, but for now we'll simulate
+      // In a real implementation, you'd use Firebase to get an ID token first
+      // then send it to your backend
+      throw new Error("Google login implementation requires Firebase setup");
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -88,8 +57,7 @@ export const logoutUser = createAsyncThunk(
   'auth/logoutUser',
   async (_, { rejectWithValue }) => {
     try {
-      await FirebaseAuthService.signOut()
-      FirebaseAuthService.removeTokenFromCookie()
+      await authMiddleware.logout();
       return undefined
     } catch (error: any) {
       return rejectWithValue(error.message)
@@ -101,7 +69,11 @@ export const updateUserProfile = createAsyncThunk(
   'auth/updateUserProfile',
   async ({ displayName, photoURL }: { displayName: string; photoURL?: string }, { rejectWithValue }) => {
     try {
-      await FirebaseAuthService.updateUserProfile(displayName, photoURL)
+      const token = authMiddleware.getToken();
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+      const updatedUser = await authMiddleware.updateProfile(displayName, photoURL || '', token);
       return { displayName, photoURL }
     } catch (error: any) {
       return rejectWithValue(error.message)
@@ -111,9 +83,13 @@ export const updateUserProfile = createAsyncThunk(
 
 export const updateUserPassword = createAsyncThunk(
   'auth/updateUserPassword',
-  async ({ newPassword }: { newPassword: string }, { rejectWithValue }) => {
+  async ({ oldPassword, newPassword }: { oldPassword: string; newPassword: string }, { rejectWithValue }) => {
     try {
-      await FirebaseAuthService.updatePassword(newPassword)
+      const token = authMiddleware.getToken();
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+      await authMiddleware.updatePassword(oldPassword, newPassword, token);
       return undefined
     } catch (error: any) {
       return rejectWithValue(error.message)
@@ -125,8 +101,9 @@ export const sendPasswordReset = createAsyncThunk(
   'auth/sendPasswordReset',
   async ({ email }: { email: string }, { rejectWithValue }) => {
     try {
-      await FirebaseAuthService.sendPasswordResetEmail(email)
-      return undefined
+      // Placeholder for password reset functionality
+      // This would be implemented in your backend API
+      throw new Error("Password reset not implemented in backend API yet");
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -137,18 +114,32 @@ export const initializeAuth = createAsyncThunk(
   'auth/initializeAuth',
   async (_, { rejectWithValue }) => {
     try {
-      // Check if there's a token in cookies
-      const token = FirebaseAuthService.getTokenFromCookie()
+      // Check if there's a token in storage
+      const token = authMiddleware.getToken();
       if (!token) {
-        return rejectWithValue('No token found')
-      }
-      
-      // Verify token is not expired
-      if (FirebaseAuthService.isTokenExpired(token)) {
-        FirebaseAuthService.removeTokenFromCookie()
-        return rejectWithValue('Token expired')
+        return rejectWithValue('No token found');
       }
 
+      // Try to get current user to verify token is still valid
+      const user = await authMiddleware.getCurrentUser();
+      if (!user) {
+        // Token might be expired, try to refresh
+        const refreshed = await authMiddleware.refreshToken();
+        if (!refreshed) {
+          authMiddleware.logout();
+          return rejectWithValue('Token expired and could not refresh');
+        }
+
+        // Get user with new token
+        const refreshedUser = await authMiddleware.getCurrentUser();
+        if (!refreshedUser) {
+          return rejectWithValue('Could not get user after refresh');
+        }
+
+        return refreshedUser;
+      }
+
+      return user;
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -174,22 +165,23 @@ const authSlice = createSlice({
       .addCase(loginWithEmail.fulfilled, (state, action: PayloadAction<any>) => {
         state.isLoading = false
         state.isAuthenticated = true
+        const userData = action.payload.user;
         state.user = {
-          id: action.payload.id,
-          email: action.payload.email,
-          displayName: action.payload.displayName,
-          photoURL: action.payload.photoURL,
-          provider: action.payload.provider,
-          firebaseUid: action.payload.firebaseUid
+          id: userData.id,
+          email: userData.email,
+          displayName: userData.displayName,
+          photoURL: userData.photoURL,
+          provider: userData.provider,
+          firebaseUid: userData.firebaseUid
         }
-        state.accessToken = action.payload.accessToken
+        state.accessToken = action.payload.token
         state.error = null
       })
       .addCase(loginWithEmail.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload as string
       })
-      
+
       // Register with email
       .addCase(registerWithEmail.pending, (state) => {
         state.isLoading = true
@@ -198,22 +190,23 @@ const authSlice = createSlice({
       .addCase(registerWithEmail.fulfilled, (state, action: PayloadAction<any>) => {
         state.isLoading = false
         state.isAuthenticated = true
+        const userData = action.payload.user;
         state.user = {
-          id: action.payload.id,
-          email: action.payload.email,
-          displayName: action.payload.displayName,
-          photoURL: action.payload.photoURL,
-          provider: action.payload.provider,
-          firebaseUid: action.payload.firebaseUid
+          id: userData.id,
+          email: userData.email,
+          displayName: userData.displayName,
+          photoURL: userData.photoURL,
+          provider: userData.provider,
+          firebaseUid: userData.firebaseUid
         }
-        state.accessToken = action.payload.accessToken
+        state.accessToken = action.payload.token
         state.error = null
       })
       .addCase(registerWithEmail.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload as string
       })
-      
+
       // Login with Google
       .addCase(loginWithGoogle.pending, (state) => {
         state.isLoading = true
@@ -237,7 +230,7 @@ const authSlice = createSlice({
         state.isLoading = false
         state.error = action.payload as string
       })
-      
+
       // Logout
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true
@@ -253,7 +246,7 @@ const authSlice = createSlice({
         state.isLoading = false
         state.error = action.payload as string
       })
-      
+
       // Update profile
       .addCase(updateUserProfile.pending, (state) => {
         state.isLoading = true
@@ -271,7 +264,7 @@ const authSlice = createSlice({
         state.isLoading = false
         state.error = action.payload as string
       })
-      
+
       // Update password
       .addCase(updateUserPassword.pending, (state) => {
         state.isLoading = true
@@ -285,7 +278,7 @@ const authSlice = createSlice({
         state.isLoading = false
         state.error = action.payload as string
       })
-      
+
       // Send password reset
       .addCase(sendPasswordReset.pending, (state) => {
         state.isLoading = true
@@ -299,7 +292,7 @@ const authSlice = createSlice({
         state.isLoading = false
         state.error = action.payload as string
       })
-      
+
       // Initialize auth
       .addCase(initializeAuth.pending, (state) => {
         state.isLoading = true
@@ -316,7 +309,10 @@ const authSlice = createSlice({
           provider: action.payload.provider,
           firebaseUid: action.payload.firebaseUid
         }
-        state.accessToken = action.payload.accessToken
+        // We may not have a new token here, so only update if available
+        if (action.payload.accessToken) {
+          state.accessToken = action.payload.accessToken
+        }
         state.error = null
       })
       .addCase(initializeAuth.rejected, (state, action) => {
