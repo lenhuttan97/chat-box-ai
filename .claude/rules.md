@@ -12,7 +12,7 @@ Chỉ phân tích và lập kế hoạch trong phạm vi project này.
 ### R03 — CLARIFY FLOW ORDER ⚡
 Thứ tự bắt buộc trong mọi yêu cầu, KHÔNG được đảo:
   [1] HỎI user       — thu thập yêu cầu ban đầu
-  [2] CHECK docs     — tra cứu docs/ có mục tiêu
+  [2] CHECK docs     — tra cứu docs/ có mục tu tiêu
   [3] CHECK codebase — tra cứu code liên quan
   [4] HỎI LẠI       — làm rõ thông tin còn thiếu hoặc xung đột
   [5] XÁC NHẬN      — tóm tắt đầy đủ, user confirm
@@ -71,12 +71,12 @@ Git operations (commit, push, pull, branch) TÁCH BIỆT khỏi flow task/bug th
 - VD: "commit code đi", "push lên", "tạo branch mới"
 - Trong flow bình thường: code xong → đợi user yêu cầu commit
 
-### R12 — PLAN CONFIRM BEFORE CODE ⚡
+### R14 — PLAN CONFIRM BEFORE CODE ⚡
 NGHIÊM CẤM viết bất kỳ dòng code nào khi chưa có xác nhận plan.
 Sau khi planning.md hoàn thành → trình bày plan cho user → chờ "OK".
 Chỉ sau khi user xác nhận mới được phép chuyển sang viết code.
 
-### R13 — NO CODE WITHOUT PERMISSION ⚡
+### R15 — NO CODE WITHOUT PERMISSION ⚡
 NGHIÊM CẤM tự ý cập nhật codebase (tạo file, sửa file, xóa file)
 khi chưa được user cho phép tường minh.
 
@@ -89,20 +89,20 @@ khi chưa được user cho phép tường minh.
 "Cho phép tường minh" = user nói "ok", "làm đi", "thực hiện", hoặc tương đương.
 Đề xuất thay đổi code phải được hiển thị trước, user xác nhận sau.
 
-### R14 — BACKEND MUST HAVE TESTS ⚡
+### R16 — BACKEND MUST HAVE TESTS ⚡
 Mọi backend code (NestJS service, controller) PHẢI có test đi kèm.
 Thứ tự bắt buộc: viết code → viết test → hỏi user có muốn run test không.
 Nếu user đồng ý → chạy test → theo dõi kết quả → xử lý nếu fail.
 KHÔNG được commit backend code khi chưa có test file tương ứng.
 
-### R15 — TEST INTEGRITY ⚡
+### R17 — TEST INTEGRITY ⚡
 Khi test fail, NGHIÊM CẤM:
 - Sửa test để pass mà không phân tích nguyên nhân
 - Sửa code làm sai lệch logic ban đầu chỉ để test pass
 - Cập nhật test sai với yêu cầu gốc hoặc không theo logic codebase
 Phải phân tích log → đề xuất phương án → user chọn → mới thực hiện.
 
-### R16 — TASKS & BUGS STRUCTURE
+### R18 — TASKS & BUGS STRUCTURE
 
 #### Thư mục Features (quản lý tính năng)
 ```
@@ -137,7 +137,7 @@ docs/bugs/
 - Task: `Txxx-name` (T001-auth-firebase, T001-chat-api)
 - Bug: `Bxxx-name` (B001-fix-name)
 
-### R17 — TASK DOCUMENTATION REQUIRED
+### R19 — TASK DOCUMENTATION REQUIRED
 
 **Feature Specification (`docs/features/{feature-name}/FT-xxx-name.md`):**
 - Mô tả tính năng tổng quan
@@ -194,7 +194,7 @@ Template `docs/tasks/{feature-name}/Txxx-name.md`:
 - [ ] Sub-task 2
 ```
 
-### R18 — BUG DOCUMENTATION REQUIRED
+### R20 — BUG DOCUMENTATION REQUIRED
 
 Template `docs/bugs/{bug-name}/Bxxx-name.md`:
 ```markdown
@@ -238,9 +238,25 @@ Template `docs/bugs/{bug-name}/Bxxx-name.md`:
 - [ ] Phase 1: ...
 - [ ] Phase 2: ...
 ```
-### R19 — API PAGINATION REQUIREMENT ⚡
+
+### R21 — API PAGINATION REQUIREMENT ⚡
 Tất cả API dùng để list data PHẢI thêm field `total_element` trong response để hỗ trợ phân trang.
 Các tham số request mặc định PHẢI có `page` và `size` (ví dụ: ?page=0&size=10).
+
+### R22 — FEATURE DOCUMENTATION STANDARD ⚡
+Tất cả feature documentation PHẢI tuân theo tiêu chuẩn được định nghĩa trong documentation-standard.md:
+- Cấu trúc chuẩn: Overview → Features → Architecture → Workflows → API → Integration → Error Handling → State Management → Workflow Analysis → User Flow → Task Flow → Recommendations
+- User Flow PHẢI có: User Journey Map, User [Feature] Flow, User [Feature] States (dưới dạng sơ đồ khối ASCII art)
+- Task Flow PHẢI có: Developer Task Sequence với các sơ đồ khối cho Backend, Frontend, State Management, Component Integration workflows
+- Không đưa mã nguồn cụ thể vào phần Recommendations
+- Tập trung vào quy trình và kiến trúc ở mức hệ thống
+
+### R23 — DOCUMENTATION CONSISTENCY ⚡
+Khi tạo hoặc cập nhật tài liệu feature:
+- Luôn tham khảo mẫu từ `docs/features/auth/auth-documentation.md`
+- Sử dụng cùng định dạng sơ đồ khối ASCII art
+- Giữ nhất quán terminology giữa các tài liệu
+- Đảm bảo cấu trúc giống nhau cho các tài liệu tương tự
 
 ---
 
@@ -274,3 +290,9 @@ Khi viết code, nên tuân thủ theo conventions.md:
 - JSDoc: thêm cho các function/method quan trọng ở backend
 - Logging: dùng NestJS Logger, log tại các điểm quan trọng để debug sau này
 - Không log thông tin nhạy cảm (password, token, API key)
+
+### S08 — Documentation First
+Khi bắt đầu feature mới, tạo documentation theo chuẩn trước khi viết code.
+
+### S09 — Consistent Diagram Style
+Sử dụng cùng phong cách sơ đồ khối cho tất cả các tài liệu feature.

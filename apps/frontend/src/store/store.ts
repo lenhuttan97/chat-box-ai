@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import conversationReducer from './slices/conversation.slice.ts'
 import messageReducer from './slices/message.slice.ts'
-import authReducer from './slices/auth.firebase.slice.ts'
+import authReducer from './slices/auth.slice.ts'
 import userReducer from './slices/user.slice.ts'
 import themeReducer from './slices/theme.slice.ts'
 

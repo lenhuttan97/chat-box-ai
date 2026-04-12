@@ -1,7 +1,7 @@
 # Skill: Docs Update — Quản lý tài liệu project
 
 ## Mục đích
-Tạo và duy trì hệ thống docs ở **root của project** (không phải trong .agent/).
+Tạo và duy trì hệ thống docs ở **root của project** (không phải trong .agent/) theo tiêu chuẩn định nghĩa trong documentation-standard.md.
 Đây là bước BẮT BUỘC sau mỗi yêu cầu được xử lý.
 
 ---
@@ -141,6 +141,47 @@ Xác nhận ghi docs? (OK / chỉnh sửa / bỏ qua)
 1. Ghi tất cả file đã đề xuất
 2. Cập nhật updated + summary trong header mọi file đã chạm
 3. Thông báo: "✅ Docs đã cập nhật — [X] files"
+
+---
+
+## Bước 6 — Định dạng Feature Documentation theo tiêu chuẩn
+
+Khi tạo hoặc cập nhật feature documentation, PHẢI tuân theo tiêu chuẩn từ `docs/features/auth/auth-documentation.md`:
+
+### Cấu trúc bắt buộc:
+1. **Overview** - Tổng quan về feature
+2. **Features** - Các chức năng cụ thể
+3. **Architecture Components** - Thành phần kiến trúc
+4. **Workflows** - Các luồng hoạt động chính
+5. **API Endpoints Used** - Các endpoint API liên quan
+6. **Integration Points** - Điểm tích hợp với hệ thống khác
+7. **Error Handling Strategy** - Cách xử lý lỗi
+8. **State Management** - Quản lý trạng thái (nếu có)
+9. **Workflow Analysis** - Phân tích luồng hoạt động
+10. **User Flow** - Sơ đồ khối về luồng người dùng
+11. **Task Flow** - Sơ đồ khối về luồng tác vụ
+12. **Recommendations & Improvements** - Đề xuất cải tiến
+13. **Conclusion** - Kết luận tổng quát
+
+### User Flow Section (bắt buộc phải có):
+- **User Journey Map** - Sơ đồ bảng các bước người dùng (ASCII art)
+- **User [Feature Name] Flow** - Sơ đồ quy trình các bước chính (ASCII art)
+- **User [Feature Name] States** - Sơ đồ trạng thái người dùng (ASCII art)
+
+### Task Flow Section (bắt buộc phải có):
+- **Developer Task Sequence - [Feature Name] WORKFLOWS**
+- Backend workflow diagram (ASCII art)
+- Frontend workflow diagram (ASCII art)
+- State management workflow diagram (ASCII art)
+- Component integration workflow diagram (ASCII art)
+
+### Nguyên tắc viết:
+- Không đưa mã nguồn cụ thể vào phần Recommendations
+- Tập trung vào quy trình và kiến trúc ở mức hệ thống
+- Sử dụng sơ đồ khối ASCII art cho các luồng
+- Giữ nhất quán về terminology
+- Sử dụng bullet points cho danh sách
+- Bảng biểu cho thông tin so sánh/trạng thái
 
 ---
 
