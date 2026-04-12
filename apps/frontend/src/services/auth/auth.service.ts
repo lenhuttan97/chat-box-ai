@@ -1,7 +1,25 @@
 import { User, AuthResponse } from '../../types';
 import { FirebaseAuthService } from '../firebase/firebaseService';
+import Cookies from 'js-cookie';
 
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+const API_URL = import.meta.env.VITE_API_URL || '';
+
+/**
+ * Gets the proper API endpoint considering the backend might have global prefix
+ * If API_URL is something like 'http://localhost:3000', we need to add the full path
+ * If API_URL already includes the prefix like 'http://localhost:3000/api/v1', we use it directly
+ */
+const getApiEndpoint = (path: string): string => {
+  const apiUrl = API_URL || '';
+  // Check if the API_URL already includes our expected path structure
+  if (apiUrl.includes('/api/v1')) {
+    // API URL already includes version (e.g., http://localhost:3000/api/v1), so just append the path
+    return `${apiUrl}${path}`;
+  } else {
+    // API URL doesn't include version, so add /api/v1 prefix (e.g., http://localhost:3000 becomes http://localhost:3000/api/v1)
+    return `${apiUrl}/api/v1${path}`;
+  }
+};
 
 /**
  * Authentication Service for handling API calls to backend auth endpoints
@@ -11,7 +29,7 @@ export class AuthService {
    * Login with email and password
    */
   async login(email: string, password: string): Promise<AuthResponse> {
-    const response = await fetch(`${API_URL}/auth/login`, {
+    const response = await fetch(getApiEndpoint('/auth/login'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -33,7 +51,7 @@ export class AuthService {
    * Register a new user with email and password
    */
   async register(email: string, password: string, displayName?: string): Promise<AuthResponse> {
-    const response = await fetch(`${API_URL}/auth/register`, {
+    const response = await fetch(getApiEndpoint('/auth/register'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -61,7 +79,7 @@ export class AuthService {
       const idToken = await FirebaseAuthService.getIdToken();
 
       // Then send the ID token to our backend to get our own JWT
-      const response = await fetch(`${API_URL}/auth/google`, {
+      const response = await fetch(getApiEndpoint('/auth/google'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -93,7 +111,7 @@ export class AuthService {
     }
 
     try {
-      const response = await fetch(`${API_URL}/auth/refresh-token`, {
+      const response = await fetch(getApiEndpoint('/auth/refresh-token'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -119,7 +137,7 @@ export class AuthService {
    */
   async logout(): Promise<void> {
     try {
-      await fetch(`${API_URL}/auth/logout`, {
+      await fetch(getApiEndpoint('/auth/logout'), {
         method: 'POST',
       });
     } catch (error) {
@@ -140,7 +158,7 @@ export class AuthService {
    * Update user password
    */
   async updatePassword(oldPassword: string, newPassword: string, token: string): Promise<void> {
-    const response = await fetch(`${API_URL}/auth/password`, {
+    const response = await fetch(getApiEndpoint('/auth/password'), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -159,7 +177,7 @@ export class AuthService {
    * Update user profile information
    */
   async updateProfile(displayName: string, photoUrl?: string, token: string): Promise<User> {
-    const response = await fetch(`${API_URL}/auth/profile`, {
+    const response = await fetch(getApiEndpoint('/auth/profile'), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -187,7 +205,7 @@ export class AuthService {
     }
 
     try {
-      const response = await fetch(`${API_URL}/auth/profile`, {
+      const response = await fetch(getApiEndpoint('/auth/profile'), {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -200,7 +218,7 @@ export class AuthService {
         if (refreshed) {
           const newToken = this.getToken();
           if (newToken) {
-            const retryResponse = await fetch(`${API_URL}/auth/profile`, {
+            const retryResponse = await fetch(getApiEndpoint('/auth/profile'), {
               method: 'GET',
               headers: {
                 'Authorization': `Bearer ${newToken}`,
@@ -230,25 +248,43 @@ export class AuthService {
    * Helper methods for token management
    */
   getToken(): string | null {
-    return localStorage.getItem('auth_token');
+    return Cookies.get('token') || null;
   }
 
   getRefreshToken(): string | null {
-    return localStorage.getItem('refresh_token');
+    return Cookies.get('refresh_token') || null;
   }
 
   setToken(token: string): void {
-    localStorage.setItem('auth_token', token);
+    // Set cookie with same settings as backend (max age: 60 minutes)
+    Cookies.set('token', token, {
+      httpOnly: false, // Can be accessed by JS since we need to read it
+      secure: location.protocol === 'https:',
+      sameSite: 'lax',
+      expires: new Date(Date.now() + 60 * 60 * 1000) // 60 minutes
+    });
   }
 
   setTokens(token: string, refreshToken: string): void {
-    localStorage.setItem('auth_token', token);
-    localStorage.setItem('refresh_token', refreshToken);
+    // Set both tokens with appropriate expiration
+    Cookies.set('token', token, {
+      httpOnly: false, // Can be accessed by JS since we need to read it
+      secure: location.protocol === 'https:',
+      sameSite: 'lax',
+      expires: new Date(Date.now() + 60 * 60 * 1000) // 60 minutes
+    });
+
+    Cookies.set('refresh_token', refreshToken, {
+      httpOnly: false, // Can be accessed by JS since we need to read it
+      secure: location.protocol === 'https:',
+      sameSite: 'lax',
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
+    });
   }
 
   clearTokens(): void {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('refresh_token');
+    Cookies.remove('token');
+    Cookies.remove('refresh_token');
   }
 
   /**
