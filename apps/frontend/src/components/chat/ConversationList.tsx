@@ -21,7 +21,7 @@ export const ConversationList = () => {
   }
 
   return (
-    <div className="flex flex-col h-full bg-bg-secondary border-r border-border-subtle">
+    <div className="flex flex-col h-full bg-bg-secondary border-r border-theme">
       <div className="p-4 flex items-center justify-between">
         <p className="text-h2 font-bold text-text-primary">
           Conversations

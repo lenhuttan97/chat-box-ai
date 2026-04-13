@@ -51,7 +51,7 @@ export const Header = ({ title = 'New Conversation', className = '', sx }: Heade
   }
 
   return (
-    <header className="h-[56px] flex items-center justify-between px-8 bg-surface-2/80 backdrop-blur-xl border-b border-border-subtle/40">
+    <header className="h-[56px] flex items-center justify-between px-8 bg-surface-2/80 backdrop-blur-xl border-b border-theme/40">
       <div className="flex-1 flex justify-center">
         <p className="text-body font-semibold text-text-primary">{title}</p>
       </div>
@@ -78,7 +78,7 @@ export const Header = ({ title = 'New Conversation', className = '', sx }: Heade
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           PaperProps={{
-            className: 'bg-surface-3/95 backdrop-blur-xl border border-border-subtle/40 rounded-lg mt-1',
+            className: 'bg-surface-3/95 backdrop-blur-xl border border-theme/40 rounded-lg mt-1',
           }}
         >
           {models.map((model) => (
@@ -98,7 +98,7 @@ export const Header = ({ title = 'New Conversation', className = '', sx }: Heade
           onClick={handleUserClick}
           className="flex items-center gap-2 p-1 rounded-full hover:opacity-80 transition-opacity"
         >
-          <div className="w-8 h-8 rounded-full overflow-hidden border border-border-subtle/40 hover:border-accent transition-colors">
+          <div className="w-8 h-8 rounded-full overflow-hidden border border-theme/40 hover:border-accent transition-colors">
             {isAuthenticated && currentUser?.photoUrl ? (
               <img src={currentUser.photoUrl} alt={currentUser.displayName || 'User'} className="w-full h-full object-cover" />
             ) : (

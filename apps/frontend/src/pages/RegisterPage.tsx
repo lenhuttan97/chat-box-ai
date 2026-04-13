@@ -69,7 +69,7 @@ const RegisterPage = () => {
 
       {/* Register Card */}
       <Box className="relative z-10 w-full max-w-md mx-4">
-        <Box className="glass rounded-[24px] p-8 backdrop-blur-xl border border-[color:var(--border-subtle)]/40 shadow-2xl">
+        <Box className="glass rounded-[24px] p-8 backdrop-blur-xl border border-theme shadow-2xl">
           {/* Header */}
           <Box className="text-center mb-8">
             <Box className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[color:var(--accent-primary)]/10 mb-4">
@@ -102,7 +102,7 @@ const RegisterPage = () => {
                 autoFocus
                 autoComplete="name"
                 placeholder="Enter your full name"
-                className="w-full h-12 px-5 rounded-full bg-surface-3/50 border border-[color:var(--border-subtle)]/40 text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)]/50 transition-all duration-200"
+                className="w-full h-12 px-5 rounded-full bg-surface-3/50 border border-theme text-[color:var(--text-primary)] placeholder:text-[color:var(--text-primary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)] transition-all duration-200"
               />
             </Box>
 
@@ -119,7 +119,7 @@ const RegisterPage = () => {
                 required
                 autoComplete="email"
                 placeholder="Enter your email"
-                className="w-full h-12 px-5 rounded-full bg-surface-3/50 border border-[color:var(--border-subtle)]/40 text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)]/50 transition-all duration-200"
+                className="w-full h-12 px-5 rounded-full bg-surface-3/50 border border-theme text-[color:var(--text-primary)] placeholder:text-[color:var(--text-primary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)] transition-all duration-200"
               />
             </Box>
 
@@ -137,7 +137,7 @@ const RegisterPage = () => {
                   required
                   autoComplete="new-password"
                   placeholder="Enter your password"
-                  className="w-full h-12 px-5 pr-14 rounded-full bg-surface-3/50 border border-[color:var(--border-subtle)]/40 text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)]/50 transition-all duration-200"
+                  className="w-full h-12 px-5 pr-14 rounded-full bg-surface-3/50 border border-theme text-[color:var(--text-primary)] placeholder:text-[color:var(--text-primary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)] transition-all duration-200"
                 />
                 <Box
                   component="button"
@@ -169,7 +169,7 @@ const RegisterPage = () => {
                   required
                   autoComplete="new-password"
                   placeholder="Confirm your password"
-                  className="w-full h-12 px-5 pr-14 rounded-full bg-surface-3/50 border border-[color:var(--border-subtle)]/40 text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)]/50 transition-all duration-200"
+                  className="w-full h-12 px-5 pr-14 rounded-full bg-surface-3/50 border border-theme text-[color:var(--text-primary)] placeholder:text-[color:var(--text-primary)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)]/50 focus:border-[color:var(--accent-primary)] transition-all duration-200"
                 />
                 <Box
                   component="button"
@@ -223,10 +223,10 @@ const RegisterPage = () => {
           {/* Divider */}
           <Box className="relative mb-6">
             <Box className="absolute inset-0 flex items-center">
-              <Box className="w-full border-t border-[color:var(--border-subtle)]/40" />
+              <Box className="w-full border-t border-theme" />
             </Box>
             <Box className="relative flex justify-center text-sm">
-              <Box component="span" className="px-4 text-[color:var(--text-secondary)]/50 bg-[color:var(--surface)]/50 backdrop-blur-sm">Or sign up with</Box>
+              <Box component="span" className="px-4 text-[color:var(--text-secondary)] bg-[color:var(--surface)]/50 backdrop-blur-sm">Or sign up with</Box>
             </Box>
           </Box>
 
@@ -237,7 +237,7 @@ const RegisterPage = () => {
               component="button"
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full h-12 flex items-center justify-center gap-3 rounded-full border border-[color:var(--border-subtle)]/40 bg-surface-3/50 text-[color:var(--text-primary)] font-medium hover:bg-surface-3 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 flex items-center justify-center gap-3 rounded-full border border-themebg-surface-3/50 text-[color:var(--text-primary)] font-medium hover:bg-surface-3 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />

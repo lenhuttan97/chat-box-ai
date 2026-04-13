@@ -43,7 +43,7 @@ const SuggestionCard = ({ icon, title, description, onClick, delay }: Suggestion
       whileHover={{ scale: 1.02, y: -4 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      className="group relative flex flex-col items-start p-5 rounded-xl bg-surface-3/50 backdrop-blur-sm border border-border-subtle/40 hover:border-accent/30 transition-all duration-300 text-left w-full overflow-hidden suggestion-btn"
+      className="group relative flex flex-col items-start p-5 rounded-xl bg-surface-3/50 backdrop-blur-sm border border-theme hover:border-accent/30 transition-all duration-300 text-left w-full overflow-hidden suggestion-btn"
     >
       {/* Gradient background on hover */}
       <div className="absolute inset-0 bg-[linear-gradient(135deg,_var(--accent-primary)/5,_transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

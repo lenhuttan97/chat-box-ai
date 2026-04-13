@@ -34,9 +34,9 @@ const SettingsSection = ({ title, description, icon, children, defaultOpen = fal
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="bg-surface-3/50 backdrop-blur-sm border border-[color:var(--border-subtle)]/40 rounded-xl overflow-hidden">
+    <div className="bg-surface-5 backdrop-blur-sm border border-theme rounded-xl overflow-hidden">
       <button
-        className="w-full p-4 flex justify-between items-center text-left hover:bg-surface-3/80 transition-colors"
+        className="w-full p-4 flex justify-between items-center text-left hover:bg-surface-3/50 transition-colors"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-3">
@@ -67,7 +67,7 @@ const SettingsSection = ({ title, description, icon, children, defaultOpen = fal
       </button>
 
       {isOpen && (
-        <div className="px-4 pb-4 border-t border-[color:var(--border-subtle)]/40 pt-4">
+        <div className="px-4 pb-4 border-t border-theme pt-4">
           {children}
         </div>
       )}
@@ -136,7 +136,7 @@ const ProfileSection = () => {
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
             disabled={!isEditing}
-            className="flex-1 px-3 py-2 rounded-lg border border-[color:var(--border-subtle)]/40 bg-surface-3/50 text-[color:var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)] focus:border-transparent disabled:opacity-60"
+            className="flex-1 px-3 py-2 rounded-lg border border-theme bg-surface-3/50 text-[color:var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)] focus:border-transparent disabled:opacity-60"
           />
           {!isEditing ? (
             <button
@@ -173,7 +173,7 @@ const ProfileSection = () => {
           value={currentUser?.email || ''}
           disabled
           readOnly
-          className="w-full px-3 py-2 rounded-lg border border-[color:var(--border-subtle)]/40 bg-surface-3/50 text-[color:var(--text-primary)] opacity-60 cursor-not-allowed"
+          className="w-full px-3 py-2 rounded-lg border border-theme bg-surface-3/50 text-[color:var(--text-primary)] opacity-60 cursor-not-allowed"
         />
       </div>
 
@@ -205,10 +205,10 @@ const AppearanceSection = () => {
           <button
             key={theme.id}
             onClick={() => setThemeSetting(theme.id)}
-            className={`p-4 rounded-xl flex flex-col items-center gap-2 transition-all ${
+            className={`p-4 rounded-xl flex flex-col items-center gap-2 transition-all relative ${
               themeSetting === theme.id
-                ? 'bg-[color:var(--accent-primary)]/10 border-2 border-[color:var(--accent-primary)] text-[color:var(--accent-primary)]'
-                : 'border border-[color:var(--border-subtle)]/40 hover:border-[color:var(--accent-primary)]/50 text-[color:var(--text-secondary)] hover:text-[color:var(--accent-primary)]'
+                ? 'bg-surface-3/50 border-2 border-[color:var(--accent-primary)] text-[color:var(--accent-primary)]'
+                : 'bg-surface-3/30 border border-theme hover:border-[color:var(--accent-primary)] text-[color:var(--text-secondary)] hover:text-[color:var(--accent-primary)]'
             }`}
           >
             <span className="text-2xl">{theme.icon}</span>
@@ -220,7 +220,7 @@ const AppearanceSection = () => {
         ))}
       </div>
 
-      <div className="flex items-center justify-between pt-2 p-3 bg-surface-3/50 rounded-lg">
+      <div className="flex items-center justify-between pt-2 p-3 bg-surface-3/30 rounded-lg">
         <div>
           <p className="text-[color:var(--text-primary)] font-medium">Current theme</p>
           <p className="text-sm text-[color:var(--text-secondary)]">
@@ -229,7 +229,7 @@ const AppearanceSection = () => {
         </div>
         <div
           className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors ${
-            darkMode ? 'bg-[color:var(--accent-primary)]' : 'bg-[color:var(--border-subtle)]/40'
+            darkMode ? 'bg-[color:var(--accent-primary)]' : 'bg-[color:var(--border-subtle)]'
           }`}
         >
           <div
@@ -247,21 +247,21 @@ const AppearanceSection = () => {
 const AISelectionSection = () => {
   const [selectedModel, setSelectedModel] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('chatbox_ai_model') || 'gpt-4';
+      return localStorage.getItem('chatbox_ai_model') || 'gpt-4-turbo';
     }
-    return 'gpt-4';
+    return 'gpt-4-turbo';
   });
 
   const models = [
     {
-      id: 'gpt-4',
+      id: 'gpt-4-turbo',
       name: 'GPT-4 Turbo',
       description: 'Our most capable model for complex reasoning and creativity.',
       badge: 'Best Choice',
       icon: '🚀',
     },
     {
-      id: 'gpt-3.5',
+      id: 'gpt-3.5-turbo',
       name: 'GPT-3.5 Turbo',
       description: 'Optimized for speed and efficiency. Best for quick tasks.',
       badge: null,
@@ -282,8 +282,8 @@ const AISelectionSection = () => {
           onClick={() => handleSelect(model.id)}
           className={`w-full p-4 rounded-xl flex items-center justify-between transition-all ${
             selectedModel === model.id
-              ? 'bg-[color:var(--accent-primary)]/10 border-2 border-[color:var(--accent-primary)]/30'
-              : 'border border-[color:var(--border-subtle)]/40 hover:border-[color:var(--accent-primary)]/50'
+              ? 'bg-surface-3/50 border-l-4 border-[color:var(--accent-primary)]'
+              : 'bg-surface-3/30 border border-theme hover:border-[color:var(--accent-primary)]'
           }`}
         >
           <div className="flex items-center gap-3">
@@ -349,7 +349,7 @@ const DataManagementSection = () => {
   };
 
   return (
-    <div className="space-y-0 divide-y divide-[color:var(--border-subtle)]/40">
+    <div className="space-y-0 divide-y divide-[color:var(--border-subtle)]">
       {/* History Toggle */}
       <div className="p-4 flex items-center justify-between">
         <div>
@@ -390,7 +390,7 @@ const DataManagementSection = () => {
         </div>
         <button
           onClick={handleDelete}
-          className="text-[color:var(--error)] font-semibold text-sm px-4 py-2 border border-[color:var(--error)]/30 rounded-lg hover:bg-[color:var(--error)]/10 transition-colors"
+          className="text-[color:var(--error)] font-semibold text-sm px-4 py-2 border border-[color:var(--error)] rounded-lg hover:bg-[color:var(--error)]/10 transition-colors"
         >
           Delete
         </button>
@@ -428,13 +428,19 @@ const DataManagementSection = () => {
 // Main SettingsPage Component
 export const SettingsPage = () => {
   return (
-    <div className="flex flex-col h-full bg-surface-1 text-[color:var(--text-primary)]">
-      <div className="p-6 border-b border-[color:var(--border-subtle)]/40">
-        <h1 className="text-2xl font-bold text-[color:var(--text-primary)]">Settings</h1>
+    <div className="relative flex flex-col h-full bg-surface-1 text-[color:var(--text-primary)]">
+      {/* Noise overlay */}
+      <div className="noise-dark"></div>
+
+      {/* Floating decorative glow orb in bottom-right */}
+      <div className="absolute bottom-10 right-10 w-48 h-48 rounded-full bg-accent-glow opacity-10 blur-[60px] -z-10"></div>
+
+      <div className="p-6 border-b border-theme">
+        <h1 className="text-display font-bold text-[color:var(--text-primary)]">Settings</h1>
         <p className="text-[color:var(--text-secondary)] mt-1">Manage your workspace preferences and model configurations.</p>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-6 max-w-3xl mx-auto w-full space-y-6">
         {/* Profile Settings */}
         <SettingsSection
           title="Profile Settings"
@@ -450,6 +456,7 @@ export const SettingsPage = () => {
           title="Appearance"
           description="Customize the look and feel"
           icon="palette"
+          defaultOpen={false}
         >
           <AppearanceSection />
         </SettingsSection>
@@ -459,6 +466,7 @@ export const SettingsPage = () => {
           title="AI Model Selection"
           description="Choose your preferred AI model"
           icon="smart_toy"
+          defaultOpen={false}
         >
           <AISelectionSection />
         </SettingsSection>
@@ -468,6 +476,7 @@ export const SettingsPage = () => {
           title="Data Management"
           description="Control your data and privacy"
           icon="storage"
+          defaultOpen={false}
         >
           <DataManagementSection />
         </SettingsSection>

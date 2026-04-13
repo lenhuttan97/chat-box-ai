@@ -34,7 +34,7 @@ const ProfilePage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-[color:var(--surface)]">
-      <div className="w-full max-w-md p-6 rounded-2xl bg-surface-3/50 backdrop-blur-xl border border-[color:var(--border-subtle)]/40 shadow-2xl">
+      <div className="w-full max-w-md p-6 rounded-2xl bg-surface-3/50 backdrop-blur-xl border border-theme/40 shadow-2xl">
         {/* Background glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[color:var(--accent-primary)]/10 blur-[100px]" />
@@ -76,7 +76,7 @@ const ProfilePage = () => {
                 onChange={(e) => setDisplayName(e.target.value)}
                 required
                 autoFocus
-                className="w-full px-4 py-3 rounded-lg border border-[color:var(--border-subtle)]/40 bg-surface-3/50 text-[color:var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)] focus:border-transparent transition-all"
+                className="w-full px-4 py-3 rounded-lg border border-theme/40 bg-surface-3/50 text-[color:var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)] focus:border-transparent transition-all"
               />
             </div>
 
@@ -88,7 +88,7 @@ const ProfilePage = () => {
                 type="text"
                 value={photoUrl}
                 onChange={(e) => setPhotoUrl(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg border border-[color:var(--border-subtle)]/40 bg-surface-3/50 text-[color:var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)] focus:border-transparent transition-all"
+                className="w-full px-4 py-3 rounded-lg border border-theme/40 bg-surface-3/50 text-[color:var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[color:var(--accent-primary)] focus:border-transparent transition-all"
               />
             </div>
 

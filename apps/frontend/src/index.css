@@ -65,7 +65,7 @@
   --accent-gradient: linear-gradient(135deg, #059669 0%, #047857 100%);
 
   /* Border Colors */
-  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-theme: rgba(0, 0, 0, 0.06);
   --border-default: rgba(0, 0, 0, 0.1);
   --border-focus: rgba(5, 150, 105, 0.3);
 
@@ -105,9 +105,10 @@
   --accent-gradient: linear-gradient(135deg, #61dbb4 0%, #006c52 100%);
 
   /* Border Colors */
-  --border-subtle: rgba(61, 74, 68, 0.1); /* outline-variant at 10% opacity */
+  --border-theme: rgba(134, 148, 141, 0.3); /* theme-specific border color with higher contrast in dark mode */
   --border-default: rgba(134, 148, 141, 0.2); /* outline at 20% opacity */
   --border-focus: rgba(97, 219, 180, 0.3); /* primary at 30% opacity */
+  --border-theme-light: rgba(41, 77, 70, 0.3); /* theme-specific border color with 30% opacity */
 
   /* Message Bubbles */
   --user-bubble: var(--surface-3);
@@ -175,7 +176,7 @@ body {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-theme);
 }
 
 /* --- Glow Effects --- */

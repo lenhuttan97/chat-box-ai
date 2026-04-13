@@ -1,4 +1,3 @@
-import { ChatLayout } from "../components/layout/ChatLayout";
 import { ChatWindow } from "../components/chat/ChatWindow";
 import useAuth from "../hooks/useAuth";
 import useUser from "../hooks/useUser";
@@ -24,9 +23,7 @@ const ChatPage = () => {
   }, []);
 
   return (
-    <ChatLayout>
-      <ChatWindow />
-    </ChatLayout>
+    <ChatWindow />
   );
 };
 
