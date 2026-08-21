@@ -1,5 +1,4 @@
 import { Chat as ChatIcon, SmartToy as BotIcon, CopyAll as CopyIcon, Share as ShareIcon, MoreVert as MoreIcon, Replay as ReplayIcon, ThumbUp as ThumbUpIcon, ThumbDown as ThumbDownIcon } from '@mui/icons-material'
-import { useTheme } from '../../hooks/useTheme'
 import ReactMarkdown from 'react-markdown'
 
 interface MessageItemProps {
@@ -21,7 +20,6 @@ const TypingIndicator = () => (
 )
 
 export const MessageItem = ({ role, content, isLoading }: MessageItemProps) => {
-  const { darkMode } = useTheme()
   const isUser = role === 'user'
 
   const handleCopy = () => {

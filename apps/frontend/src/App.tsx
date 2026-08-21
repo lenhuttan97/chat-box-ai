@@ -7,7 +7,6 @@ import UpdatePasswordPage from "./pages/UpdatePasswordPage";
 import SettingsPage from "./pages/SettingsPage";
 import RequireAuth from "./auth/RequireAuth";
 import { ChatLayout } from "./components/layout/ChatLayout";
-import { Children } from "react";
 
 function App() {
   return (

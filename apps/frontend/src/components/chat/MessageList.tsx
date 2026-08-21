@@ -29,7 +29,7 @@ export const MessageList = () => {
       id: Date.now().toString(),
       role: 'user',
       content: content,
-      timestamp: new Date().toISOString()
+      createdAt: new Date().toISOString()
     }));
   }
 
