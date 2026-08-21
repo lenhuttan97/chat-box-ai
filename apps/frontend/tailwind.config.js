@@ -35,9 +35,10 @@ export default {
 
         // Border colors
         border: {
-          subtle: 'var(--border-subtle)',
+          subtle: 'var(--border-theme)',
           DEFAULT: 'var(--border-default)',
           focus: 'var(--border-focus)',
+          theme: 'var(--border-theme)',
         },
 
         // Message bubbles

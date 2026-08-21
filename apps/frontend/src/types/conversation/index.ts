@@ -24,7 +24,7 @@ export interface Conversation {
 
 export interface ConversationState {
   items: Conversation[]
-  currentConversation: Conversation | undefined
+  currentConversation: Conversation | null
   loading: boolean
-  error: string | undefined
+  error: string | null
 }

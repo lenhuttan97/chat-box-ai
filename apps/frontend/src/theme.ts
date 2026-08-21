@@ -3,11 +3,19 @@ import { createTheme } from '@mui/material/styles';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#10a27e',
+      main: '#61dbb4', // emerald green accent
+    },
+    secondary: {
+      main: '#10a27e', // green CTA
     },
     background: {
-      default: '#f6f8f7',
-      paper: '#ffffff',
+      default: 'var(--bg-primary)', // sử dụng CSS variable
+      paper: 'var(--bg-secondary)',  // sử dụng CSS variable
+    },
+    text: {
+      primary: 'var(--text-primary)',     // sử dụng CSS variable
+      secondary: 'var(--text-secondary)', // sử dụng CSS variable
+      disabled: 'var(--text-tertiary)',   // sử dụng CSS variable
     },
     mode: 'light',
   },
@@ -26,17 +34,49 @@ export const theme = createTheme({
         },
       },
     },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'var(--surface-2)',
+          color: 'var(--text-primary)',
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'var(--surface-2)',
+          color: 'var(--text-primary)',
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: 'var(--surface-2)',
+          color: 'var(--text-primary)',
+        },
+      },
+    },
   },
 });
 
 export const darkTheme = createTheme({
   palette: {
     primary: {
-      main: '#10a27e',
+      main: '#61dbb4', // emerald green accent
+    },
+    secondary: {
+      main: '#10a27e', // green CTA
     },
     background: {
-      default: '#11211d',
-      paper: '#1b2b27',
+      default: 'var(--bg-primary)', // sử dụng CSS variable
+      paper: 'var(--bg-secondary)',  // sử dụng CSS variable
+    },
+    text: {
+      primary: 'var(--text-primary)',     // sử dụng CSS variable
+      secondary: 'var(--text-secondary)', // sử dụng CSS variable
+      disabled: 'var(--text-tertiary)',   // sử dụng CSS variable
     },
     mode: 'dark',
   },
@@ -52,6 +92,30 @@ export const darkTheme = createTheme({
         root: {
           textTransform: 'none',
           fontWeight: 600,
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'var(--surface-2)',
+          color: 'var(--text-primary)',
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'var(--surface-2)',
+          color: 'var(--text-primary)',
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: 'var(--surface-2)',
+          color: 'var(--text-primary)',
         },
       },
     },

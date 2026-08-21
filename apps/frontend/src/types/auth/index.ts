@@ -1,18 +1,18 @@
 export interface AuthUser {
-  id: string | undefined
-  email: string | undefined
-  displayName: string | undefined
-  photoUrl: string | undefined
-  provider: string | undefined
-  firebaseUid: string | undefined
+  id: string | null
+  email: string | null
+  displayName: string | null
+  photoUrl: string | null
+  provider: string | null
+  firebaseUid: string | null
 }
 
 export interface AuthState {
-  user: AuthUser | undefined
+  user: AuthUser | null
   isAuthenticated: boolean
   isLoading: boolean
-  error: string | undefined
-  accessToken: string | undefined
+  error: string | null
+  accessToken: string | null
 }
 
 export interface User extends AuthUser {
@@ -21,7 +21,7 @@ export interface User extends AuthUser {
 
 
 export interface AuthResponse {
-  user: User | undefined
+  user: User | null
   token: string
   refreshToken: string
 }

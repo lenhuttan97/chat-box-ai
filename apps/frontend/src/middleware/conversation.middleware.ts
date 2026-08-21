@@ -6,13 +6,15 @@ import { Message,  Conversation} from '../types'
 const API_URL = import.meta.env.VITE_API_URL || ''
 
 const getApiEndpoint = (path: string): string => {
-  // Check if the API_URL already includes our expected path structure
-  if (API_URL.includes('/api/v')) {
+  // Strip trailing slashes to prevent double slashes
+  const baseUrl = API_URL.replace(/\/+$/, '')
+
+  if (baseUrl.includes('/api/v')) {
     // API URL already includes version (e.g., http://localhost:3000/api/v1), so just append the path
-    return `${API_URL}${path}`;
+    return `${baseUrl}${path}`;
   } else {
     // API URL doesn't include version, so add /api/v1 prefix (e.g., http://localhost:3000 becomes http://localhost:3000/api/v1)
-    return `${API_URL}/api/v1${path}`;
+    return `${baseUrl}/api/v1${path}`;
   }
 }
 
@@ -53,6 +55,11 @@ export const conversationService = {
   },
 
   async getMessages(conversationId: string): Promise<Message[]> {
+    if (!conversationId || conversationId.trim() === '') {
+      console.warn('getMessages called with empty conversationId')
+      return []
+    }
+
     const token = Cookies.get('token')
     const response = await axios.get(getApiEndpoint(`/conversations/${conversationId}/messages`), {
       headers: {

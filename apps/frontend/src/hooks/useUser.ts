@@ -1,4 +1,4 @@
-import { useDispatch, useSelector, TypedUseSelectorHook, useEffect } from 'react-redux'
+import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
 import type { RootState, AppDispatch } from '../store'
 import { fetchUserProfile, updateUserProfile, setUser, clearUser, clearUserError } from '../store/slices/user.slice'
 import {
@@ -6,7 +6,6 @@ import {
   selectUserLoading,
   selectUserError
 } from '../store/slices/user.slice'
-import { selectUser as selectAuthUser, selectIsAuthenticated } from '../store/slices/auth.slice'
 import type { User } from '../types'
 
 export const useUser = () => {

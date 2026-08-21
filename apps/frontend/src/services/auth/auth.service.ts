@@ -75,7 +75,7 @@ export class AuthService {
   async googleLogin(): Promise<AuthResponse> {
     try {
       // First, authenticate with Firebase to get the ID token
-      const firebaseUser = await FirebaseAuthService.signInWithGoogle();
+      await FirebaseAuthService.signInWithGoogle();
       const idToken = await FirebaseAuthService.getIdToken();
 
       // Then send the ID token to our backend to get our own JWT
@@ -176,7 +176,7 @@ export class AuthService {
   /**
    * Update user profile information
    */
-  async updateProfile(displayName: string, photoUrl?: string, token: string): Promise<User> {
+  async updateProfile(token: string, displayName: string, photoUrl?: string): Promise<User> {
     const response = await fetch(getApiEndpoint('/auth/profile'), {
       method: 'PUT',
       headers: {

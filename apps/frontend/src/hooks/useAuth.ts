@@ -44,8 +44,8 @@ export const useAuth = () => {
   const updateProfile = (displayName: string, photoUrl?: string) =>
     dispatch(updateUserProfile({ displayName, photoUrl }))
 
-  const updatePassword = (newPassword: string) =>
-    dispatch(updateUserPassword({ newPassword }))
+  const updatePassword = (oldPassword: string, newPassword: string) =>
+    dispatch(updateUserPassword({ oldPassword, newPassword }))
 
   const sendResetEmail = (email: string) =>
     dispatch(sendPasswordReset({ email }))

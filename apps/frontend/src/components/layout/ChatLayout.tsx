@@ -1,18 +1,19 @@
-import { ReactNode, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, Outlet } from 'react-router-dom'
 import { useTheme } from '../../hooks/useTheme'
 import { ThemeModal } from '../common/ThemeModal'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
+import { useConversations } from '../../hooks/useConversations'
+import AddIcon from '@mui/icons-material/Add'
+import ChatIcon from '@mui/icons-material/Chat'
+import SettingsIcon from '@mui/icons-material/Settings'
 
-interface ChatLayoutProps {
-  children: ReactNode
-}
-
-export const ChatLayout = ({ children }: ChatLayoutProps) => {
+export const ChatLayout = () => {
   const { darkMode } = useTheme()
   const navigate = useNavigate()
-  const [themeModalOpen, setThemeModalOpen] = useState(false);
+  const { selectConversation } = useConversations()
+  const [themeModalOpen, setThemeModalOpen] = useState(false)
 
   useEffect(() => {
     const html = document.documentElement
@@ -28,29 +29,48 @@ export const ChatLayout = ({ children }: ChatLayoutProps) => {
   }, [darkMode])
 
   return (
-    <div className="flex h-screen">
-      <Sidebar className="md w-[260px]" />
+    <div className="flex h-screen bg-surface-1">
+      {/* Noise overlay + glow background for premium look */}
+      <div className="noise-dark pointer-events-none" aria-hidden />
 
-      <div className="flex-1 flex flex-col relative">
+      <Sidebar className="hidden md:flex w-[260px] bg-surface-2/90 backdrop-blur-2xl border-r border-theme" />
+
+      <div className="flex-1 flex flex-col bg-surface-1/90">
         <Header title="New Conversation" />
-        <div className="flex-1 overflow-hidden">{children}</div>
+        <div className="flex-1 overflow-y-auto bg-transparent">
+          <Outlet />
+        </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-bg-secondary border-t border-border-subtle md:hidden">
-        <div className="flex justify-around items-center py-2 px-4 h-16">
-          <button className="flex flex-col items-center justify-center gap-1 p-2 rounded-button" onClick={() => navigate('/')}>
-            <span className="h-5 w-5 text-text-secondary">💬</span>
-            <span className="text-xs text-text-secondary">Chats</span>
+      {/* Mobile bottom nav (match mock icons/state) */}
+      <div className="fixed bottom-0 left-0 right-0 bg-surface-2/95 backdrop-blur-xl border-t border-theme md:hidden">
+        <div className="flex justify-around items-center py-2 px-4 h-16 text-text-secondary">
+          <button
+            className="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-surface-3/80 active:scale-95 transition"
+            onClick={() => navigate('/')}
+            aria-label="Chats"
+          >
+            <ChatIcon sx={{ fontSize: 16, fontWeight: 'bold' }} />
+            <span className="text-[11px] font-semibold">Chat</span>
           </button>
-
-          <button className="flex flex-col items-center justify-center gap-1 p-2 rounded-button" onClick={() => navigate('/new')}>
-            <span className="h-5 w-5 text-text-secondary">➕</span>
-            <span className="text-xs text-text-secondary">New</span>
+          <button
+            className="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-surface-3/80 active:scale-95 transition"
+            onClick={() => {
+              selectConversation(null)
+              navigate('/')
+            }}
+            aria-label="New chat"
+          >
+            <AddIcon sx={{ fontSize: 20 }} />
+            <span className="text-[11px] font-semibold">New</span>
           </button>
-
-          <button className="flex flex-col items-center justify-center gap-1 p-2 rounded-button" onClick={() => navigate('/settings')}>
-            <span className="h-5 w-5 text-text-secondary">⚙️</span>
-            <span className="text-xs text-text-secondary">Settings</span>
+          <button
+            className="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-surface-3/80 active:scale-95 transition"
+            onClick={() => navigate('/settings')}
+            aria-label="Settings"
+          >
+            <SettingsIcon sx={{ fontSize: 16, fontWeight: 'bold' }} />
+            <span className="text-[11px] font-semibold">Settings</span>
           </button>
         </div>
       </div>

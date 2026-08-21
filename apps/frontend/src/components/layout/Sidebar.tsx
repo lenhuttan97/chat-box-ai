@@ -6,11 +6,11 @@ import { useConversations } from "../../hooks/useConversations";
 import { format } from "date-fns";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import AddIcon from "@mui/icons-material/Add";
-import ChatIcon from "@mui/icons-material/Chat";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContrastIcon from "@mui/icons-material/Contrast";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LoginIcon from "@mui/icons-material/Login";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 
 interface SidebarProps {
   onNewChat?: () => void;
@@ -55,26 +55,26 @@ export const Sidebar = ({ onNewChat, className = "", sx }: SidebarProps) => {
 
   return (
     <aside
-      className={`w-[260px] h-full flex flex-col justify-between bg-bg-secondary border-r border-border-subtle ${className}`}
+      className={`hidden md:flex w-[260px] h-full flex-col justify-between bg-surface-2/90 backdrop-blur-2xl border-r border-theme ${className}`}
       style={sx as any}
     >
       <div className="flex-1">
         <div className="p-4 flex flex-col gap-3">
           <div className="flex items-center gap-3 px-2">
-            <div className="flex items-center justify-center w-8 h-8 rounded-button bg-accent text-white">
+            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white">
               <SmartToyIcon sx={{ fontSize: 20 }} />
             </div>
             <div>
               <p className="text-body font-bold text-text-primary leading-tight">
-                AI Chat
+                Premium AI
               </p>
-              <p className="text-caption text-accent font-medium">v2.0 Pro</p>
+              <p className="text-caption text-text-secondary/70 font-medium tracking-wider">Vercel-inspired workspace</p>
             </div>
           </div>
 
           <button
             onClick={handleNewChat}
-            className="flex items-center justify-center gap-2 h-11 rounded-button bg-accent text-white font-semibold text-body shadow-sm hover:bg-accent-hover transition-colors"
+            className="flex items-center justify-center gap-2 h-11 rounded-full bg-accent text-white font-semibold text-body shadow-lg shadow-accent-glow hover:brightness-105 transition-all active:scale-95"
           >
             <AddIcon sx={{ fontSize: 20 }} />
             <span>New Chat</span>
@@ -83,7 +83,7 @@ export const Sidebar = ({ onNewChat, className = "", sx }: SidebarProps) => {
 
         <div className="flex-1 overflow-y-auto px-2 custom-scrollbar">
           <div className="px-3 py-3">
-            <p className="text-caption font-bold uppercase tracking-wider text-text-tertiary">
+            <p className="text-caption font-bold uppercase tracking-wider text-text-tertiary/50">
               Recent Chats
             </p>
           </div>
@@ -93,29 +93,27 @@ export const Sidebar = ({ onNewChat, className = "", sx }: SidebarProps) => {
               <button
                 key={conv.id}
                 onClick={() => handleConversationClick(conv.id)}
-                className={`w-full flex items-center gap-3 px-3 py-3 rounded-card text-left transition-colors group ${
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-all group ${
                   currentConversation?.id === conv.id
-                    ? "bg-bg-tertiary border-l-2 border-accent"
-                    : "hover:bg-bg-tertiary"
+                    ? "bg-accent/10 border-l-2 border-accent text-accent"
+                    : "hover:bg-surface-3/50"
                 }`}
               >
-                <ChatIcon
-                  sx={{ fontSize: 20, color: "var(--text-tertiary)" }}
-                />
+                <ChatBubbleIcon sx={{ fontSize: 16 }} />
                 <div className="flex-1 min-w-0">
                   <p className="text-body font-medium text-text-primary truncate">
                     {conv.name}
                   </p>
-                  <p className="text-caption text-text-tertiary">
+                  <p className="text-caption text-text-secondary">
                     {format(new Date(conv.updatedAt), "MMM d, yyyy")}
                   </p>
                 </div>
                 <span
-                  className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-bg-tertiary transition-opacity"
+                  className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-surface-3/50 transition-opacity"
                   onClick={(e) => handleDeleteConversation(e, conv.id)}
                 >
                   <DeleteIcon
-                    sx={{ fontSize: 16, color: "var(--text-tertiary)" }}
+                    sx={{ fontSize: 16, color: "var(--text-secondary)" }}
                   />
                 </span>
               </button>
@@ -123,7 +121,7 @@ export const Sidebar = ({ onNewChat, className = "", sx }: SidebarProps) => {
 
             {localConversations.length === 0 && (
               <div className="p-4 text-center">
-                <p className="text-caption text-text-tertiary">
+                <p className="text-caption text-text-secondary/70">
                   No conversations yet
                 </p>
               </div>
@@ -132,21 +130,21 @@ export const Sidebar = ({ onNewChat, className = "", sx }: SidebarProps) => {
         </div>
       </div>
 
-      <div className="py-[21.8px] px-4 border-t border-border-subtle flex flex-col gap-2 mt-auto flex-none">
+      <div className="py-[21.8px] px-4 border-t border-theme flex flex-col gap-2 mt-auto flex-none">
         <button
           onClick={() =>
             window.dispatchEvent(new CustomEvent("open-theme-modal"))
           }
-          className="flex items-center gap-3 px-4 py-2 h-10 rounded-button text-text-secondary hover:bg-bg-tertiary transition-colors w-full"
+          className="flex items-center gap-3 px-4 py-2 h-10 rounded-lg text-text-secondary hover:bg-surface-3/50 transition-colors w-full"
         >
           <ContrastIcon sx={{ fontSize: 20 }} />
-          <span className="text-body font-medium">Theme Settings</span>
+          <span className="text-body font-medium">Theme</span>
         </button>
 
         {isAuthenticated ? (
           <button
             onClick={() => navigate("/settings")}
-            className="flex items-center gap-3 px-4 py-2 h-10 rounded-button text-text-secondary hover:bg-bg-tertiary transition-colors w-full"
+            className="flex items-center gap-3 px-4 py-2 h-10 rounded-lg text-text-secondary hover:bg-surface-3/50 transition-colors w-full"
           >
             <SettingsIcon sx={{ fontSize: 20 }} />
             <span className="text-body font-medium">Settings</span>
@@ -154,7 +152,7 @@ export const Sidebar = ({ onNewChat, className = "", sx }: SidebarProps) => {
         ) : (
           <button
             onClick={() => navigate("/login")}
-            className="flex items-center gap-3 px-4 py-2 h-10 rounded-button text-text-secondary hover:bg-bg-tertiary transition-colors w-full"
+            className="flex items-center gap-3 px-4 py-2 h-10 rounded-lg text-text-secondary hover:bg-surface-3/50 transition-colors w-full"
           >
             <LoginIcon sx={{ fontSize: 20 }} />
             <span className="text-body font-medium">Settings</span>
