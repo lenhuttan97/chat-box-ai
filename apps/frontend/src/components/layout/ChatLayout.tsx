@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
 import { useTheme } from '../../hooks/useTheme'
 import { ThemeModal } from '../common/ThemeModal'
@@ -33,7 +33,7 @@ export const ChatLayout = () => {
       {/* Noise overlay + glow background for premium look */}
       <div className="noise-dark pointer-events-none" aria-hidden />
 
-      <Sidebar className="hidden md:flex w-[260px] bg-surface-2/90 backdrop-blur-2xl border-r border-theme/40" />
+      <Sidebar className="hidden md:flex w-[260px] bg-surface-2/90 backdrop-blur-2xl border-r border-theme" />
 
       <div className="flex-1 flex flex-col bg-surface-1/90">
         <Header title="New Conversation" />
@@ -43,7 +43,7 @@ export const ChatLayout = () => {
       </div>
 
       {/* Mobile bottom nav (match mock icons/state) */}
-      <div className="fixed bottom-0 left-0 right-0 bg-surface-2/95 backdrop-blur-xl border-t border-theme/40 md:hidden">
+      <div className="fixed bottom-0 left-0 right-0 bg-surface-2/95 backdrop-blur-xl border-t border-theme md:hidden">
         <div className="flex justify-around items-center py-2 px-4 h-16 text-text-secondary">
           <button
             className="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-surface-3/80 active:scale-95 transition"

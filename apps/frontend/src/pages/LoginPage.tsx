@@ -58,7 +58,7 @@ const LoginPage = () => {
 
       {/* Login Card */}
       <Box className="relative z-10 w-full max-w-md mx-4">
-        <Box className="glass rounded-[24px] p-8 backdrop-blur-xl border border-themeshadow-2xl">
+        <Box className="glass rounded-[24px] p-8 backdrop-blur-xl border border-theme shadow-2xl">
           {/* Header */}
           <Box className="text-center mb-8">
             <Box className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[color:var(--accent-primary)]/10 mb-4">
@@ -161,7 +161,7 @@ const LoginPage = () => {
           {/* Divider */}
           <Box className="relative mb-6">
             <Box className="absolute inset-0 flex items-center">
-              <Box className="w-full border-t border-theme/40" />
+              <Box className="w-full border-t border-theme" />
             </Box>
             <Box className="relative flex justify-center text-sm">
               <Box component="span" className="px-4 text-[color:var(--text-secondary)] bg-[color:var(--surface)]/50 backdrop-blur-sm">Or sign in with</Box>
@@ -175,7 +175,7 @@ const LoginPage = () => {
               component="button"
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full h-12 flex items-center justify-center gap-3 rounded-full border border-themebg-surface-3/50 text-[color:var(--text-primary)] font-medium hover:bg-surface-3 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 flex items-center justify-center gap-3 rounded-full border border-theme bg-surface-3/50 text-[color:var(--text-primary)] font-medium hover:bg-surface-3 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />

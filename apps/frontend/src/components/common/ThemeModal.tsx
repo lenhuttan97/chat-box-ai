@@ -67,7 +67,7 @@ export const ThemeModal = ({ open, onClose }: ThemeModalProps) => {
               className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
                 selectedTheme === theme.id
                   ? 'border-accent bg-surface-3/90 ring-2 ring-accent/30 shadow-lg'
-                  : 'border-theme/30 bg-surface-3/20 hover:bg-surface-3/40'
+                  : 'border-theme bg-surface-3/20 hover:bg-surface-3/40'
               }`}
             >
               <div className="flex-shrink-0">

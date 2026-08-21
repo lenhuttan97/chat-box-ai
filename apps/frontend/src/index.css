@@ -108,7 +108,6 @@
   --border-theme: rgba(134, 148, 141, 0.3); /* theme-specific border color with higher contrast in dark mode */
   --border-default: rgba(134, 148, 141, 0.2); /* outline at 20% opacity */
   --border-focus: rgba(97, 219, 180, 0.3); /* primary at 30% opacity */
-  --border-theme-light: rgba(41, 77, 70, 0.3); /* theme-specific border color with 30% opacity */
 
   /* Message Bubbles */
   --user-bubble: var(--surface-3);
@@ -467,3 +466,11 @@ body {
 .delay-300 { animation-delay: 300ms; }
 .delay-400 { animation-delay: 400ms; }
 .delay-500 { animation-delay: 500ms; }
+
+/* ============================================
+   Custom Border Classes for Theme Color
+   ============================================ */
+
+.border-theme {
+  border-color: var(--border-theme);
+}

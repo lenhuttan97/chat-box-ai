@@ -55,7 +55,7 @@ export const Sidebar = ({ onNewChat, className = "", sx }: SidebarProps) => {
 
   return (
     <aside
-      className={`hidden md:flex w-[260px] h-full flex-col justify-between bg-surface-2/90 backdrop-blur-2xl border-r border-theme/40 ${className}`}
+      className={`hidden md:flex w-[260px] h-full flex-col justify-between bg-surface-2/90 backdrop-blur-2xl border-r border-theme ${className}`}
       style={sx as any}
     >
       <div className="flex-1">
@@ -130,7 +130,7 @@ export const Sidebar = ({ onNewChat, className = "", sx }: SidebarProps) => {
         </div>
       </div>
 
-      <div className="py-[21.8px] px-4 border-t border-theme/40 flex flex-col gap-2 mt-auto flex-none">
+      <div className="py-[21.8px] px-4 border-t border-theme flex flex-col gap-2 mt-auto flex-none">
         <button
           onClick={() =>
             window.dispatchEvent(new CustomEvent("open-theme-modal"))

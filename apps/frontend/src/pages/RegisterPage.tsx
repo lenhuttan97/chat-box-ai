@@ -237,7 +237,7 @@ const RegisterPage = () => {
               component="button"
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full h-12 flex items-center justify-center gap-3 rounded-full border border-themebg-surface-3/50 text-[color:var(--text-primary)] font-medium hover:bg-surface-3 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 flex items-center justify-center gap-3 rounded-full border border-theme bg-surface-3/50 text-[color:var(--text-primary)] font-medium hover:bg-surface-3 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
