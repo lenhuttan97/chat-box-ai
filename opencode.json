@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    ".opencode/instructions/protocol.md",
+    ".opencode/instructions/backend-nestjs.md",
+    ".opencode/instructions/frontend-react.md",
+    ".opencode/instructions/prisma-database.md",
+    ".opencode/instructions/testing.md",
+    ".opencode/instructions/security-git.md"
+  ]
+}
