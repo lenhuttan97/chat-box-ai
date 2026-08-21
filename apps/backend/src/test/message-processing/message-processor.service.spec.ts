@@ -79,7 +79,7 @@ describe('MessageProcessorService', () => {
       const result = await service.process(message, conversationId, history)
 
       expect(intentDetector.detect).toHaveBeenCalledWith(message)
-      expect(router.route).toHaveBeenCalledWith(message, mockIntent)
+      expect(router.route).toHaveBeenCalledWith(message, conversationId, mockIntent, [])
       expect(contextAugmenter.augment).toHaveBeenCalledWith(message, conversationId, history)
       expect(result.originalMessage).toBe(message)
       expect(result.intent).toEqual(mockIntent)
