@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { MessageProcessorService } from '../../modules/message-processing/message-processor.service'
-import { IntentDetectorService } from '../../modules/message-processing/intent-detector'
-import { MessageRouterService } from '../../modules/message-processing/message-router'
-import { QuestionDecomposerService } from '../../modules/message-processing/question-decomposer'
-import { ContextAugmenterService } from '../../modules/message-processing/context-augmenter'
+import { MessageProcessorService } from '../../../src/modules/message-processing/message-processor.service'
+import { IntentDetectorService } from '../../../src/modules/message-processing/intent-detector'
+import { MessageRouterService } from '../../../src/modules/message-processing/message-router/message-router.service'
+import { QuestionDecomposerService } from '../../../src/modules/message-processing/question-decomposer'
+import { ContextAugmenterService } from '../../../src/modules/message-processing/context-augmenter'
 
 describe('MessageProcessorService', () => {
   let service: MessageProcessorService
@@ -139,10 +139,14 @@ describe('MessageProcessorService', () => {
         requiresDecomposition: false,
       }
       
-      const mockRoute = {
-        provider: 'gemini',
-        routeReason: 'Greeting',
-      }
+       const mockRoute = {
+         handler: 'general_ai',
+         processedMessage: 'What is the weather today?',
+         context: {
+           intent: 'inquiry',
+           confidence: 0.9,
+         }
+       }
       
       const mockDecomposition = {
         canDecompose: false,

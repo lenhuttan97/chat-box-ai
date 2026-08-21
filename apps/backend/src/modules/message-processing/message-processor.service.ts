@@ -27,7 +27,7 @@ export class MessageProcessorService {
     private readonly contextAugmenter: ContextAugmenterService,
   ) {}
 
-  async process(
+   async process(
     message: string,
     conversationId: string,
     history: Array<{ role: string; content: string }> = [],
@@ -36,7 +36,7 @@ export class MessageProcessorService {
 
     const intent = this.intentDetector.detect(message)
 
-    const route = this.router.route(message, intent)
+    const route = await this.router.route(message, conversationId, intent, [])
 
     const decomposition = intent.requiresDecomposition
       ? this.decomposer.decompose(message)
